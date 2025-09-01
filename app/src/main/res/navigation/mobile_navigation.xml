@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.Taskmanagement.ui.schedule.ScheduleFragment"
+        android:label="@string/menu_schedule"
+        tools:layout="@layout/fragment_schedule" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.Taskmanagement.ui.unassignedTask.UnassignedTaskFragment"
+        android:label="@string/menu_unassigned_task"
+        tools:layout="@layout/fragment_unassigned_task" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.Taskmanagement.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_compled_task"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/taskRegisterDialogFragment"
+        android:name="com.Taskmanagement.ui.registerTask.RegisterTaskDialogFragment"
+        android:label="タスク登録"
+        tools:layout="@layout/dialog_register_task" />
+
+</navigation>
