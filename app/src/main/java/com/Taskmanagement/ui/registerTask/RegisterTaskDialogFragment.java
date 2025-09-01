@@ -98,8 +98,9 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             String taskDetail = taskDetailInput.getText().toString();
             String date = dateButton.getText().toString();
             String time = timeButton.getText().toString();
+            String taskCategoryId = "dummy";
             String priority = spinner.getSelectedItem().toString();
-            viewModel.insertTaskEntity(taskName ,taskDetail ,priority ,date ,time);
+            viewModel.insertTaskEntity(taskName ,taskDetail ,taskCategoryId, priority ,date ,time);
             try {
 //                Thread.sleep(10);
                 viewModel.select();

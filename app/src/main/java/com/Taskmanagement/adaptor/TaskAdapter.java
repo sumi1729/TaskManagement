@@ -34,16 +34,20 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private List<TaskEntity> taskList = new ArrayList<>();
 
+    public TaskAdapter(List<TaskEntity> taskList) {
+        this.taskList = taskList;
+    }
+
     public void setTasks(List<TaskEntity> tasks) {
         this.taskList = tasks;
         notifyDataSetChanged();
     }
 
-    public TaskEntity getTaskAt(int position) {
+    public TaskEntity getItem(int position) {
         return taskList.get(position);
     }
 
-    public void removeTaskAt(int position) {
+    public void removeItem(int position) {
         taskList.remove(position);
         notifyItemRemoved(position);
     }
@@ -60,6 +64,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         TaskEntity task = taskList.get(position);
         holder.taskTitle.setText(task.getTaskName());
+//        holder.taskTime.setText(task.getTime());
     }
 
     @Override
@@ -68,11 +73,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
-        TextView taskTitle;
+        TextView taskTitle, taskTime, taskDetail;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             taskTitle = itemView.findViewById(R.id.task_title);
+            taskTime = itemView.findViewById(R.id.task_time);
+            taskDetail = itemView.findViewById(R.id.task_detail);
         }
     }
 }

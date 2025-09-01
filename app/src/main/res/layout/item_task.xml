@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/item_task.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
-
-    <TextView
-        android:id="@+id/task_title"
-        android:layout_width="0dp"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="4dp">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="タスク名"
-        android:textSize="16sp" />
-</LinearLayout>
+        android:orientation="horizontal"
+        android:padding="12dp">
+        <TextView
+            android:id="@+id/task_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="未定"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+            <TextView
+                android:id="@+id/task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="タスク名"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+
+            <!-- 下段：タスク詳細 -->
+            <TextView
+                android:id="@+id/task_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="タスクの詳細内容をここに表示"
+                android:textSize="14sp"
+                android:textColor="#666666"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

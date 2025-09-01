@@ -35,6 +35,7 @@ public class TaskViewModel extends AndroidViewModel {
     public void insertTaskEntity(
             String taskName
             ,String taskDetail
+            ,String taskCategoryId
             ,String priority
             ,String date
             ,String time) {
@@ -51,6 +52,7 @@ public class TaskViewModel extends AndroidViewModel {
         TaskEntity entity = new TaskEntity(UUID.randomUUID().toString()
                 ,taskName
                 ,taskDetail
+                ,taskCategoryId
                 ,priorityId
                 ,taskCompleteDatetime
                 ,registerDatetime
