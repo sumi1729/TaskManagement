@@ -1,4 +1,4 @@
-package com.Taskmanagement.ui.unassignedTask;
+package com.Taskmanagement.ui.allTask;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,22 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Taskmanagement.R;
 import com.Taskmanagement.adaptor.TaskAdapter;
-import com.Taskmanagement.databinding.FragmentUnassignedTaskBinding;
+import com.Taskmanagement.databinding.FragmentAllTaskBinding;
 import com.Taskmanagement.model.TaskEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnassignedTaskFragment extends Fragment {
+public class AllTaskFragment extends Fragment {
 
-    private FragmentUnassignedTaskBinding binding;
+    private FragmentAllTaskBinding binding;
 
     private TaskAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_unassigned_task, container, false);
+        View view = inflater.inflate(R.layout.fragment_all_task, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         List<TaskEntity> taskList = new ArrayList<>();

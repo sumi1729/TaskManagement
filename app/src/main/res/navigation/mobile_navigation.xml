@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.Taskmanagement.ui.unassignedTask.UnassignedTaskFragment"
-        android:label="@string/menu_unassigned_task"
-        tools:layout="@layout/fragment_unassigned_task" />
+        android:name="com.Taskmanagement.ui.allTask.AllTaskFragment"
+        android:label="@string/menu_all_task"
+        tools:layout="@layout/fragment_all_task" />
 
     <fragment
         android:id="@+id/nav_slideshow"

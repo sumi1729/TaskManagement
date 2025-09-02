@@ -63,7 +63,7 @@ public class TaskViewModel extends AndroidViewModel {
     public void select() {
         repository.getAllTasks_();
     }
-    public LiveData<List<TaskEntity>> getUnassignedTasks() {
-        return repository.getUnassignedTasks();
+    public LiveData<List<TaskEntity>> getAllTasks() {
+        return repository.getAllTasks();
     }
 }

@@ -8,7 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_schedule">Schedule</string>
-    <string name="menu_unassigned_task">Unassigned Task</string>
+    <string name="menu_all_task">All Task</string>
     <string name="menu_compled_task">Completed Task</string>
 
     <string-array name="priority_list">

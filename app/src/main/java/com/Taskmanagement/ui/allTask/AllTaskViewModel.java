@@ -1,16 +1,16 @@
-package com.Taskmanagement.ui.unassignedTask;
+package com.Taskmanagement.ui.allTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class UnassignedTaskViewModel extends ViewModel {
+public class AllTaskViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public UnassignedTaskViewModel() {
+    public AllTaskViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is UnassignedTask fragment");
+        mText.setValue("This is AllTask fragment");
     }
 
     public LiveData<String> getText() {

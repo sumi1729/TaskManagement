@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.unassignedTask.UnassignedTaskFragment">
+    tools:context=".ui.allTask.AllTaskFragment">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -25,7 +25,7 @@
 <!--        tools:listitem="@layout/item_task" />-->
 
     <TextView
-        android:id="@+id/text_unassigned_task"
+        android:id="@+id/text_all_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

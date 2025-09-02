@@ -22,17 +22,17 @@ public class TaskRepository {
         new Thread(() -> taskDao.insert(task)).start();
     }
 
-    public LiveData<List<TaskEntity>> getAllTasks() {
-        return taskDao.getAllTaskLive();
-    }
+//    public LiveData<List<TaskEntity>> getAllTasks() {
+//        return taskDao.getAllTaskLive();
+//    }
 
     public void getAllTasks_() {
         new Thread(() -> {
             int i = taskDao.getAllTaskLive_();
         }).start();
     }
-    public LiveData<List<TaskEntity>> getUnassignedTasks() {
-        return taskDao.getUnassignedTasks();
+    public LiveData<List<TaskEntity>> getAllTasks() {
+        return taskDao.getAllTasks();
     }
 
 }

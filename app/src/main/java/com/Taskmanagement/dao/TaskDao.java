@@ -22,5 +22,5 @@ public interface TaskDao {
     @Query("SELECT count(*) FROM task_table")
     int getAllTaskLive_();
     @Query("SELECT * FROM task_table WHERE taskCompleteDatetime is null")
-    LiveData<List<TaskEntity>> getUnassignedTasks();
+    LiveData<List<TaskEntity>> getAllTasks();
 }
