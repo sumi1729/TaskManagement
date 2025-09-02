@@ -7,39 +7,38 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Taskmanagement.R;
 import com.Taskmanagement.adaptor.TaskAdapter;
 import com.Taskmanagement.databinding.FragmentAllTaskBinding;
-import com.Taskmanagement.model.TaskEntity;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.Taskmanagement.viewModel.TaskViewModel;
+import com.Taskmanagement.viewModel.TaskViewModelFactory;
 
 public class AllTaskFragment extends Fragment {
 
     private FragmentAllTaskBinding binding;
 
+    private TaskViewModel taskViewModel;
     private TaskAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all_task, container, false);
+        binding = FragmentAllTaskBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        List<TaskEntity> taskList = new ArrayList<>();
-        // TODO DBから取得するよう修正
-        taskList.add(new TaskEntity("1", "dummy task1", null, null, null, null, null, null));
-        taskList.add(new TaskEntity("2", "dummy task2", null, null, null, null, null, null));
-        taskList.add(new TaskEntity("3", "dummy task3", null, null, null, null, null, null));
+        adapter = new TaskAdapter();
+        TaskViewModelFactory factory = new TaskViewModelFactory(requireActivity().getApplication());
+        taskViewModel = new ViewModelProvider(requireActivity(), factory).get(TaskViewModel.class);
 
-        adapter = new TaskAdapter(taskList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        taskViewModel.allTasks.observe(getViewLifecycleOwner(), tasks -> {
+            if (tasks != null) {
+                adapter.setTasks(tasks);
+            }
+        });
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
@@ -55,7 +54,12 @@ public class AllTaskFragment extends Fragment {
                 adapter.removeItem(position);
                 // RoomDB使用時はここでDBからも削除
             }
+
         };
+
+        RecyclerView recyclerView = binding.recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);

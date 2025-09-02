@@ -5,6 +5,7 @@ import android.app.Application;
 import com.Taskmanagement.database.AppDatabase;
 import com.Taskmanagement.model.TaskEntity;
 import com.Taskmanagement.repository.TaskRepository;
+import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.DbUtility;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class TaskViewModel extends AndroidViewModel {
     private final AppDatabase database;
     private final TaskRepository repository;
+    public LiveData<List<TaskEntity>> allTasks;
 
     public TaskViewModel(@NonNull Application application) {
         super(application);
@@ -30,12 +32,14 @@ public class TaskViewModel extends AndroidViewModel {
                 "my_database"
         ).build();
         repository = new TaskRepository(application);
+        allTasks = repository.getAllTasks();
     }
 
     public void insertTaskEntity(
             String taskName
             ,String taskDetail
             ,String taskCategoryId
+            ,String taskExecutionFrequencyId
             ,String priority
             ,String date
             ,String time) {
@@ -45,14 +49,18 @@ public class TaskViewModel extends AndroidViewModel {
                 priorityId = priorityEntry.getKey();
             }
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd HH:mm");
-        LocalDateTime taskCompleteDatetime = LocalDateTime.parse(date + " " + time, formatter);
+        LocalDateTime taskCompleteDatetime = null;
+        if (CommonUtility.isNullOrEmpty(date) || CommonUtility.isNullOrEmpty(time)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd HH:mm");
+            taskCompleteDatetime = LocalDateTime.parse(date + " " + time, formatter);
+        }
         LocalDateTime registerDatetime = LocalDateTime.now();
 
         TaskEntity entity = new TaskEntity(UUID.randomUUID().toString()
                 ,taskName
                 ,taskDetail
                 ,taskCategoryId
+                ,taskExecutionFrequencyId
                 ,priorityId
                 ,taskCompleteDatetime
                 ,registerDatetime

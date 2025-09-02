@@ -35,7 +35,6 @@
                 android:textStyle="bold"
                 android:textColor="#000000"/>
 
-            <!-- 下段：タスク詳細 -->
             <TextView
                 android:id="@+id/task_detail"
                 android:layout_width="match_parent"

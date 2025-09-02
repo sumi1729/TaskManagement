@@ -17,6 +17,7 @@ public class TaskEntity {
 	public String taskName;
 	public String taskDetail;
 	public String taskCategoryId;
+	public String taskExecutionFrequencyId;
 	public String priorityId;
 	public LocalDateTime taskCompleteDatetime;
 	public LocalDateTime registerDatetime;
@@ -26,6 +27,7 @@ public class TaskEntity {
 			, String taskName
 			, String taskDetail
 			, String taskCategoryId
+			, String taskExecutionFrequencyId
 			, String priorityId
 			, LocalDateTime taskCompleteDatetime
 			, LocalDateTime registerDatetime
@@ -34,6 +36,7 @@ public class TaskEntity {
 		this.taskName = taskName;
 		this.taskDetail = taskDetail;
 		this.taskCategoryId = taskCategoryId;
+		this.taskExecutionFrequencyId = taskExecutionFrequencyId;
 		this.priorityId = priorityId;
 		this.taskCompleteDatetime = taskCompleteDatetime;
 		this.registerDatetime = registerDatetime;

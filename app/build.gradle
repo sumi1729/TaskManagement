@@ -35,6 +35,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+//        dataBinding true
     }
 }
 
@@ -53,6 +54,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0'
     implementation "androidx.room:room-runtime:2.6.1"
     implementation libs.room.common.jvm
+    implementation libs.places
     annotationProcessor "androidx.room:room-compiler:2.6.1"
     implementation libs.firebase.inappmessaging// バージョンは適宜調整
 

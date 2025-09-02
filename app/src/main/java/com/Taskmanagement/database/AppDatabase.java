@@ -8,9 +8,10 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.Taskmanagement.dao.TaskDao;
+import com.Taskmanagement.model.ScheduleEntity;
 import com.Taskmanagement.model.TaskEntity;
 
-@Database(entities = {TaskEntity.class}, version = 1, exportSchema = true)
+@Database(entities = {TaskEntity.class, ScheduleEntity.class}, version = 1, exportSchema = true)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TaskDao taskDao();
