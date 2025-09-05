@@ -1,6 +1,7 @@
 package com.Taskmanagement.ui.allTask;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +13,20 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Taskmanagement.adaptor.TaskAdapter;
+import com.Taskmanagement.adaptor.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentAllTaskBinding;
+import com.Taskmanagement.model.ListItem;
 import com.Taskmanagement.viewModel.TaskViewModel;
-import com.Taskmanagement.viewModel.TaskViewModelFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AllTaskFragment extends Fragment {
 
     private FragmentAllTaskBinding binding;
 
     private TaskViewModel taskViewModel;
-    private TaskAdapter adapter;
+    private MultiTypeAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,14 +34,13 @@ public class AllTaskFragment extends Fragment {
         binding = FragmentAllTaskBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        adapter = new TaskAdapter();
-        TaskViewModelFactory factory = new TaskViewModelFactory(requireActivity().getApplication());
-        taskViewModel = new ViewModelProvider(requireActivity(), factory).get(TaskViewModel.class);
+        adapter = new MultiTypeAdapter(new ArrayList<ListItem>());
+        taskViewModel = new ViewModelProvider(requireActivity()).get(TaskViewModel.class);
 
-        taskViewModel.allTasks.observe(getViewLifecycleOwner(), tasks -> {
-            if (tasks != null) {
-                adapter.setTasks(tasks);
-            }
+        taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
+            Log.d("AllTaskFragment", "DB contains " + tasks.size() + " tasks");
+            List<ListItem> displayList = taskViewModel.createDisplayList(tasks);
+            adapter.setItems(displayList);
         });
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -52,9 +55,8 @@ public class AllTaskFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 adapter.removeItem(position);
-                // RoomDB使用時はここでDBからも削除
+                // TODO DBから削除する処理を追記
             }
-
         };
 
         RecyclerView recyclerView = binding.recyclerView;

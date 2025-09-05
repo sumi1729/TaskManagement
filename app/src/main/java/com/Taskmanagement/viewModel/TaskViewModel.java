@@ -1,8 +1,13 @@
 package com.Taskmanagement.viewModel;
 
+import static com.Taskmanagement.util.CommonUtility.FIRST_LOOP;
+import static com.Taskmanagement.util.CommonUtility.OTHER;
+import static com.Taskmanagement.util.DbUtility.priorityMap;
+
 import android.app.Application;
 
-import com.Taskmanagement.database.AppDatabase;
+import com.Taskmanagement.model.HeaderItem;
+import com.Taskmanagement.model.ListItem;
 import com.Taskmanagement.model.TaskEntity;
 import com.Taskmanagement.repository.TaskRepository;
 import com.Taskmanagement.util.CommonUtility;
@@ -11,28 +16,20 @@ import com.Taskmanagement.util.DbUtility;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class TaskViewModel extends AndroidViewModel {
-    private final AppDatabase database;
     private final TaskRepository repository;
-    public LiveData<List<TaskEntity>> allTasks;
 
     public TaskViewModel(@NonNull Application application) {
         super(application);
-        database = Room.databaseBuilder(
-                application,
-                AppDatabase.class,
-                "my_database"
-        ).build();
         repository = new TaskRepository(application);
-        allTasks = repository.getAllTasks();
     }
 
     public void insertTaskEntity(
@@ -56,7 +53,8 @@ public class TaskViewModel extends AndroidViewModel {
         }
         LocalDateTime registerDatetime = LocalDateTime.now();
 
-        TaskEntity entity = new TaskEntity(UUID.randomUUID().toString()
+        TaskEntity entity = new TaskEntity(
+                UUID.randomUUID().toString()
                 ,taskName
                 ,taskDetail
                 ,taskCategoryId
@@ -68,10 +66,35 @@ public class TaskViewModel extends AndroidViewModel {
         repository.insert(entity);
     }
 
-    public void select() {
-        repository.getAllTasks_();
-    }
     public LiveData<List<TaskEntity>> getAllTasks() {
         return repository.getAllTasks();
     }
+
+    /**
+     * 表示リスト作成
+     *
+     * @param tasks タスクリスト
+     * @return 表示リスト
+     */
+    public List<ListItem> createDisplayList(List<TaskEntity> tasks) {
+        List<ListItem> displayList = new ArrayList<>();
+        String previousPriorityId = FIRST_LOOP;
+        for (TaskEntity task : tasks) {
+            String currentPriorityId = task.priorityId == null ? "" : task.priorityId;
+            // 初回ループ もしくは 優先度が異なる場合のみ優先度タイトルを表示
+            if (FIRST_LOOP.equals(previousPriorityId)
+                    || !currentPriorityId.equals(previousPriorityId)) {
+                String priority = priorityMap.get(currentPriorityId);
+                String title = String.format("----- %s -----",
+                        priority == null ? OTHER : "優先度 " + priority);
+                ListItem listItem = new HeaderItem(title);
+                displayList.add(listItem);
+            }
+            // タスク要素を表示
+            displayList.add(task);
+            previousPriorityId = currentPriorityId;
+        }
+        return displayList;
+    }
+
 }

@@ -5,12 +5,9 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity(tableName = "task_table")
-public class TaskEntity {
-//    @PrimaryKey(autoGenerate = true)
-//	public int taskId; // または long
+public class TaskEntity extends ListItem {
     @PrimaryKey
 	@NonNull
 	public String taskId;
@@ -74,5 +71,9 @@ public class TaskEntity {
 
 	public LocalDateTime getUpdateDatetime() {
 		return updateDatetime;
+	}
+	@Override
+	public int getType() {
+		return TYPE_TASK;
 	}
 }

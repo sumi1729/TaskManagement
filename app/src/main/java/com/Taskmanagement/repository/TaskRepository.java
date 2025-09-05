@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.Taskmanagement.dao.TaskDao;
 import com.Taskmanagement.database.AppDatabase;
+import com.Taskmanagement.model.ListItem;
 import com.Taskmanagement.model.TaskEntity;
 
 import androidx.lifecycle.LiveData;
@@ -14,7 +15,7 @@ public class TaskRepository {
     private final TaskDao taskDao;
 
     public TaskRepository(Application application) {
-        AppDatabase db = AppDatabase.getDatabase(application);
+        AppDatabase db = AppDatabase.getInstance(application);
         taskDao = db.taskDao();
     }
 
@@ -22,15 +23,6 @@ public class TaskRepository {
         new Thread(() -> taskDao.insert(task)).start();
     }
 
-//    public LiveData<List<TaskEntity>> getAllTasks() {
-//        return taskDao.getAllTaskLive();
-//    }
-
-    public void getAllTasks_() {
-        new Thread(() -> {
-            int i = taskDao.getAllTaskLive_();
-        }).start();
-    }
     public LiveData<List<TaskEntity>> getAllTasks() {
         return taskDao.getAllTasks();
     }

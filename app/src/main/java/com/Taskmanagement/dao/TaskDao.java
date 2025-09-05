@@ -14,13 +14,6 @@ public interface TaskDao {
     @Insert
     void insert(TaskEntity task);
 
-    @Query("SELECT * FROM task_table")
-    List<TaskEntity> getAllTask();
-
-    @Query("SELECT * FROM task_table")
-    LiveData<List<TaskEntity>> getAllTaskLive();
-    @Query("SELECT count(*) FROM task_table")
-    int getAllTaskLive_();
-    @Query("SELECT * FROM task_table WHERE taskCompleteDatetime is null")
+    @Query("SELECT * FROM task_table ORDER BY priorityId DESC")
     LiveData<List<TaskEntity>> getAllTasks();
 }

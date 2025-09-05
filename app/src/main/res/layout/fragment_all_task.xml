@@ -26,16 +26,6 @@
         app:layout_constraintStart_toEndOf="@id/switchToggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/switchToggle" />
-    <TextView
-        android:id="@+id/priority_high"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="------- 優先度 高 -------"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/switchToggle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -43,7 +33,7 @@
         android:layout_height="0dp"
         android:padding="8dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/priority_high"
+        app:layout_constraintTop_toBottomOf="@id/switchToggle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
