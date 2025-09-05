@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Taskmanagement.adaptor.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentAllTaskBinding;
 import com.Taskmanagement.model.ListItem;
+import com.Taskmanagement.model.TaskEntity;
 import com.Taskmanagement.viewModel.TaskViewModel;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class AllTaskFragment extends Fragment {
 
     private TaskViewModel taskViewModel;
     private MultiTypeAdapter adapter;
+    private List<ListItem> displayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,9 +40,9 @@ public class AllTaskFragment extends Fragment {
         adapter = new MultiTypeAdapter(new ArrayList<ListItem>());
         taskViewModel = new ViewModelProvider(requireActivity()).get(TaskViewModel.class);
 
-        taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
+        taskViewModel.getAllIncompTask().observe(getViewLifecycleOwner(), tasks -> {
             Log.d("AllTaskFragment", "DB contains " + tasks.size() + " tasks");
-            List<ListItem> displayList = taskViewModel.createDisplayList(tasks);
+            displayList = taskViewModel.createDisplayList(tasks);
             adapter.setItems(displayList);
         });
 
@@ -54,8 +57,12 @@ public class AllTaskFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                adapter.removeItem(position);
-                // TODO DBから削除する処理を追記
+                ListItem deleteTarget = displayList.get(position);
+                if (deleteTarget instanceof TaskEntity) {
+                    adapter.removeItem(position);
+                    String taskId = ((TaskEntity) deleteTarget).getTaskId();
+                    taskViewModel.updtTskEntyTskCompDttm(taskId, LocalDateTime.now());
+                }
             }
         };
 

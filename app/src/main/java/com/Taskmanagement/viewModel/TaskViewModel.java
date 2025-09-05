@@ -66,8 +66,8 @@ public class TaskViewModel extends AndroidViewModel {
         repository.insert(entity);
     }
 
-    public LiveData<List<TaskEntity>> getAllTasks() {
-        return repository.getAllTasks();
+    public LiveData<List<TaskEntity>> getAllIncompTask() {
+        return repository.getAllIncompTask();
     }
 
     /**
@@ -95,6 +95,11 @@ public class TaskViewModel extends AndroidViewModel {
             previousPriorityId = currentPriorityId;
         }
         return displayList;
+    }
+
+    public void updtTskEntyTskCompDttm(String taskId, LocalDateTime taskCompleteDatetime) {
+        repository.updtTskEntyTskCompDttm(taskId, taskCompleteDatetime);
+
     }
 
 }

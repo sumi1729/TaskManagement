@@ -4,11 +4,11 @@ import android.app.Application;
 
 import com.Taskmanagement.dao.TaskDao;
 import com.Taskmanagement.database.AppDatabase;
-import com.Taskmanagement.model.ListItem;
 import com.Taskmanagement.model.TaskEntity;
 
 import androidx.lifecycle.LiveData;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TaskRepository {
@@ -23,8 +23,12 @@ public class TaskRepository {
         new Thread(() -> taskDao.insert(task)).start();
     }
 
-    public LiveData<List<TaskEntity>> getAllTasks() {
-        return taskDao.getAllTasks();
+    public void updtTskEntyTskCompDttm(String taskId, LocalDateTime taskCompleteDatetime) {
+        new Thread(() -> taskDao.updtTskEntyTskCompDttm(taskId, taskCompleteDatetime)).start();
+    }
+
+    public LiveData<List<TaskEntity>> getAllIncompTask() {
+        return taskDao.getAllIncompTask();
     }
 
 }
