@@ -1,4 +1,4 @@
-package com.Taskmanagement.model;
+package com.Taskmanagement.entity.item;
 
 public abstract class ListItem {
     public static final int TYPE_HEADER = 0;

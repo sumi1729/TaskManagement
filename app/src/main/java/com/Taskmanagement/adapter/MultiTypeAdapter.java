@@ -1,4 +1,4 @@
-package com.Taskmanagement.adaptor;
+package com.Taskmanagement.adapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,9 +9,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Taskmanagement.R;
-import com.Taskmanagement.model.HeaderItem;
-import com.Taskmanagement.model.ListItem;
-import com.Taskmanagement.model.TaskEntity;
+import com.Taskmanagement.entity.item.HeaderItem;
+import com.Taskmanagement.entity.item.ListItem;
+import com.Taskmanagement.entity.TskEntity;
 
 import java.util.List;
 
@@ -51,9 +51,9 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).textHeader.setText(((HeaderItem) item).title);
         } else if (holder instanceof TaskViewHolder) {
-            TaskEntity task = (TaskEntity) item;
-            ((TaskViewHolder) holder).taskTitle.setText(task.taskName);
-            ((TaskViewHolder) holder).taskDetail.setText(task.taskDetail);
+            TskEntity task = (TskEntity) item;
+            ((TaskViewHolder) holder).taskTitle.setText(task.tskNm);
+            ((TaskViewHolder) holder).taskDetail.setText(task.tskDtl);
         }
     }
 

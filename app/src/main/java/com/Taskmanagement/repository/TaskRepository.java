@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.Taskmanagement.dao.TaskDao;
 import com.Taskmanagement.database.AppDatabase;
-import com.Taskmanagement.model.TaskEntity;
+import com.Taskmanagement.entity.TskEntity;
 
 import androidx.lifecycle.LiveData;
 
@@ -19,7 +19,7 @@ public class TaskRepository {
         taskDao = db.taskDao();
     }
 
-    public void insert(TaskEntity task) {
+    public void insert(TskEntity task) {
         new Thread(() -> taskDao.insert(task)).start();
     }
 
@@ -27,7 +27,7 @@ public class TaskRepository {
         new Thread(() -> taskDao.updtTskEntyTskCompDttm(taskId, taskCompleteDatetime)).start();
     }
 
-    public LiveData<List<TaskEntity>> getAllIncompTask() {
+    public LiveData<List<TskEntity>> getAllIncompTask() {
         return taskDao.getAllIncompTask();
     }
 

@@ -2,11 +2,10 @@ package com.Taskmanagement.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.Taskmanagement.model.TaskEntity;
+import com.Taskmanagement.entity.TskEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,12 +13,12 @@ import java.util.List;
 @Dao
 public interface TaskDao {
     @Insert
-    void insert(TaskEntity task);
+    void insert(TskEntity task);
 
-    @Query("SELECT * FROM task_table WHERE taskCompleteDatetime is null ORDER BY priorityId DESC")
-    LiveData<List<TaskEntity>> getAllIncompTask();
+    @Query("SELECT * FROM task_table WHERE tskCompDttm is null ORDER BY prtyId DESC")
+    LiveData<List<TskEntity>> getAllIncompTask();
 
-    @Query("UPDATE task_table SET taskCompleteDatetime = :taskCompleteDatetime WHERE taskId = :taskId")
-    void updtTskEntyTskCompDttm(String taskId, LocalDateTime taskCompleteDatetime);
+    @Query("UPDATE task_table SET tskCompDttm = :tskCompDttm WHERE tskId = :tskId")
+    void updtTskEntyTskCompDttm(String tskId, LocalDateTime tskCompDttm);
 
 }

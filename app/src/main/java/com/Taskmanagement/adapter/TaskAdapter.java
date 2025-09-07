@@ -1,4 +1,4 @@
-package com.Taskmanagement.adaptor;
+package com.Taskmanagement.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.Taskmanagement.R;
-import com.Taskmanagement.model.TaskEntity;
+import com.Taskmanagement.entity.TskEntity;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,22 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
-    private List<TaskEntity> taskList = new ArrayList<>();
+    private List<TskEntity> taskList = new ArrayList<>();
 
     // デフォルトコンストラクタ
     public TaskAdapter() {
     }
 
-    public TaskAdapter(List<TaskEntity> taskList) {
+    public TaskAdapter(List<TskEntity> taskList) {
         this.taskList = taskList;
     }
 
-    public void setTasks(List<TaskEntity> tasks) {
+    public void setTasks(List<TskEntity> tasks) {
         this.taskList = tasks;
         notifyDataSetChanged();
     }
 
-    public TaskEntity getItem(int position) {
+    public TskEntity getItem(int position) {
         return taskList.get(position);
     }
 
@@ -51,8 +51,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
-        TaskEntity task = taskList.get(position);
-        holder.taskTitle.setText(task.getTaskName());
+        TskEntity task = taskList.get(position);
+        holder.taskTitle.setText(task.getTskNm());
 //        holder.taskTime.setText(task.getTime());
     }
 

@@ -1,4 +1,4 @@
-package com.Taskmanagement.model;
+package com.Taskmanagement.entity.item;
 
 public class HeaderItem extends ListItem {
     public String title;

@@ -6,9 +6,9 @@ import static com.Taskmanagement.util.DbUtility.priorityMap;
 
 import android.app.Application;
 
-import com.Taskmanagement.model.HeaderItem;
-import com.Taskmanagement.model.ListItem;
-import com.Taskmanagement.model.TaskEntity;
+import com.Taskmanagement.entity.item.HeaderItem;
+import com.Taskmanagement.entity.item.ListItem;
+import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.repository.TaskRepository;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.DbUtility;
@@ -32,41 +32,41 @@ public class TaskViewModel extends AndroidViewModel {
         repository = new TaskRepository(application);
     }
 
-    public void insertTaskEntity(
-            String taskName
-            ,String taskDetail
-            ,String taskCategoryId
-            ,String taskExecutionFrequencyId
-            ,String priority
+    public void insertTskEntity(
+            String tskNm
+            ,String tskDtl
+            ,String tskCgryId
+            ,String tskExecFrcyId
+            ,String prty
             ,String date
             ,String time) {
-        String priorityId = "";
+        String prtyId = "";
         for (Map.Entry<String, String> priorityEntry : DbUtility.priorityMap.entrySet()) {
-            if (priorityEntry.getValue().equals(priority)) {
-                priorityId = priorityEntry.getKey();
+            if (priorityEntry.getValue().equals(prty)) {
+                prtyId = priorityEntry.getKey();
             }
         }
-        LocalDateTime taskCompleteDatetime = null;
+        LocalDateTime tskCompDttm = null;
         if (CommonUtility.isNullOrEmpty(date) || CommonUtility.isNullOrEmpty(time)) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd HH:mm");
-            taskCompleteDatetime = LocalDateTime.parse(date + " " + time, formatter);
+            tskCompDttm = LocalDateTime.parse(date + " " + time, formatter);
         }
-        LocalDateTime registerDatetime = LocalDateTime.now();
+        LocalDateTime rstrDttm = LocalDateTime.now();
 
-        TaskEntity entity = new TaskEntity(
+        TskEntity entity = new TskEntity(
                 UUID.randomUUID().toString()
-                ,taskName
-                ,taskDetail
-                ,taskCategoryId
-                ,taskExecutionFrequencyId
-                ,priorityId
-                ,taskCompleteDatetime
-                ,registerDatetime
-                ,registerDatetime);
+                ,tskNm
+                ,tskDtl
+                ,tskCgryId
+                ,tskExecFrcyId
+                ,prtyId
+                ,tskCompDttm
+                ,rstrDttm
+                ,rstrDttm);
         repository.insert(entity);
     }
 
-    public LiveData<List<TaskEntity>> getAllIncompTask() {
+    public LiveData<List<TskEntity>> getAllIncompTask() {
         return repository.getAllIncompTask();
     }
 
@@ -76,15 +76,15 @@ public class TaskViewModel extends AndroidViewModel {
      * @param tasks タスクリスト
      * @return 表示リスト
      */
-    public List<ListItem> createDisplayList(List<TaskEntity> tasks) {
+    public List<ListItem> createDisplayList(List<TskEntity> tasks) {
         List<ListItem> displayList = new ArrayList<>();
-        String previousPriorityId = FIRST_LOOP;
-        for (TaskEntity task : tasks) {
-            String currentPriorityId = task.priorityId == null ? "" : task.priorityId;
+        String previousPrtyId = FIRST_LOOP;
+        for (TskEntity task : tasks) {
+            String currentPrtyId = task.prtyId == null ? "" : task.prtyId;
             // 初回ループ もしくは 優先度が異なる場合のみ優先度タイトルを表示
-            if (FIRST_LOOP.equals(previousPriorityId)
-                    || !currentPriorityId.equals(previousPriorityId)) {
-                String priority = priorityMap.get(currentPriorityId);
+            if (FIRST_LOOP.equals(previousPrtyId)
+                    || !currentPrtyId.equals(previousPrtyId)) {
+                String priority = priorityMap.get(currentPrtyId);
                 String title = String.format("----- %s -----",
                         priority == null ? OTHER : "優先度 " + priority);
                 ListItem listItem = new HeaderItem(title);
@@ -92,7 +92,7 @@ public class TaskViewModel extends AndroidViewModel {
             }
             // タスク要素を表示
             displayList.add(task);
-            previousPriorityId = currentPriorityId;
+            previousPrtyId = currentPrtyId;
         }
         return displayList;
     }

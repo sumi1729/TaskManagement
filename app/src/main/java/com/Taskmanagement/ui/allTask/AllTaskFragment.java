@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Taskmanagement.adaptor.MultiTypeAdapter;
+import com.Taskmanagement.adapter.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentAllTaskBinding;
-import com.Taskmanagement.model.ListItem;
-import com.Taskmanagement.model.TaskEntity;
+import com.Taskmanagement.entity.item.ListItem;
+import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.viewModel.TaskViewModel;
 
 import java.time.LocalDateTime;
@@ -58,9 +58,9 @@ public class AllTaskFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 ListItem deleteTarget = displayList.get(position);
-                if (deleteTarget instanceof TaskEntity) {
+                if (deleteTarget instanceof TskEntity) {
                     adapter.removeItem(position);
-                    String taskId = ((TaskEntity) deleteTarget).getTaskId();
+                    String taskId = ((TskEntity) deleteTarget).getTskId();
                     taskViewModel.updtTskEntyTskCompDttm(taskId, LocalDateTime.now());
                 }
             }

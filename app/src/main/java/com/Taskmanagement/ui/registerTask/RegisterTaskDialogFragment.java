@@ -25,7 +25,7 @@ import androidx.room.Room;
 import com.Taskmanagement.R;
 import com.Taskmanagement.viewModel.TaskViewModel;
 import com.Taskmanagement.viewModel.TaskViewModelFactory;
-import com.Taskmanagement.model.TaskEntity;
+import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.util.DbUtility;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -101,7 +101,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             String taskCategoryId = "dummy";
             String taskExecutionFrequencyId = "dummy";
             String priority = spinner.getSelectedItem().toString();
-            viewModel.insertTaskEntity(taskName ,taskDetail ,taskCategoryId, taskExecutionFrequencyId, priority ,date ,time);
+            viewModel.insertTskEntity(taskName ,taskDetail ,taskCategoryId, taskExecutionFrequencyId, priority ,date ,time);
         });
     }
 
