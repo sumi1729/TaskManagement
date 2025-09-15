@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Taskmanagement.adapter.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentAllTaskBinding;
+import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.ListItem;
 import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.viewModel.TaskViewModel;
@@ -40,7 +41,7 @@ public class AllTaskFragment extends Fragment {
         adapter = new MultiTypeAdapter(new ArrayList<ListItem>());
         taskViewModel = new ViewModelProvider(requireActivity()).get(TaskViewModel.class);
 
-        taskViewModel.getAllIncompTask().observe(getViewLifecycleOwner(), tasks -> {
+        taskViewModel.getTsk4AllTsk().observe(getViewLifecycleOwner(), tasks -> {
             Log.d("AllTaskFragment", "DB contains " + tasks.size() + " tasks");
             displayList = taskViewModel.createDisplayList(tasks);
             adapter.setItems(displayList);
@@ -58,9 +59,9 @@ public class AllTaskFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 ListItem deleteTarget = displayList.get(position);
-                if (deleteTarget instanceof TskEntity) {
+                if (deleteTarget instanceof ScdledTask4Desp) {
                     adapter.removeItem(position);
-                    String taskId = ((TskEntity) deleteTarget).getTskId();
+                    String taskId = ((ScdledTask4Desp) deleteTarget).getTskId();
                     taskViewModel.updtTskEntyTskCompDttm(taskId, LocalDateTime.now());
                 }
             }

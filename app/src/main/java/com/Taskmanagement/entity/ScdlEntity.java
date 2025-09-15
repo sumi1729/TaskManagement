@@ -2,19 +2,19 @@ package com.Taskmanagement.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@Entity(tableName = "schedule_table")
+@Entity(
+		tableName = "schedule_table",
+		primaryKeys = {"tskId", "tskExecDt"}
+)
 public class ScdlEntity {
-	//    @PrimaryKey(autoGenerate = true)
-//	public int taskId; // または long
-	@PrimaryKey
 	@NonNull
 	public String tskId;
+	@NonNull
 	public LocalDate tskExecDt;
 	public LocalTime tskExecTm;
 	public String scdlStat;
@@ -42,6 +42,7 @@ public class ScdlEntity {
 		return tskId;
 	}
 
+	@NonNull
 	public LocalDate getTskExecDt() {
 		return tskExecDt;
 	}

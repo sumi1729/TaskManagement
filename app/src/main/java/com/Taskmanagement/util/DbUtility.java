@@ -17,4 +17,10 @@ public class DbUtility {
         put(PRIORITY_MIDDLE_ID, PRIORITY_MIDDLE_JP);
         put(PRIORITY_HIGH_ID, PRIORITY_HIGH_JP);
     }};
+
+    // スケジュールテーブル
+    // スケジュール状態
+    public enum SCDL_STAT {
+        NOT_DONE, DONE, LOGC_DEL
+    }
 }

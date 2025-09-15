@@ -8,7 +8,7 @@ import com.Taskmanagement.entity.item.ListItem;
 import java.time.LocalDateTime;
 
 @Entity(tableName = "task_table")
-public class TskEntity extends ListItem {
+public class TskEntity {
 	@PrimaryKey
 	@NonNull
 	public String tskId;
@@ -80,8 +80,4 @@ public class TskEntity extends ListItem {
 		return updtDttm;
 	}
 
-	@Override
-	public int getType() {
-		return TYPE_TASK;
-	}
 }

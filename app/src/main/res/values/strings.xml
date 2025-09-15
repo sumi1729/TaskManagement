@@ -11,10 +11,14 @@
     <string name="menu_all_task">All Task</string>
     <string name="menu_compled_task">Completed Task</string>
 
+<!--登録画面-->
+    <string name="register_task_dialog_fragment_select_date">日付を選択</string>
+    <string name="register_task_dialog_fragment_select_time">時間を選択</string>
     <string-array name="priority_list">
         <item>高</item>
         <item>中</item>
         <item>低</item>
+        <item>設定なし</item>
     </string-array>
 
 </resources>

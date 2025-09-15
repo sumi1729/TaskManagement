@@ -25,13 +25,12 @@ import androidx.room.Room;
 import com.Taskmanagement.R;
 import com.Taskmanagement.viewModel.TaskViewModel;
 import com.Taskmanagement.viewModel.TaskViewModelFactory;
-import com.Taskmanagement.entity.TskEntity;
-import com.Taskmanagement.util.DbUtility;
+import com.Taskmanagement.util.DbUtility.SCDL_STAT;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
 
@@ -92,16 +91,24 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        Button submitButton = view.findViewById(R.id.submit_button); // XMLに追加必要
+        Button submitButton = view.findViewById(R.id.submit_button);
         submitButton.setOnClickListener(v -> {
-            String taskName = taskNameInput.getText().toString();
-            String taskDetail = taskDetailInput.getText().toString();
-            String date = dateButton.getText().toString();
-            String time = timeButton.getText().toString();
-            String taskCategoryId = "dummy";
-            String taskExecutionFrequencyId = "dummy";
-            String priority = spinner.getSelectedItem().toString();
-            viewModel.insertTskEntity(taskName ,taskDetail ,taskCategoryId, taskExecutionFrequencyId, priority ,date ,time);
+            // 現在日時取得
+            LocalDateTime nowDttm = LocalDateTime.now();
+            // タスクテーブル登録
+            String tskId = UUID.randomUUID().toString();
+            String tskNm = taskNameInput.getText().toString();
+            String tskDtl = taskDetailInput.getText().toString();
+            String tskCgryId = "dummy";
+            String tskExecFrcyId = "dummy";
+            String prty = spinner.getSelectedItem().toString();
+            viewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty ,null ,null, nowDttm);
+
+            // スケジュールテーブル登録
+            String tskExecDt = dateButton.getText().toString();
+            String tskExecTm = timeButton.getText().toString();
+            viewModel.insertScdlEntity(tskId, tskExecDt, tskExecTm, SCDL_STAT.NOT_DONE, nowDttm);
+
         });
     }
 
