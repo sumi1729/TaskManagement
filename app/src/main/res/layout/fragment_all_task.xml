@@ -19,7 +19,7 @@
         android:id="@+id/switchLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="未割当タスクのみ表示"
+        android:text="@string/all_task_fragment_toggle"
         android:paddingStart="8dp"
         android:ellipsize="end"
         android:maxLines="1"

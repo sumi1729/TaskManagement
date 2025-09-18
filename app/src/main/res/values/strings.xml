@@ -21,4 +21,7 @@
         <item>設定なし</item>
     </string-array>
 
+    <!--AllTask画面-->
+    <string name="all_task_fragment_toggle">スケジュール未定タスクのみ表示</string>
+
 </resources>

@@ -5,9 +5,17 @@ import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_D
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_DD_HH_MM;
 import static com.Taskmanagement.util.CommonUtility.FIRST_LOOP;
 import static com.Taskmanagement.util.CommonUtility.OTHER;
+import static com.Taskmanagement.util.CommonUtility.TAG;
 import static com.Taskmanagement.util.DbUtility.priorityMap;
 
 import android.app.Application;
+import android.content.Intent;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.Taskmanagement.entity.ScdlEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
@@ -18,10 +26,6 @@ import com.Taskmanagement.repository.TaskRepository;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.DbUtility;
 import com.Taskmanagement.util.DbUtility.SCDL_STAT;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +43,22 @@ public class TaskViewModel extends AndroidViewModel {
         repository = new TaskRepository(application);
     }
 
+// ================================================================
+// DB操作_INSERT
+// ================================================================
+    /**
+     * 表示リスト作成
+     *
+     * @param tskId タスクID
+     * @param tskNm タスク名
+     * @param tskDtl タスク詳細
+     * @param tskCgryId タスクカテゴリーID
+     * @param tskExecFrcyId タスク実行頻度ID
+     * @param prty 優先度
+     * @param date 日付
+     * @param time 時刻
+     * @param nowDttm 現在日時
+     */
     public void insertTskEntity(
             String tskId
             , String tskNm
@@ -48,7 +68,8 @@ public class TaskViewModel extends AndroidViewModel {
             , String prty
             , String date
             , String time
-            , LocalDateTime nowDttm) {
+            , LocalDateTime nowDttm
+    ) {
         String prtyId = "";
         for (Map.Entry<String, String> priorityEntry : DbUtility.priorityMap.entrySet()) {
             if (priorityEntry.getValue().equals(prty)) {
@@ -59,7 +80,6 @@ public class TaskViewModel extends AndroidViewModel {
         if (!CommonUtility.isNullOrEmpty(date) && !CommonUtility.isNullOrEmpty(time)) {
             tskCompDttm = LocalDateTime.parse(date + " " + time, DATE_TIME_FORMATTER_YYYY_M_DD_HH_MM);
         }
-
         TskEntity entity = new TskEntity(
                 tskId
                 , tskNm
@@ -72,33 +92,36 @@ public class TaskViewModel extends AndroidViewModel {
                 , nowDttm);
         repository.insert(entity);
     }
-
+    /**
+     * 表示リスト作成
+     *
+     * @param tskId タスクID
+     * @param tskExecDt タスク実行日付
+     * @param tskExecTm タスク実行時刻
+     * @param scdlStat スケジュール状態
+     * @param nowDttm 現在日時
+     */
     public void insertScdlEntity(
             String tskId
-            , String tskExecDt // タスク実行日付
-            , String tskExecTm // タスク実行時刻
+            , String tskExecDt
+            , String tskExecTm
             , SCDL_STAT scdlStat
             , LocalDateTime nowDttm
     ) {
-
         LocalDate ldTskExecDt = null;
         LocalTime ldTskExecTm = null;
-        if (CommonUtility.isNullOrEmpty(tskExecDt)) {
-            // TODO エラーログ出力
+        try {
+            ldTskExecDt = LocalDate.parse(tskExecDt, DATE_TIME_FORMATTER_YYYY_M_DD);
+        } catch (DateTimeParseException e) {
+            Log.e(TAG, "tskExecDt is not set.");
+            updateSnackbarEventAsync("日時未定タスクとして登録します");
             return;
-        } else {
-            try {
-                ldTskExecDt = LocalDate.parse(tskExecDt, DATE_TIME_FORMATTER_YYYY_M_DD);
-            } catch (DateTimeParseException e) {
-                return;
-            }
         }
-        if (!CommonUtility.isNullOrEmpty(tskExecTm)) {
-            try {
-                ldTskExecTm = LocalTime.parse(tskExecTm, DATE_TIME_FORMATTER_HH_MM);
-            } catch (DateTimeParseException e) {
-                ldTskExecTm = null;
-            }
+        try {
+            ldTskExecTm = LocalTime.parse(tskExecTm, DATE_TIME_FORMATTER_HH_MM);
+        } catch (DateTimeParseException e) {
+            ldTskExecTm = null;
+            Log.e(TAG, "tskExecTm is not set.");
         }
 
         ScdlEntity entity = new ScdlEntity(
@@ -111,10 +134,53 @@ public class TaskViewModel extends AndroidViewModel {
         repository.insert(entity);
     }
 
+// ================================================================
+// DB操作_UPDATE
+// ================================================================
+    public void updtTskEntyTskCompDttm(String taskId, LocalDateTime taskCompleteDatetime) {
+        repository.updtTskEntyTskCompDttm(taskId, taskCompleteDatetime);
+    }
+
+// ================================================================
+// DB操作_SELECT
+// ================================================================
     public LiveData<List<ScdledTask4Desp>> getTsk4AllTsk() {
         return repository.getTsk4AllTsk();
     }
 
+    public LiveData<List<ScdledTask4Desp>> getUnasinedTsk4AllTsk() {
+        return repository.getUnasinedTsk4AllTsk();
+    }
+
+    // DB操作内容確認用
+    public void dbOpeTest() {
+        repository.dbOpeTest();
+    }
+
+// ================================================================
+// 画面独自
+// ================================================================
+    // AllTask画面
+    private final MutableLiveData<List<ScdledTask4Desp>> tsk4AllTsk = new MutableLiveData<>();
+    public LiveData<List<ScdledTask4Desp>> getDispTsk4AllTsk() {
+        return tsk4AllTsk;
+    }
+    public void updateTsk4AllTskAsync(List<ScdledTask4Desp> newTasks) {
+        tsk4AllTsk.postValue(newTasks);
+    }
+
+    // RegisterTaskダイアログ
+    private final MutableLiveData<String> snackbarEvent = new MutableLiveData<>();
+    public LiveData<String> getSnackbarEvent() {
+        return snackbarEvent;
+    }
+    public void updateSnackbarEventAsync(String message) {
+        snackbarEvent.postValue(message);
+    }
+
+// ================================================================
+// 多画面共通
+// ================================================================
     /**
      * 表示リスト作成
      *
@@ -140,11 +206,6 @@ public class TaskViewModel extends AndroidViewModel {
             previousPrtyId = currentPrtyId;
         }
         return displayList;
-    }
-
-    public void updtTskEntyTskCompDttm(String taskId, LocalDateTime taskCompleteDatetime) {
-        repository.updtTskEntyTskCompDttm(taskId, taskCompleteDatetime);
-
     }
 
 }

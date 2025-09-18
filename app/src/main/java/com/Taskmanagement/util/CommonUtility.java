@@ -14,6 +14,7 @@ public class CommonUtility {
     public static final DateTimeFormatter DATE_TIME_FORMATTER_ISO_LOCAL_TIME = DateTimeFormatter.ISO_LOCAL_TIME;
 
     // その他一般
+    public static final String TAG = "TaskManagement";
     public static final String FIRST_LOOP = "firstLoop";
     public static final String OTHER = "その他";
     public static final String DATE_TIME_MITEI = "日時未定";

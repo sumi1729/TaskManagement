@@ -1,9 +1,12 @@
 package com.Taskmanagement.ui.registerTask;
 
+import static com.Taskmanagement.util.CommonUtility.TAG;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ import com.Taskmanagement.viewModel.TaskViewModel;
 import com.Taskmanagement.viewModel.TaskViewModelFactory;
 import com.Taskmanagement.util.DbUtility.SCDL_STAT;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -82,7 +86,13 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
         });
 
-        // Spinner 設定
+        // Snackbar設定
+        viewModel.getSnackbarEvent().observe(getViewLifecycleOwner(), message -> {
+            Log.d(TAG, "snackbar");
+            Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
+        });
+
+        // Spinner設定
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.priority_list,
@@ -91,6 +101,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        // 送信ボタン押下
         Button submitButton = view.findViewById(R.id.submit_button);
         submitButton.setOnClickListener(v -> {
             // 現在日時取得
@@ -108,7 +119,6 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             String tskExecDt = dateButton.getText().toString();
             String tskExecTm = timeButton.getText().toString();
             viewModel.insertScdlEntity(tskId, tskExecDt, tskExecTm, SCDL_STAT.NOT_DONE, nowDttm);
-
         });
     }
 

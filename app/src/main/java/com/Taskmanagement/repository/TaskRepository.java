@@ -37,4 +37,12 @@ public class TaskRepository {
         return taskDao.getTsk4AllTsk();
     }
 
+    public LiveData<List<ScdledTask4Desp>> getUnasinedTsk4AllTsk() {
+        return taskDao.getUnasinedTsk4AllTsk();
+    }
+
+    public void dbOpeTest() {
+//        new Thread(() -> taskDao.dbOpeTest()).start();
+    }
+
 }

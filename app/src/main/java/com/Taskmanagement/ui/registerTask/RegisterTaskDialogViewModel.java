@@ -30,8 +30,4 @@ public class RegisterTaskDialogViewModel extends ViewModel {
         return null;
 
     }
-    public void aaa() {
-        TaskDao taskDao = getAppDatabase().taskDao();
-
-    }
 }

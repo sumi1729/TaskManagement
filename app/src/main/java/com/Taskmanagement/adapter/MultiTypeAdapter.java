@@ -3,6 +3,7 @@ package com.Taskmanagement.adapter;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_HH_MM;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YY_MM_DD;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_MITEI;
+import static com.Taskmanagement.util.CommonUtility.TAG;
 import static com.Taskmanagement.util.CommonUtility.TIME_MITEI;
 
 import android.util.Log;
@@ -51,7 +52,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ListItem item = items.get(position);
-        Log.d("Adapter", "Binding item at position " + position + ", type: " + item.getType());
+        Log.d(TAG, "Binding item at position " + position + ", type: " + item.getType());
 
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).textHeader.setText(((HeaderItem) item).title);
