@@ -19,12 +19,22 @@ public class CommonUtility {
     public static final String OTHER = "その他";
     public static final String DATE_TIME_MITEI = "日時未定";
     public static final String TIME_MITEI = "時刻未定";
+    public static final String DELIMITER_HYPHON = "-";
 
     public static boolean isNullOrEmpty(String str) {
         if (str == null || "".equals(str)) {
             return true;
         }
         return false;
+    }
+
+    public static String getStrDate(int year, int month, int dayOfMonth, String delimiter, boolean needMonthAdjust) {
+        String tmpStrYear = String.valueOf(year);
+        int tmpMonth = needMonthAdjust ? month + 1 : month;
+        String strYear = year < 10 ? "" : tmpStrYear.substring(tmpStrYear.length() - 2, tmpStrYear.length());
+        String strMonth = tmpMonth < 10 ? "0" + String.valueOf(tmpMonth) : String.valueOf(tmpMonth);
+        String strDayOfMonth = dayOfMonth < 10 ? "0" + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth);
+        return strYear + delimiter + strMonth + delimiter +strDayOfMonth;
     }
 
 }

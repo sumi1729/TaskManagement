@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,34 +8,27 @@
     tools:context=".ui.schedule.ScheduleFragment">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical">
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="yyyy/mm/dd"
-        android:textSize="16sp"
-        android:layout_gravity="center_vertical" />
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:id="@+id/target_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dummyDate"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="カレンダー"
-        android:layout_marginStart="16dp"
-        android:layout_gravity="center_vertical" />
-<!--    <Switch-->
-<!--        android:id="@+id/switchToggle"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="未割当"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_gravity="center_vertical" />-->
+        <Button
+            android:id="@+id/calender_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calender"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
     <TextView
         android:id="@+id/text_schedule"
