@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<!--    tools:context=".ui.base.DispTskBaseFragment"-->
+
+    <Switch
+        android:id="@+id/all_task_switch_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible" />
+    <TextView
+        android:id="@+id/all_task_switch_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/all_task_fragment_toggle"
+        android:paddingStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintStart_toEndOf="@id/all_task_switch_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/all_task_switch_toggle"
+        android:visibility="invisible" />
+    <TextView
+        android:id="@+id/schedule_target_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dummyDate"
+        android:textSize="16sp"
+        android:padding="2sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/schedule_calender_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/calender"
+        app:layout_constraintTop_toTopOf="@id/schedule_target_date"
+        app:layout_constraintBottom_toBottomOf="@id/schedule_target_date"
+        app:layout_constraintLeft_toRightOf="@id/schedule_target_date"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="0dp"
+        android:visibility="invisible" />
+    <Switch
+        android:id="@+id/schedule_switch_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintTop_toTopOf="@id/schedule_calender_button"
+        app:layout_constraintRight_toRightOf="@id/schedule_switch_label"
+        app:layout_constraintLeft_toLeftOf="@id/schedule_switch_label"
+        android:layout_marginTop="5dp"
+        android:visibility="invisible" />
+    <TextView
+        android:id="@+id/schedule_switch_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="8dp"
+        android:text="@string/schedule_fragment_toggle"
+        android:textSize="11sp"
+        app:layout_constraintTop_toBottomOf="@id/schedule_switch_toggle"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="8dp"
+        android:visibility="invisible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/schedule_switch_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_task" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

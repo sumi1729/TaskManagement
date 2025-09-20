@@ -5,18 +5,22 @@ import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_D
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_DD_HH_MM;
 import static com.Taskmanagement.util.CommonUtility.FIRST_LOOP;
 import static com.Taskmanagement.util.CommonUtility.OTHER;
+import static com.Taskmanagement.util.CommonUtility.ScreenId;
 import static com.Taskmanagement.util.CommonUtility.TAG;
 import static com.Taskmanagement.util.DbUtility.priorityMap;
 
 import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.Taskmanagement.R;
 import com.Taskmanagement.entity.ScdlEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.HeaderItem;
@@ -206,6 +210,31 @@ public class TaskViewModel extends AndroidViewModel {
             previousPrtyId = currentPrtyId;
         }
         return displayList;
+    }
+
+    /**
+     * ボタン可視性切り替え
+     *
+     * @param view view
+     * @param screenId スクリーンID
+     * @return view
+     */
+    public View toggleButtonVisibility(View view, ScreenId screenId) {
+        switch (screenId) {
+            case ALL_TASK:
+                view.findViewById(R.id.all_task_switch_toggle).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.all_task_switch_label).setVisibility(View.VISIBLE);
+                break;
+            case SCHEDULE:
+                view.findViewById(R.id.schedule_target_date).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.schedule_calender_button).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.schedule_switch_toggle).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.schedule_switch_label).setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
+        return view;
     }
 
 }

@@ -13,6 +13,12 @@ public class CommonUtility {
     public static final DateTimeFormatter DATE_TIME_FORMATTER_ISO_LOCAL_DATE = DateTimeFormatter.ISO_LOCAL_DATE;
     public static final DateTimeFormatter DATE_TIME_FORMATTER_ISO_LOCAL_TIME = DateTimeFormatter.ISO_LOCAL_TIME;
 
+    // 画面ID
+    public enum ScreenId {
+        ALL_TASK,
+        SCHEDULE
+    }
+
     // その他一般
     public static final String TAG = "TaskManagement";
     public static final String FIRST_LOOP = "firstLoop";
