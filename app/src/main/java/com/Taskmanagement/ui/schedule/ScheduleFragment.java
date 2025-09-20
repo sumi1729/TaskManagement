@@ -43,8 +43,8 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        TextView targetDate = view.findViewById(R.id.target_date);
-        Button calenderButton = view.findViewById(R.id.calender_button);
+        TextView targetDate = view.findViewById(R.id.schedule_target_date);
+        Button calenderButton = view.findViewById(R.id.schedule_calender_button);
         LocalDate nowDate = LocalDate.now();
         targetDate.setText(
                 CommonUtility.getStrDate(nowDate.getYear(), nowDate.getMonthValue(), nowDate.getDayOfMonth(), DELIMITER_HYPHON, false)
