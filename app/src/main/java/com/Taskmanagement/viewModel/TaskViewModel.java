@@ -1,9 +1,8 @@
 package com.Taskmanagement.viewModel;
 
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_HH_MM;
-import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_DD;
+import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_D;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_DD_HH_MM;
-import static com.Taskmanagement.util.CommonUtility.DELIMITER_HYPHON;
 import static com.Taskmanagement.util.CommonUtility.FIRST_LOOP;
 import static com.Taskmanagement.util.CommonUtility.OTHER;
 import static com.Taskmanagement.util.CommonUtility.ScreenId;
@@ -114,7 +113,7 @@ public class TaskViewModel extends AndroidViewModel {
         LocalDate ldTskExecDt = null;
         LocalTime ldTskExecTm = null;
         try {
-            ldTskExecDt = LocalDate.parse(tskExecDt, DATE_TIME_FORMATTER_YYYY_M_DD);
+            ldTskExecDt = LocalDate.parse(tskExecDt, DATE_TIME_FORMATTER_YYYY_M_D);
         } catch (DateTimeParseException e) {
             Log.e(TAG, "tskExecDt is not set.");
             updateSnackbarEventAsync("日時未定タスクとして登録します");
@@ -219,32 +218,21 @@ public class TaskViewModel extends AndroidViewModel {
         String crntValue = null;
         for (ScdledTask4Desp task : tasks) {
             // 初回ループ もしくは 前のデータと値（優先度/タスク実行日付）が異なる場合
-            if (FIRST_LOOP.equals(prevValue) || !crntValue.equals(prevValue)) {
-                switch (screenId) {
-                    case ALL_TASK:
-                        crntValue = task.prtyId == null ? "" : task.prtyId;
+            switch (screenId) {
+                case ALL_TASK:
+                    crntValue = task.prtyId == null ? "" : task.prtyId;
+                    if (FIRST_LOOP.equals(prevValue) || !crntValue.equals(prevValue)) {
                         String priority = priorityMap.get(crntValue);
                         String title = String.format("----- %s -----",
                                 priority == null ? OTHER : "優先度 " + priority);
                         ListItem listItem = new HeaderItem(title);
                         displayList.add(listItem);
-                        break;
-                    case SCHEDULE:
-                        LocalDate tskExecDt = task.tskExecDt;
-                        crntValue = tskExecDt == null ? "日付不明" :
-                                CommonUtility.getStrDate(
-                                        tskExecDt.getYear(),
-                                        tskExecDt.getMonthValue(),
-                                        tskExecDt.getDayOfMonth(),
-                                        DELIMITER_HYPHON,
-                                        false
-                                );
-                        break;
-                    default:
-                        break;
-                }
+                    }
+                    prevValue = crntValue;
+                    break;
+                default:
+                    break;
             }
-            prevValue = crntValue;
             displayList.add(task);
         }
         return displayList;

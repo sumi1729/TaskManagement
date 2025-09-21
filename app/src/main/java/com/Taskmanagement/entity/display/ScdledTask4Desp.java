@@ -19,6 +19,7 @@ public class ScdledTask4Desp extends ListItem {
     public LocalDate tskExecDt;
     public LocalTime tskExecTm;
     public String scdlStat;
+    public int dateSorter;
     public int timeSorter;
 
 
@@ -33,6 +34,8 @@ public class ScdledTask4Desp extends ListItem {
             , LocalDate tskExecDt
             , LocalTime tskExecTm
             , String scdlStat
+            , int dateSorter
+            , int timeSorter
     ) {
         this.tskId = tskId;
         this.tskNm = tskNm;
@@ -44,6 +47,8 @@ public class ScdledTask4Desp extends ListItem {
         this.tskExecDt = tskExecDt;
         this.tskExecTm = tskExecTm;
         this.scdlStat = scdlStat;
+        this.dateSorter = dateSorter;
+        this.timeSorter = timeSorter;
 
     }
 
