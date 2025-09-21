@@ -3,6 +3,7 @@ package com.Taskmanagement.viewModel;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_HH_MM;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_DD;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_DD_HH_MM;
+import static com.Taskmanagement.util.CommonUtility.DELIMITER_HYPHON;
 import static com.Taskmanagement.util.CommonUtility.FIRST_LOOP;
 import static com.Taskmanagement.util.CommonUtility.OTHER;
 import static com.Taskmanagement.util.CommonUtility.ScreenId;
@@ -10,10 +11,8 @@ import static com.Taskmanagement.util.CommonUtility.TAG;
 import static com.Taskmanagement.util.DbUtility.priorityMap;
 
 import android.app.Application;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -151,9 +150,15 @@ public class TaskViewModel extends AndroidViewModel {
     public LiveData<List<ScdledTask4Desp>> getTsk4AllTsk() {
         return repository.getTsk4AllTsk();
     }
-
     public LiveData<List<ScdledTask4Desp>> getUnasinedTsk4AllTsk() {
         return repository.getUnasinedTsk4AllTsk();
+    }
+
+    public LiveData<List<ScdledTask4Desp>> getIncompTsk4ScdlRtnLiveData(LocalDate targetDate) {
+        return repository.getIncompTsk4ScdlRtnLiveData(targetDate);
+    }
+    public LiveData<List<ScdledTask4Desp>> getAllTsk4ScdlRtnLiveData(LocalDate targetDate) {
+        return repository.getAllTsk4ScdlRtnLiveData(targetDate);
     }
 
     // DB操作内容確認用
@@ -173,6 +178,22 @@ public class TaskViewModel extends AndroidViewModel {
         tsk4AllTsk.postValue(newTasks);
     }
 
+    // Schedule画面
+    private final MutableLiveData<List<ScdledTask4Desp>> tsk4Scdl = new MutableLiveData<>();
+    public LiveData<List<ScdledTask4Desp>> getDispTsk4Scdl() {
+        return tsk4Scdl;
+    }
+    public void updateTsk4ScdlAsync() {
+        tsk4Scdl.postValue(null);
+    }
+
+    public List<ScdledTask4Desp> getAllTsk4ScdlRtnList(LocalDate targetDate) {
+        return repository.getAllTsk4ScdlRtnList(targetDate);
+    }
+    public List<ScdledTask4Desp> getIncompTsk4ScdlRtnList(LocalDate targetDate) {
+        return repository.getIncompTsk4ScdlRtnList(targetDate);
+    }
+
     // RegisterTaskダイアログ
     private final MutableLiveData<String> snackbarEvent = new MutableLiveData<>();
     public LiveData<String> getSnackbarEvent() {
@@ -189,25 +210,42 @@ public class TaskViewModel extends AndroidViewModel {
      * 表示リスト作成
      *
      * @param tasks タスクリスト
+     * @param screenId 画面ID
      * @return 表示リスト
      */
-    public List<ListItem> createDisplayList(List<ScdledTask4Desp> tasks) {
+    public List<ListItem> createDisplayList(List<ScdledTask4Desp> tasks, ScreenId screenId) {
         List<ListItem> displayList = new ArrayList<>();
-        String previousPrtyId = FIRST_LOOP;
+        String prevValue = FIRST_LOOP;
+        String crntValue = null;
         for (ScdledTask4Desp task : tasks) {
-            String currentPrtyId = task.prtyId == null ? "" : task.prtyId;
-            // 初回ループ もしくは 優先度が異なる場合のみ優先度タイトルを表示
-            if (FIRST_LOOP.equals(previousPrtyId)
-                    || !currentPrtyId.equals(previousPrtyId)) {
-                String priority = priorityMap.get(currentPrtyId);
-                String title = String.format("----- %s -----",
-                        priority == null ? OTHER : "優先度 " + priority);
-                ListItem listItem = new HeaderItem(title);
-                displayList.add(listItem);
+            // 初回ループ もしくは 前のデータと値（優先度/タスク実行日付）が異なる場合
+            if (FIRST_LOOP.equals(prevValue) || !crntValue.equals(prevValue)) {
+                switch (screenId) {
+                    case ALL_TASK:
+                        crntValue = task.prtyId == null ? "" : task.prtyId;
+                        String priority = priorityMap.get(crntValue);
+                        String title = String.format("----- %s -----",
+                                priority == null ? OTHER : "優先度 " + priority);
+                        ListItem listItem = new HeaderItem(title);
+                        displayList.add(listItem);
+                        break;
+                    case SCHEDULE:
+                        LocalDate tskExecDt = task.tskExecDt;
+                        crntValue = tskExecDt == null ? "日付不明" :
+                                CommonUtility.getStrDate(
+                                        tskExecDt.getYear(),
+                                        tskExecDt.getMonthValue(),
+                                        tskExecDt.getDayOfMonth(),
+                                        DELIMITER_HYPHON,
+                                        false
+                                );
+                        break;
+                    default:
+                        break;
+                }
             }
-            // タスク要素を表示
+            prevValue = crntValue;
             displayList.add(task);
-            previousPrtyId = currentPrtyId;
         }
         return displayList;
     }

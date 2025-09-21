@@ -10,6 +10,7 @@ import com.Taskmanagement.entity.display.ScdledTask4Desp;
 
 import androidx.lifecycle.LiveData;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +25,6 @@ public class TaskRepository {
     public void insert(TskEntity task) {
         new Thread(() -> taskDao.insert(task)).start();
     }
-
     public void insert(ScdlEntity task) {
         new Thread(() -> taskDao.insert(task)).start();
     }
@@ -36,9 +36,21 @@ public class TaskRepository {
     public LiveData<List<ScdledTask4Desp>> getTsk4AllTsk() {
         return taskDao.getTsk4AllTsk();
     }
-
     public LiveData<List<ScdledTask4Desp>> getUnasinedTsk4AllTsk() {
         return taskDao.getUnasinedTsk4AllTsk();
+    }
+
+    public LiveData<List<ScdledTask4Desp>> getIncompTsk4ScdlRtnLiveData(LocalDate targetDate) {
+        return taskDao.getIncompTsk4ScdlRtnLiveData(targetDate);
+    }
+    public LiveData<List<ScdledTask4Desp>> getAllTsk4ScdlRtnLiveData(LocalDate targetDate) {
+        return taskDao.getAllTsk4ScdlRtnLiveData(targetDate);
+    }
+    public List<ScdledTask4Desp> getIncompTsk4ScdlRtnList(LocalDate targetDate) {
+        return taskDao.getIncompTsk4ScdlRtnList(targetDate);
+    }
+    public List<ScdledTask4Desp> getAllTsk4ScdlRtnList(LocalDate targetDate) {
+        return taskDao.getAllTsk4ScdlRtnList(targetDate);
     }
 
     public void dbOpeTest() {

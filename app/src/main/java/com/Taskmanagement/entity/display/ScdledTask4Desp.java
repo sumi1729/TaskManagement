@@ -19,6 +19,7 @@ public class ScdledTask4Desp extends ListItem {
     public LocalDate tskExecDt;
     public LocalTime tskExecTm;
     public String scdlStat;
+    public int timeSorter;
 
 
     public ScdledTask4Desp(

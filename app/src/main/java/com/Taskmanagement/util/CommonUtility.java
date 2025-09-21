@@ -43,4 +43,12 @@ public class CommonUtility {
         return strYear + delimiter + strMonth + delimiter +strDayOfMonth;
     }
 
+    public static void wait(int miliSec) {
+        try {
+            Thread.sleep(miliSec);
+        } catch (InterruptedException e) {
+            // 何もしない
+        }
+    }
+
 }
