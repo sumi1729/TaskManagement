@@ -3,11 +3,8 @@ package com.Taskmanagement;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
-import android.widget.FrameLayout;
 
 import com.Taskmanagement.ui.registerTask.RegisterTaskDialogFragment;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -58,21 +55,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO タスク登録画面に遷移する
-//                showRegisterTaskDialog();
-//                NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_content_main);
-//                navController.navigate(R.id.taskRegisterDialogFragment); // ← ここで遷移
-
                 RegisterTaskDialogFragment dialog = new RegisterTaskDialogFragment();
                 dialog.show(getSupportFragmentManager(), "RegisterTaskDialog");
-
-
-//                BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-//                FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-//                if (bottomSheet != null) {
-//                    BottomSheetBehavior<?> behavior = BottomSheetBehavior.from(bottomSheet);
-//                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                }
             }
         });
     }

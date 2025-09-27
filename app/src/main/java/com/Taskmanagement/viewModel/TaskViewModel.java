@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.Taskmanagement.R;
 import com.Taskmanagement.entity.ScdlEntity;
@@ -174,23 +175,16 @@ public class TaskViewModel extends AndroidViewModel {
         return tsk4AllTsk;
     }
     public void updateTsk4AllTskAsync(List<ScdledTask4Desp> newTasks) {
-        tsk4AllTsk.postValue(newTasks);
+        tsk4AllTsk.setValue(newTasks);
     }
 
     // Schedule画面
-    private final MutableLiveData<List<ScdledTask4Desp>> tsk4Scdl = new MutableLiveData<>();
+    private final MutableLiveData<LocalDate> selectedDate = new MutableLiveData<>();
+    public void setDate(LocalDate date) {
+        selectedDate.setValue(date);
+    }
     public LiveData<List<ScdledTask4Desp>> getDispTsk4Scdl() {
-        return tsk4Scdl;
-    }
-    public void updateTsk4ScdlAsync() {
-        tsk4Scdl.postValue(null);
-    }
-
-    public List<ScdledTask4Desp> getAllTsk4ScdlRtnList(LocalDate targetDate) {
-        return repository.getAllTsk4ScdlRtnList(targetDate);
-    }
-    public List<ScdledTask4Desp> getIncompTsk4ScdlRtnList(LocalDate targetDate) {
-        return repository.getIncompTsk4ScdlRtnList(targetDate);
+        return Transformations.switchMap(selectedDate, date -> repository.getAllTsk4ScdlRtnLiveData(date));
     }
 
     // RegisterTaskダイアログ
@@ -199,7 +193,7 @@ public class TaskViewModel extends AndroidViewModel {
         return snackbarEvent;
     }
     public void updateSnackbarEventAsync(String message) {
-        snackbarEvent.postValue(message);
+        snackbarEvent.setValue(message);
     }
 
 // ================================================================
@@ -239,14 +233,13 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     /**
-     * ボタン可視性切り替え
+     * View可視性切り替え
      *
      * @param view view
-     * @param screenId スクリーンID
      * @return view
      */
-    public View toggleButtonVisibility(View view, ScreenId screenId) {
-        switch (screenId) {
+    public View toggleButtonVisibility4DispTskBase(View view) {
+        switch (CommonUtility.getNowScreenId()) {
             case ALL_TASK:
                 view.findViewById(R.id.all_task_switch_toggle).setVisibility(View.VISIBLE);
                 view.findViewById(R.id.all_task_switch_label).setVisibility(View.VISIBLE);

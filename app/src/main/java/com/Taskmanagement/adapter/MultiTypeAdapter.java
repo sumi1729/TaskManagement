@@ -6,24 +6,28 @@ import static com.Taskmanagement.util.CommonUtility.DATE_TIME_MITEI;
 import static com.Taskmanagement.util.CommonUtility.TAG;
 import static com.Taskmanagement.util.CommonUtility.TIME_MITEI;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Taskmanagement.R;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.HeaderItem;
 import com.Taskmanagement.entity.item.ListItem;
+import com.Taskmanagement.util.CommonUtility;
 
 import java.util.List;
 
 public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<ListItem> items;
+    private View view;
 
     public MultiTypeAdapter(List<ListItem> items) {
         this.items = items;
@@ -42,7 +46,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             View view = inflater.inflate(R.layout.item_task_header, parent, false);
             return new HeaderViewHolder(view);
         } else if (viewType == ListItem.TYPE_TASK) {
-            View view = inflater.inflate(R.layout.item_task, parent, false);
+            view = inflater.inflate(R.layout.item_task, parent, false);
             return new TaskViewHolder(view);
         }
 
@@ -62,24 +66,34 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             String task_time_1line = "";
             String task_date_2lines = "";
             String task_time_2lines = "";
-            // TODO AllTask画面・ScheduledTask画面どちらへの表示かの区別は別途検討要
-            if (true) {
-                // All Task画面の場合
-                if (task.tskExecDt == null) {
-                    // そのタスクがスケジュールされていない場合
-                    task_time_1line = DATE_TIME_MITEI;
-                } else {
-                    // そのタスクがスケジュールされている場合
-                    task_date_2lines = task.tskExecDt.format(DATE_TIME_FORMATTER_YY_MM_DD);
-                    task_time_2lines = task.tskExecTm == null ? TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
-                }
-            } else {
-                // Scheduled Task画面の場合
-                if (task.tskExecDt == null) {
-                    // ここには入らない（先行処理ではじく予定）
-                } else {
-                    task_time_1line = task.tskExecTm == null ? DATE_TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
-                }
+            switch (CommonUtility.getNowScreenId()) {
+                case ALL_TASK:
+                    if (task.tskExecDt == null) {
+                        // そのタスクがスケジュールされていない場合
+                        task_time_1line = DATE_TIME_MITEI;
+                        view.findViewById(R.id.task_time_1line).setVisibility(View.VISIBLE);
+                    } else {
+                        // そのタスクがスケジュールされている場合
+                        task_date_2lines = task.tskExecDt.format(DATE_TIME_FORMATTER_YY_MM_DD);
+                        task_time_2lines = task.tskExecTm == null ? TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
+                        view.findViewById(R.id.task_datetime_2lines).setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case SCHEDULE:
+                    if (task.tskExecDt == null) {
+                        // ここには入らない（先行処理ではじく）
+                    } else {
+                        task_time_1line = task.tskExecTm == null ? DATE_TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
+                        view.findViewById(R.id.task_time_1line).setVisibility(View.VISIBLE);
+                        if (!CommonUtility.isNullOrEmpty(task.tskCompDttm)) {
+                            ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#bbbbbb"));
+                        } else {
+                            ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#ffffff"));
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
             ((TaskViewHolder) holder).task_time_1line.setText(task_time_1line);
             ((TaskViewHolder) holder).task_date_2lines.setText(task_date_2lines);
@@ -118,6 +132,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
         TextView task_time_1line, task_date_2lines, task_time_2lines, taskTitle, taskDetail;
+        CardView card_view;
 
         TaskViewHolder(View itemView) {
             super(itemView);
@@ -126,6 +141,8 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             task_time_2lines = itemView.findViewById(R.id.task_time_2lines);
             taskTitle = itemView.findViewById(R.id.task_title);
             taskDetail = itemView.findViewById(R.id.task_detail);
+            card_view = itemView.findViewById(R.id.card_view);
+
         }
     }
 }

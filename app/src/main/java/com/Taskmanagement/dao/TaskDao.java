@@ -27,7 +27,7 @@ public interface TaskDao {
     String dispQuery = "SELECT TT.tskId, TT.tskNm, TT.tskDtl, TT.tskCgryId, TT.tskExecFrcyId, TT.prtyId, TT.tskCompDttm, ST.tskExecDt, ST.tskExecTm, ST.scdlStat, " +
             "CASE when ST.tskExecDt is null THEN 1 ELSE 0 END AS dateSorter, " +
             "CASE when ST.tskExecTm is null THEN 1 ELSE 0 END AS timeSorter " +
-            "FROM task_table TT LEFT JOIN schedule_table ST ON TT.tskId = ST.tskId ";            ;
+            "FROM task_table TT LEFT JOIN schedule_table ST ON TT.tskId = ST.tskId ";
     // AllTask画面　（スケジュール済み含む）
     @Query(dispQuery +
             "WHERE tskCompDttm is null ORDER BY TT.prtyId DESC, dateSorter, ST.tskExecDt, timeSorter, ST.tskExecTm")

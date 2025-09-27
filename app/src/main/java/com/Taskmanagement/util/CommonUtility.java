@@ -19,6 +19,13 @@ public class CommonUtility {
         ALL_TASK,
         SCHEDULE
     }
+    private static ScreenId nowScreenId = null;
+    public static ScreenId getNowScreenId() {
+        return nowScreenId;
+    }
+    public static void setNowScreenId(ScreenId nowScreenId) {
+        CommonUtility.nowScreenId = nowScreenId;
+    }
 
     // その他一般
     public static final String TAG = "TaskManagement";

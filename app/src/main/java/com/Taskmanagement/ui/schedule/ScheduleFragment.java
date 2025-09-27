@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.Taskmanagement.R;
@@ -29,17 +30,26 @@ import java.util.List;
 
 public class ScheduleFragment extends DispTskBaseFragment {
 
+    LocalDate prev = null;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         nowDate = LocalDate.now();
         targetDate = nowDate;
+        prev = nowDate;
+        CommonUtility.setNowScreenId(ScreenId.SCHEDULE);
 
         // DB更新あり　かつ　当日全タスク表示
         taskViewModel.getAllTsk4ScdlRtnLiveData(targetDate).observe(getViewLifecycleOwner(), tasks -> {
-            allTsks = tasks;
-            if (isAllTsk) {
-                setDispItems(tasks);
+            if (nowDate == targetDate) {
+                // 日付変更を伴わない場合
+                if (isAllTsk) {
+                    setDispItems(tasks);
+                }
+            } else  {
+                // 日付変更を伴う場合
+                taskViewModel.setDate(targetDate);
             }
             Log.d(TAG, "DB contains " + tasks.size() + " tasks");
         });
@@ -53,26 +63,15 @@ public class ScheduleFragment extends DispTskBaseFragment {
         });
         // DB更新なし
         taskViewModel.getDispTsk4Scdl().observe(getViewLifecycleOwner(), tasks -> {
-//            Log.d(TAG, "DB contains " + tasks.size() + " tasks");
-            new Thread(() -> {
-                if (isAllTsk) {
-                    allTsks = taskViewModel.getAllTsk4ScdlRtnList(targetDate);
-                    tmpTsks = allTsks;
-                } else {
-                    incompTsks = taskViewModel.getIncompTsk4ScdlRtnList(targetDate);
-                    tmpTsks = incompTsks;
-                }
-            }).start();
-
-            CommonUtility.wait(1000);
-            setDispItems(tmpTsks);
+            setDispItems(tasks);
+            Log.d(TAG, "DB contains " + tasks.size() + " tasks");
         });
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view = taskViewModel.toggleButtonVisibility(view, ScreenId.SCHEDULE);
-        super.onViewCreated(view, savedInstanceState, ScreenId.SCHEDULE);
+        view = taskViewModel.toggleButtonVisibility4DispTskBase(view);
+        super.onViewCreated(view, savedInstanceState);
 
         TextView targetDateText = view.findViewById(R.id.schedule_target_date);
         targetDateText.setText(
@@ -86,7 +85,8 @@ public class ScheduleFragment extends DispTskBaseFragment {
                         CommonUtility.getStrDate(year, month, dayOfMonth, DELIMITER_HYPHON, true)
                 );
                 targetDate = LocalDate.of(year, month + 1, dayOfMonth);
-                taskViewModel.updateTsk4ScdlAsync();
+
+                taskViewModel.setDate(targetDate);
             }, targetDate.getYear(), targetDate.getMonthValue() - 1, targetDate.getDayOfMonth()).show(); // カレンダー初期表示
         });
         // トグル
@@ -100,23 +100,12 @@ public class ScheduleFragment extends DispTskBaseFragment {
                 // OFFのときの処理
                 isAllTsk = true;
             }
-            taskViewModel.updateTsk4ScdlAsync();
+            taskViewModel.setDate(targetDate);
         });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
-
-    /**
-     * 表示アイテム設定
-     *
-     * @param tasks タスクリスト
-     * @return 表示リスト
-     */
-    public void setDispItems(List<ScdledTask4Desp> tasks) {
-        displayList = taskViewModel.createDisplayList(tasks, ScreenId.SCHEDULE);
-        adapter.setItems(displayList);
     }
 }
