@@ -38,7 +38,9 @@ import java.util.UUID;
 
 public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
 
-    TaskViewModel viewModel;
+    private TaskViewModel viewModel;
+    private static final long CLICK_INTERVAL = 2000;
+    private long lastClickTime = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,10 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
         // 送信ボタン押下
         Button submitButton = view.findViewById(R.id.submit_button);
         submitButton.setOnClickListener(v -> {
+            if (disableButton()) {
+                return;
+            }
+
             // 現在日時取得
             LocalDateTime nowDttm = LocalDateTime.now();
             // タスクテーブル登録
@@ -119,6 +125,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             String tskExecDt = dateButton.getText().toString();
             String tskExecTm = timeButton.getText().toString();
             viewModel.insertScdlEntity(tskId, tskExecDt, tskExecTm, SCDL_STAT.NOT_DONE, nowDttm);
+            dismiss();
         });
     }
 
@@ -167,5 +174,19 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
     @Override
     public int getTheme() {
         return R.style.CustomBottomSheetDialogTheme;
+    }
+
+    /**
+     * ボタン連打防止チェック
+     *
+     * @return true：連打／false：非連打
+     */
+    public boolean disableButton() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastClickTime < CLICK_INTERVAL) {
+            return true;
+        }
+        lastClickTime = currentTime;
+        return false;
     }
 }
