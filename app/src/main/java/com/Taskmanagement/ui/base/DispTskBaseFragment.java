@@ -15,7 +15,7 @@ import com.Taskmanagement.adapter.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentDispTskBaseBinding;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.ListItem;
-import com.Taskmanagement.util.CommonUtility.ScreenId;
+import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.viewModel.TaskViewModel;
 
 import java.time.LocalDate;
@@ -78,7 +78,8 @@ public class DispTskBaseFragment extends Fragment {
         return view;
     }
 
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState, ScreenId screenId) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -86,5 +87,16 @@ public class DispTskBaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    /**
+     * 表示アイテム設定
+     *
+     * @param tasks タスクリスト
+     * @return 表示リスト
+     */
+    public void setDispItems(List<ScdledTask4Desp> tasks) {
+        displayList = taskViewModel.createDisplayList(tasks, CommonUtility.getNowScreenId());
+        adapter.setItems(displayList);
     }
 }

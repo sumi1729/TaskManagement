@@ -18,40 +18,58 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.Taskmanagement.R;
-import com.Taskmanagement.entity.display.ScdledTask4Desp;
+import com.Taskmanagement.dto.ScdlFilterDto;
 import com.Taskmanagement.ui.base.DispTskBaseFragment;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.CommonUtility.ScreenId;
 import com.Taskmanagement.viewModel.TaskViewModel;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class ScheduleFragment extends DispTskBaseFragment {
+
+    private ScdlFilterDto scdlFilterDto = new ScdlFilterDto();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         nowDate = LocalDate.now();
         targetDate = nowDate;
+        CommonUtility.setNowScreenId(ScreenId.SCHEDULE);
 
         // DB更新あり　かつ　当日全タスク表示
+        // ・初期表示
+        // ・スケジュール登録・更新・削除後のタスク表示
         taskViewModel.getAllTsk4ScdlRtnLiveData(targetDate).observe(getViewLifecycleOwner(), tasks -> {
-            allTsks = tasks;
+//            allTsks = tasks;
             if (isAllTsk) {
-                setDispItems(tasks);
+                if (nowDate == targetDate) {
+                    // 日付変更を伴わない場合
+                    setDispItems(tasks);
+                } else  {
+                    // 日付変更を伴う場合
+                    scdlFilterDto.setScdlFilter(targetDate, isAllTsk);
+                    taskViewModel.setScdlFilter(scdlFilterDto);
+                }
+                Log.d(TAG, "DB contains " + tasks.size() + " tasks");
             }
-            Log.d(TAG, "DB contains " + tasks.size() + " tasks");
         });
         // DB更新あり　かつ　当日未完了タスクのみ表示
         taskViewModel.getIncompTsk4ScdlRtnLiveData(targetDate).observe(getViewLifecycleOwner(), tasks -> {
-            incompTsks = tasks;
+//            incompTsks = tasks;
             if (!isAllTsk) {
                 setDispItems(tasks);
             }
             Log.d(TAG, "DB contains " + tasks.size() + " tasks");
         });
         // DB更新なし
+        // ・カレンダーで日付指定しての全タスク／当日未完了タスク表示
+        taskViewModel.getDispTsk4ScdlRtnLiveData().observe(getViewLifecycleOwner(), tasks -> {
+            setDispItems(tasks);
+            Log.d(TAG, "DB contains " + tasks.size() + " tasks");
+        });
+        // DB更新なし
+        // ・トグル切り替え後のタスク表示
         taskViewModel.getDispTsk4Scdl().observe(getViewLifecycleOwner(), tasks -> {
 //            Log.d(TAG, "DB contains " + tasks.size() + " tasks");
             new Thread(() -> {
@@ -71,8 +89,8 @@ public class ScheduleFragment extends DispTskBaseFragment {
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view = taskViewModel.toggleButtonVisibility(view, ScreenId.SCHEDULE);
-        super.onViewCreated(view, savedInstanceState, ScreenId.SCHEDULE);
+        view = taskViewModel.toggleButtonVisibility4DispTskBase(view);
+        super.onViewCreated(view, savedInstanceState);
 
         TextView targetDateText = view.findViewById(R.id.schedule_target_date);
         targetDateText.setText(
@@ -86,7 +104,9 @@ public class ScheduleFragment extends DispTskBaseFragment {
                         CommonUtility.getStrDate(year, month, dayOfMonth, DELIMITER_HYPHON, true)
                 );
                 targetDate = LocalDate.of(year, month + 1, dayOfMonth);
-                taskViewModel.updateTsk4ScdlAsync();
+
+                scdlFilterDto.setScdlFilter(targetDate, isAllTsk);
+                taskViewModel.setScdlFilter(scdlFilterDto);
             }, targetDate.getYear(), targetDate.getMonthValue() - 1, targetDate.getDayOfMonth()).show(); // カレンダー初期表示
         });
         // トグル
@@ -107,16 +127,5 @@ public class ScheduleFragment extends DispTskBaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
-
-    /**
-     * 表示アイテム設定
-     *
-     * @param tasks タスクリスト
-     * @return 表示リスト
-     */
-    public void setDispItems(List<ScdledTask4Desp> tasks) {
-        displayList = taskViewModel.createDisplayList(tasks, ScreenId.SCHEDULE);
-        adapter.setItems(displayList);
     }
 }

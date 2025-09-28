@@ -17,8 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.Taskmanagement.R;
+import com.Taskmanagement.dto.ScdlFilterDto;
 import com.Taskmanagement.entity.ScdlEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.HeaderItem;
@@ -36,6 +38,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class TaskViewModel extends AndroidViewModel {
     private final TaskRepository repository;
@@ -174,7 +177,7 @@ public class TaskViewModel extends AndroidViewModel {
         return tsk4AllTsk;
     }
     public void updateTsk4AllTskAsync(List<ScdledTask4Desp> newTasks) {
-        tsk4AllTsk.postValue(newTasks);
+        tsk4AllTsk.setValue(newTasks);
     }
 
     // Schedule画面
@@ -193,13 +196,29 @@ public class TaskViewModel extends AndroidViewModel {
         return repository.getIncompTsk4ScdlRtnList(targetDate);
     }
 
+    private final MutableLiveData<ScdlFilterDto> selectedDate = new MutableLiveData<>();
+    public void setScdlFilter(ScdlFilterDto param) {
+        selectedDate.setValue(param);
+    }
+    public LiveData<List<ScdledTask4Desp>> getDispTsk4ScdlRtnLiveData() {
+        return Transformations.switchMap(selectedDate, param -> {
+            LocalDate date = param.getDate();
+            boolean isAllTsk = param.getIsAllTsk();
+            if (isAllTsk) {
+                return repository.getAllTsk4ScdlRtnLiveData(date);
+            } else {
+                return repository.getIncompTsk4ScdlRtnLiveData(date);
+            }
+        });
+    }
+
     // RegisterTaskダイアログ
     private final MutableLiveData<String> snackbarEvent = new MutableLiveData<>();
     public LiveData<String> getSnackbarEvent() {
         return snackbarEvent;
     }
     public void updateSnackbarEventAsync(String message) {
-        snackbarEvent.postValue(message);
+        snackbarEvent.setValue(message);
     }
 
 // ================================================================
@@ -239,14 +258,13 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     /**
-     * ボタン可視性切り替え
+     * View可視性切り替え
      *
      * @param view view
-     * @param screenId スクリーンID
      * @return view
      */
-    public View toggleButtonVisibility(View view, ScreenId screenId) {
-        switch (screenId) {
+    public View toggleButtonVisibility4DispTskBase(View view) {
+        switch (CommonUtility.getNowScreenId()) {
             case ALL_TASK:
                 view.findViewById(R.id.all_task_switch_toggle).setVisibility(View.VISIBLE);
                 view.findViewById(R.id.all_task_switch_label).setVisibility(View.VISIBLE);

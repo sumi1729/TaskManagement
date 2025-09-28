@@ -2,10 +2,13 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#ffffff"
+    app:cardCornerRadius="8dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +28,7 @@
                 android:text="hh:mm"
                 android:textColor="#333333"
                 android:textSize="16sp"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
             <LinearLayout
                 android:id="@+id/task_datetime_2lines"
@@ -33,7 +36,7 @@
                 android:layout_height="69dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="invisible">
                 <TextView
                     android:id="@+id/task_date_2lines"
                     android:layout_width="74dp"

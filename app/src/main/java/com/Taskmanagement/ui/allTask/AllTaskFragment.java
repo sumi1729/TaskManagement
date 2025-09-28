@@ -13,12 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.Taskmanagement.R;
-import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.ui.base.DispTskBaseFragment;
+import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.CommonUtility.ScreenId;
 import com.Taskmanagement.viewModel.TaskViewModel;
-
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -27,6 +25,7 @@ public class AllTaskFragment extends DispTskBaseFragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         taskViewModel = new ViewModelProvider(requireActivity()).get(TaskViewModel.class);
+        CommonUtility.setNowScreenId(ScreenId.ALL_TASK);
 
         // DB更新あり　かつ　未割当タスクのみ表示
         taskViewModel.getUnasinedTsk4AllTsk().observe(getViewLifecycleOwner(), tasks -> {
@@ -54,8 +53,8 @@ public class AllTaskFragment extends DispTskBaseFragment {
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view = taskViewModel.toggleButtonVisibility(view, ScreenId.ALL_TASK);
-        super.onViewCreated(view, savedInstanceState, ScreenId.ALL_TASK);
+        view = taskViewModel.toggleButtonVisibility4DispTskBase(view);
+        super.onViewCreated(view, savedInstanceState);
 
         // トグル
         Switch allTaskSwitchToggle = view.findViewById(R.id.all_task_switch_toggle);
@@ -75,16 +74,5 @@ public class AllTaskFragment extends DispTskBaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
-
-    /**
-     * 表示アイテム設定
-     *
-     * @param tasks タスクリスト
-     * @return 表示リスト
-     */
-    public void setDispItems(List<ScdledTask4Desp> tasks) {
-        displayList = taskViewModel.createDisplayList(tasks, ScreenId.ALL_TASK);
-        adapter.setItems(displayList);
     }
 }
