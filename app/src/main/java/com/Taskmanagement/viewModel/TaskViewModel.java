@@ -38,7 +38,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class TaskViewModel extends AndroidViewModel {
     private final TaskRepository repository;
@@ -156,13 +155,6 @@ public class TaskViewModel extends AndroidViewModel {
         return repository.getUnasinedTsk4AllTsk();
     }
 
-    public LiveData<List<ScdledTask4Desp>> getIncompTsk4ScdlRtnLiveData(LocalDate targetDate) {
-        return repository.getIncompTsk4ScdlRtnLiveData(targetDate);
-    }
-    public LiveData<List<ScdledTask4Desp>> getAllTsk4ScdlRtnLiveData(LocalDate targetDate) {
-        return repository.getAllTsk4ScdlRtnLiveData(targetDate);
-    }
-
     // DB操作内容確認用
     public void dbOpeTest() {
         repository.dbOpeTest();
@@ -181,35 +173,31 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     // Schedule画面
-    private final MutableLiveData<List<ScdledTask4Desp>> tsk4Scdl = new MutableLiveData<>();
-    public LiveData<List<ScdledTask4Desp>> getDispTsk4Scdl() {
-        return tsk4Scdl;
+    private final MutableLiveData<Boolean> isAllTsk = new MutableLiveData<>();
+    public LiveData<Boolean> getIsAllTsk() {
+        return isAllTsk;
     }
-    public void updateTsk4ScdlAsync() {
-        tsk4Scdl.postValue(null);
+    public void updateIsAllTsk(boolean newIsAllTsk) {
+        isAllTsk.setValue(newIsAllTsk);
     }
-
-    public List<ScdledTask4Desp> getAllTsk4ScdlRtnList(LocalDate targetDate) {
-        return repository.getAllTsk4ScdlRtnList(targetDate);
-    }
-    public List<ScdledTask4Desp> getIncompTsk4ScdlRtnList(LocalDate targetDate) {
-        return repository.getIncompTsk4ScdlRtnList(targetDate);
-    }
-
     private final MutableLiveData<ScdlFilterDto> selectedDate = new MutableLiveData<>();
-    public void setScdlFilter(ScdlFilterDto param) {
-        selectedDate.setValue(param);
+    public void setScdlFilter(ScdlFilterDto scdlFilterDto) {
+        selectedDate.setValue(scdlFilterDto);
     }
     public LiveData<List<ScdledTask4Desp>> getDispTsk4ScdlRtnLiveData() {
-        return Transformations.switchMap(selectedDate, param -> {
-            LocalDate date = param.getDate();
-            boolean isAllTsk = param.getIsAllTsk();
+        return Transformations.switchMap(selectedDate, scdlFilterDto -> {
+            LocalDate date = scdlFilterDto.getDate();
+            boolean isAllTsk = scdlFilterDto.getIsAllTsk();
             if (isAllTsk) {
                 return repository.getAllTsk4ScdlRtnLiveData(date);
             } else {
                 return repository.getIncompTsk4ScdlRtnLiveData(date);
             }
         });
+    }
+
+    public LiveData<List<ScdledTask4Desp>> getAllTsk4ScdlRtnLiveData() {
+        return repository.getScdlTsk4ScdlRtnLiveData();
     }
 
     // RegisterTaskダイアログ

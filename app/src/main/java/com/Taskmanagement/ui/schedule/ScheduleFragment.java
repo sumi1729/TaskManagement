@@ -37,30 +37,11 @@ public class ScheduleFragment extends DispTskBaseFragment {
         targetDate = nowDate;
         CommonUtility.setNowScreenId(ScreenId.SCHEDULE);
 
-        // DB更新あり　かつ　当日全タスク表示
-        // ・初期表示
-        // ・スケジュール登録・更新・削除後のタスク表示
-        taskViewModel.getAllTsk4ScdlRtnLiveData(targetDate).observe(getViewLifecycleOwner(), tasks -> {
-//            allTsks = tasks;
-            if (isAllTsk) {
-                if (nowDate == targetDate) {
-                    // 日付変更を伴わない場合
-                    setDispItems(tasks);
-                } else  {
-                    // 日付変更を伴う場合
-                    scdlFilterDto.setScdlFilter(targetDate, isAllTsk);
-                    taskViewModel.setScdlFilter(scdlFilterDto);
-                }
-                Log.d(TAG, "DB contains " + tasks.size() + " tasks");
-            }
-        });
-        // DB更新あり　かつ　当日未完了タスクのみ表示
-        taskViewModel.getIncompTsk4ScdlRtnLiveData(targetDate).observe(getViewLifecycleOwner(), tasks -> {
-//            incompTsks = tasks;
-            if (!isAllTsk) {
-                setDispItems(tasks);
-            }
-            Log.d(TAG, "DB contains " + tasks.size() + " tasks");
+        // DB更新あり
+        taskViewModel.getAllTsk4ScdlRtnLiveData().observe(getViewLifecycleOwner(), tasks -> {
+            // 日付変更を伴う場合
+            scdlFilterDto.setScdlFilter(targetDate, isAllTsk);
+            taskViewModel.setScdlFilter(scdlFilterDto);
         });
         // DB更新なし
         // ・カレンダーで日付指定しての全タスク／当日未完了タスク表示
@@ -70,20 +51,9 @@ public class ScheduleFragment extends DispTskBaseFragment {
         });
         // DB更新なし
         // ・トグル切り替え後のタスク表示
-        taskViewModel.getDispTsk4Scdl().observe(getViewLifecycleOwner(), tasks -> {
-//            Log.d(TAG, "DB contains " + tasks.size() + " tasks");
-            new Thread(() -> {
-                if (isAllTsk) {
-                    allTsks = taskViewModel.getAllTsk4ScdlRtnList(targetDate);
-                    tmpTsks = allTsks;
-                } else {
-                    incompTsks = taskViewModel.getIncompTsk4ScdlRtnList(targetDate);
-                    tmpTsks = incompTsks;
-                }
-            }).start();
-
-            CommonUtility.wait(1000);
-            setDispItems(tmpTsks);
+        taskViewModel.getIsAllTsk().observe(getViewLifecycleOwner(), tasks -> {
+            scdlFilterDto.setScdlFilter(targetDate, isAllTsk);
+            taskViewModel.setScdlFilter(scdlFilterDto);
         });
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -120,7 +90,7 @@ public class ScheduleFragment extends DispTskBaseFragment {
                 // OFFのときの処理
                 isAllTsk = true;
             }
-            taskViewModel.updateTsk4ScdlAsync();
+            taskViewModel.updateIsAllTsk(isAllTsk);
         });
     }
 

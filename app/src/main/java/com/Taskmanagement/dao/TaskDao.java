@@ -43,16 +43,20 @@ public interface TaskDao {
             "WHERE tskCompDttm is null and ST.tskExecDt = :targetDate ORDER BY timeSorter, ST.tskExecTm";
     @Query(query4AllTask)
     LiveData<List<ScdledTask4Desp>> getIncompTsk4ScdlRtnLiveData(LocalDate targetDate);
-    @Query(query4AllTask)
-    List<ScdledTask4Desp> getIncompTsk4ScdlRtnList(LocalDate targetDate);
+//    @Query(query4AllTask)
+//    List<ScdledTask4Desp> getIncompTsk4ScdlRtnList(LocalDate targetDate);
 
     // Schedule画面　（当日全タスク）
     String query4Schedule = dispQuery +
             "WHERE ST.tskExecDt = :targetDate ORDER BY timeSorter, ST.tskExecTm";
     @Query(query4Schedule)
     LiveData<List<ScdledTask4Desp>> getAllTsk4ScdlRtnLiveData(LocalDate targetDate);
-    @Query(query4Schedule)
-    List<ScdledTask4Desp> getAllTsk4ScdlRtnList(LocalDate targetDate);
+//    @Query(query4Schedule)
+//    List<ScdledTask4Desp> getAllTsk4ScdlRtnList(LocalDate targetDate);
+
+    // Schedule画面（全タスク）
+    @Query(dispQuery)
+    LiveData<List<ScdledTask4Desp>> getScdlTsk4ScdlRtnLiveData();
 
     @Query("UPDATE task_table SET tskCompDttm = :tskCompDttm WHERE tskId = :tskId")
     void updtTskEntyTskCompDttm(String tskId, LocalDateTime tskCompDttm);

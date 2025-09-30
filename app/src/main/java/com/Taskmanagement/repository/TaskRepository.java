@@ -46,11 +46,14 @@ public class TaskRepository {
     public LiveData<List<ScdledTask4Desp>> getAllTsk4ScdlRtnLiveData(LocalDate targetDate) {
         return taskDao.getAllTsk4ScdlRtnLiveData(targetDate);
     }
-    public List<ScdledTask4Desp> getIncompTsk4ScdlRtnList(LocalDate targetDate) {
-        return taskDao.getIncompTsk4ScdlRtnList(targetDate);
-    }
-    public List<ScdledTask4Desp> getAllTsk4ScdlRtnList(LocalDate targetDate) {
-        return taskDao.getAllTsk4ScdlRtnList(targetDate);
+//    public List<ScdledTask4Desp> getIncompTsk4ScdlRtnList(LocalDate targetDate) {
+//        return taskDao.getIncompTsk4ScdlRtnList(targetDate);
+//    }
+//    public List<ScdledTask4Desp> getAllTsk4ScdlRtnList(LocalDate targetDate) {
+//        return taskDao.getAllTsk4ScdlRtnList(targetDate);
+//    }
+    public LiveData<List<ScdledTask4Desp>> getScdlTsk4ScdlRtnLiveData() {
+        return taskDao.getScdlTsk4ScdlRtnLiveData();
     }
 
     public void dbOpeTest() {
