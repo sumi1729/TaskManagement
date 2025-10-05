@@ -101,8 +101,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
         if (updateFlg) {
             taskNameInput.setText(tskNm); // タスク名
             taskDetailInput.setText(tskDtl); // タスク詳細
-//            spinner.setSelection(2); // 優先度ID // TODO prtyIdに空文字が入って例外発生してる
-            spinner.setSelection(Integer.valueOf(prtyId)); // 優先度ID // TODO prtyIdに空文字が入って例外発生してる
+            spinner.setSelection(Integer.valueOf(prtyId)); // 優先度ID
             dateButton.setText(CommonUtility.getStrDate(tskExecDt)); // 日付
             timeButton.setText(getStrTime(tskExecTm)); // 時刻
         }
