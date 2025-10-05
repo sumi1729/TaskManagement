@@ -14,15 +14,17 @@
 <!--一般名詞-->
     <string name="calender">カレンダー</string>
     <string name="dummyDate">yy-mm-dd</string>
+    <string name="register">登録</string>
+    <string name="update">更新</string>
 
 <!--登録画面-->
     <string name="register_task_dialog_fragment_select_date">日付を選択</string>
     <string name="register_task_dialog_fragment_select_time">時間を選択</string>
     <string-array name="priority_list">
-        <item>高</item>
-        <item>中</item>
-        <item>低</item>
         <item>設定なし</item>
+        <item>低</item>
+        <item>中</item>
+        <item>高</item>
     </string-array>
 
     <!--AllTask画面-->

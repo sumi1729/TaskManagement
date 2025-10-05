@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RegisterTaskDialogFragment dialog = new RegisterTaskDialogFragment();
+                RegisterTaskDialogFragment dialog = new RegisterTaskDialogFragment(null);
                 dialog.show(getSupportFragmentManager(), "RegisterTaskDialog");
             }
         });

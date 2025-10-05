@@ -1,6 +1,9 @@
 package com.Taskmanagement.ui.registerTask;
 
+import static com.Taskmanagement.util.CommonUtility.DELIMITER_HYPHON;
 import static com.Taskmanagement.util.CommonUtility.TAG;
+import static com.Taskmanagement.util.CommonUtility.getStrDate;
+import static com.Taskmanagement.util.CommonUtility.getStrTime;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -14,26 +17,29 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
 import com.Taskmanagement.R;
+import com.Taskmanagement.entity.display.ScdledTask4Desp;
+import com.Taskmanagement.entity.item.ListItem;
+import com.Taskmanagement.util.CommonUtility;
+import com.Taskmanagement.util.DbUtility;
 import com.Taskmanagement.viewModel.TaskViewModel;
 import com.Taskmanagement.viewModel.TaskViewModelFactory;
 import com.Taskmanagement.util.DbUtility.SCDL_STAT;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.UUID;
 
 public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
@@ -42,6 +48,24 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
     private static final long CLICK_INTERVAL = 2000;
     private long lastClickTime = 0;
 
+    private String tskId = null;
+    private String tskNm = null;
+    private String tskDtl = null;
+    private String prtyId = null;
+    private LocalDate tskExecDt = null;
+    private LocalTime tskExecTm = null;
+    private boolean updateFlg = false;
+    public RegisterTaskDialogFragment(ListItem item) {
+        if (item != null) {
+            tskId = ((ScdledTask4Desp) item).getTskId();
+            tskNm = ((ScdledTask4Desp) item).getTskNm();
+            tskDtl = ((ScdledTask4Desp) item).getTskDtl();
+            prtyId = ((ScdledTask4Desp) item).getPrtyId();
+            tskExecDt = ((ScdledTask4Desp) item).getTskExecDt();
+            tskExecTm = ((ScdledTask4Desp) item).getTskExecTm();
+            updateFlg = true;
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +89,23 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
         Button dateButton = view.findViewById(R.id.date_button);
         Button timeButton = view.findViewById(R.id.time_button);
 
+        // Spinner設定
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.priority_list,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        if (updateFlg) {
+            taskNameInput.setText(tskNm); // タスク名
+            taskDetailInput.setText(tskDtl); // タスク詳細
+//            spinner.setSelection(2); // 優先度ID // TODO prtyIdに空文字が入って例外発生してる
+            spinner.setSelection(Integer.valueOf(prtyId)); // 優先度ID // TODO prtyIdに空文字が入って例外発生してる
+            dateButton.setText(CommonUtility.getStrDate(tskExecDt)); // 日付
+            timeButton.setText(getStrTime(tskExecTm)); // 時刻
+        }
         // キーボード表示
         view.post(() -> {
             taskNameInput.requestFocus();
@@ -76,7 +117,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
         dateButton.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             new DatePickerDialog(requireContext(), (view1, year, month, dayOfMonth) -> {
-                dateButton.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                dateButton.setText(getStrDate(year, month, dayOfMonth, DELIMITER_HYPHON, true));
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         });
 
@@ -84,7 +125,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
         timeButton.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             new TimePickerDialog(requireContext(), (view12, hourOfDay, minute) -> {
-                timeButton.setText(String.format("%02d:%02d", hourOfDay, minute));
+                timeButton.setText(getStrTime(hourOfDay, minute));
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
         });
 
@@ -94,37 +135,39 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
         });
 
-        // Spinner設定
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.priority_list,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
         // 送信ボタン押下
         Button submitButton = view.findViewById(R.id.submit_button);
+        if (updateFlg) {
+            submitButton.setText(getString(R.string.update));
+        } else {
+            submitButton.setText(getString(R.string.register));
+        }
         submitButton.setOnClickListener(v -> {
             if (disableButton()) {
                 return;
             }
-
             // 現在日時取得
             LocalDateTime nowDttm = LocalDateTime.now();
-            // タスクテーブル登録
-            String tskId = UUID.randomUUID().toString();
+            String tskId = updateFlg ? this.tskId : UUID.randomUUID().toString();
             String tskNm = taskNameInput.getText().toString();
             String tskDtl = taskDetailInput.getText().toString();
             String tskCgryId = "dummy";
             String tskExecFrcyId = "dummy";
             String prty = spinner.getSelectedItem().toString();
-            viewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty ,null ,null, nowDttm);
-
-            // スケジュールテーブル登録
             String tskExecDt = dateButton.getText().toString();
             String tskExecTm = timeButton.getText().toString();
-            viewModel.insertScdlEntity(tskId, tskExecDt, tskExecTm, SCDL_STAT.NOT_DONE, nowDttm);
+
+            if (updateFlg) {
+                // タスクテーブル登録
+                viewModel.updateTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty, nowDttm);
+                // スケジュールテーブル登録
+                viewModel.updateScdlEntity(tskId, tskExecDt, tskExecTm, nowDttm);
+            } else {
+                // タスクテーブル登録
+                viewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty ,null ,null, nowDttm);
+                // スケジュールテーブル登録
+                viewModel.insertScdlEntity(tskId, tskExecDt, tskExecTm, SCDL_STAT.NOT_DONE, nowDttm);
+            }
             dismiss();
         });
     }

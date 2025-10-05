@@ -57,6 +57,26 @@ public class ScdledTask4Desp extends ListItem {
         return tskId;
     }
 
+    public String getTskNm() {
+        return tskNm;
+    }
+
+    public String getTskDtl() {
+        return tskDtl;
+    }
+
+    public String getPrtyId() {
+        return prtyId;
+    }
+
+    public LocalDate getTskExecDt() {
+        return tskExecDt;
+    }
+
+    public LocalTime getTskExecTm() {
+        return tskExecTm;
+    }
+
     @Override
     public int getType() {
         return TYPE_TASK;

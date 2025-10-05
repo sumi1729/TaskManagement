@@ -28,7 +28,15 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private List<ListItem> items;
     private View view;
+    private OnItemClickListener listener;
 
+    public interface OnItemClickListener {
+        void onItemClick(ListItem item);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
     public MultiTypeAdapter(List<ListItem> items) {
         this.items = items;
     }
@@ -100,6 +108,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((TaskViewHolder) holder).task_time_2lines.setText(task_time_2lines);
             ((TaskViewHolder) holder).taskTitle.setText(task.tskNm);
             ((TaskViewHolder) holder).taskDetail.setText(task.tskDtl);
+            ((TaskViewHolder) holder).bind(item, listener);
         }
     }
 
@@ -143,6 +152,13 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             taskDetail = itemView.findViewById(R.id.task_detail);
             card_view = itemView.findViewById(R.id.card_view);
 
+        }
+        void bind(final ListItem item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 }

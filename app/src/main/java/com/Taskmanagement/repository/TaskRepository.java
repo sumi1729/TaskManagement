@@ -9,9 +9,11 @@ import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Query;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class TaskRepository {
@@ -27,6 +29,13 @@ public class TaskRepository {
     }
     public void insert(ScdlEntity task) {
         new Thread(() -> taskDao.insert(task)).start();
+    }
+
+    public void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskCgryId, String tskExecFrcyId, String prtyId, LocalDateTime updtDttm) {
+        new Thread(() -> taskDao.updateTskEntity(tskId, tskNm, tskDtl, tskCgryId, tskExecFrcyId, prtyId, updtDttm)).start();
+    }
+    public void updateScdlEntity(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm) {
+        new Thread(() -> taskDao.updateScdlEntity(tskId, tskExecDt, tskExecTm, updtDttm)).start();
     }
 
     public void updtTskEntyTskCompDttm(String taskId, LocalDateTime taskCompleteDatetime) {

@@ -8,9 +8,11 @@ import androidx.room.Query;
 import com.Taskmanagement.entity.ScdlEntity;
 import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
+import com.Taskmanagement.util.DbUtility;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Dao
@@ -57,6 +59,13 @@ public interface TaskDao {
     // Schedule画面（全タスク）
     @Query(dispQuery)
     LiveData<List<ScdledTask4Desp>> getScdlTsk4ScdlRtnLiveData();
+
+    @Query("UPDATE task_table SET tskNm = :tskNm, tskDtl = :tskDtl, tskCgryId = :tskCgryId, " +
+            "tskExecFrcyId = :tskExecFrcyId, prtyId = :prtyId, updtDttm = :updtDttm WHERE tskId = :tskId")
+    void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskCgryId, String tskExecFrcyId, String prtyId, LocalDateTime updtDttm);
+
+    @Query("UPDATE schedule_table SET tskExecDt = :tskExecDt, tskExecTm = :tskExecTm, updtDttm = :updtDttm WHERE tskId = :tskId")
+    void updateScdlEntity(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm);
 
     @Query("UPDATE task_table SET tskCompDttm = :tskCompDttm WHERE tskId = :tskId")
     void updtTskEntyTskCompDttm(String tskId, LocalDateTime tskCompDttm);

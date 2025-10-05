@@ -1,5 +1,6 @@
 package com.Taskmanagement.ui.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,14 @@ import com.Taskmanagement.adapter.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentDispTskBaseBinding;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.ListItem;
+import com.Taskmanagement.ui.allTask.AllTaskFragment;
+import com.Taskmanagement.ui.registerTask.RegisterTaskDialogFragment;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.viewModel.TaskViewModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +72,13 @@ public class DispTskBaseFragment extends Fragment {
                 }
             }
         };
+
+        adapter.setOnItemClickListener(item -> {
+            if (item instanceof ScdledTask4Desp) {
+                RegisterTaskDialogFragment dialog = new RegisterTaskDialogFragment(item);
+                dialog.show(getActivity().getSupportFragmentManager(), "RegisterTaskDialog");
+            }
+        });
 
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

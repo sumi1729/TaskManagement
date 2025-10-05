@@ -1,5 +1,7 @@
 package com.Taskmanagement.util;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class CommonUtility {
@@ -42,6 +44,20 @@ public class CommonUtility {
         return false;
     }
 
+    public static String getStrDate(LocalDate localDate) {
+        if (localDate == null) {
+            return "日付を選択";
+        } else {
+            return getStrDate(
+                    localDate.getYear(),
+                    localDate.getMonthValue(),
+                    localDate.getDayOfMonth(),
+                    DELIMITER_HYPHON,
+                    false
+            );
+        }
+    }
+
     public static String getStrDate(int year, int month, int dayOfMonth, String delimiter, boolean needMonthAdjust) {
         String tmpStrYear = String.valueOf(year);
         int tmpMonth = needMonthAdjust ? month + 1 : month;
@@ -50,6 +66,19 @@ public class CommonUtility {
         String strDayOfMonth = dayOfMonth < 10 ? "0" + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth);
         return strYear + delimiter + strMonth + delimiter +strDayOfMonth;
     }
+
+    public static String getStrTime(LocalTime localTime) {
+        if (localTime == null) {
+            return "時間を選択";
+        } else {
+            return getStrTime(localTime.getHour(), localTime.getMinute());
+        }
+    }
+
+    public static String getStrTime(int hour, int minute) {
+        return String.format("%02d:%02d", hour, minute);
+    }
+
 
     public static void wait(int miliSec) {
         try {
