@@ -91,7 +91,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if (task.tskExecDt == null) {
                         // ここには入らない（先行処理ではじく）
                     } else {
-                        task_time_1line = task.tskExecTm == null ? DATE_TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
+                        task_time_1line = task.tskExecTm == null ? TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
                         view.findViewById(R.id.task_time_1line).setVisibility(View.VISIBLE);
                         if (!CommonUtility.isNullOrEmpty(task.tskCompDttm)) {
                             ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#bbbbbb"));
