@@ -1,6 +1,5 @@
 package com.Taskmanagement.ui.base;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +15,12 @@ import com.Taskmanagement.adapter.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentDispTskBaseBinding;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.ListItem;
-import com.Taskmanagement.ui.allTask.AllTaskFragment;
 import com.Taskmanagement.ui.registerTask.RegisterTaskDialogFragment;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.viewModel.TaskViewModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +35,6 @@ public class DispTskBaseFragment extends Fragment {
 
     protected List<ScdledTask4Desp> allTsks = null;
     protected List<ScdledTask4Desp> unasinedTsks = null;
-    protected List<ScdledTask4Desp> incompTsks = null;
-    protected List<ScdledTask4Desp> tmpTsks = null;
 
     protected LocalDate targetDate = null;
     protected LocalDate nowDate = null;
@@ -52,7 +47,29 @@ public class DispTskBaseFragment extends Fragment {
         View view = binding.getRoot();
         adapter = new MultiTypeAdapter(new ArrayList<ListItem>());
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        // 右スワイプ時の処理
+        ItemTouchHelper.SimpleCallback simpleCallbackRight = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                ListItem updateTarget = displayList.get(position);
+                if (updateTarget instanceof ScdledTask4Desp) {
+                    String taskId = ((ScdledTask4Desp) updateTarget).getTskId();
+                    taskViewModel.updtTskEntyTskCompDttmIsNull(taskId, LocalDateTime.now());
+                }
+
+            }
+        };
+
+        // 左スワイプ時の処理
+        ItemTouchHelper.SimpleCallback simpleCallbackLeft = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView,
                                   @NonNull RecyclerView.ViewHolder viewHolder,
@@ -84,8 +101,11 @@ public class DispTskBaseFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        ItemTouchHelper itemTouchHelperLeft = new ItemTouchHelper(simpleCallbackLeft);
+        itemTouchHelperLeft.attachToRecyclerView(recyclerView);
+
+        ItemTouchHelper itemTouchHelperRight = new ItemTouchHelper(simpleCallbackRight);
+        itemTouchHelperRight.attachToRecyclerView(recyclerView);
         return view;
     }
 

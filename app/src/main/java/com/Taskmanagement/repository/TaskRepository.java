@@ -9,7 +9,6 @@ import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Query;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,8 +37,11 @@ public class TaskRepository {
         new Thread(() -> taskDao.updateScdlEntity(tskId, tskExecDt, tskExecTm, updtDttm)).start();
     }
 
-    public void updtTskEntyTskCompDttm(String taskId, LocalDateTime taskCompleteDatetime) {
-        new Thread(() -> taskDao.updtTskEntyTskCompDttm(taskId, taskCompleteDatetime)).start();
+    public void updtTskEntyTskCompDttm(String taskId, LocalDateTime nowDateTime) {
+        new Thread(() -> taskDao.updtTskEntyTskCompDttm(taskId, nowDateTime)).start();
+    }
+    public void updtTskEntyTskCompDttmIsNull(String taskId, LocalDateTime nowDateTime) {
+        new Thread(() -> taskDao.updtTskEntyTskCompDttmIsNull(taskId, nowDateTime)).start();
     }
 
     public LiveData<List<ScdledTask4Desp>> getTsk4AllTsk() {

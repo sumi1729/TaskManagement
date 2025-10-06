@@ -8,7 +8,6 @@ import androidx.room.Query;
 import com.Taskmanagement.entity.ScdlEntity;
 import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
-import com.Taskmanagement.util.DbUtility;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -67,8 +66,10 @@ public interface TaskDao {
     @Query("UPDATE schedule_table SET tskExecDt = :tskExecDt, tskExecTm = :tskExecTm, updtDttm = :updtDttm WHERE tskId = :tskId")
     void updateScdlEntity(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm);
 
-    @Query("UPDATE task_table SET tskCompDttm = :tskCompDttm WHERE tskId = :tskId")
-    void updtTskEntyTskCompDttm(String tskId, LocalDateTime tskCompDttm);
+    @Query("UPDATE task_table SET tskCompDttm = :nowDateTime , updtDttm = :nowDateTime WHERE tskId = :tskId")
+    void updtTskEntyTskCompDttm(String tskId, LocalDateTime nowDateTime);
+    @Query("UPDATE task_table SET tskCompDttm = null, updtDttm = :nowDateTime WHERE tskId = :tskId")
+    void updtTskEntyTskCompDttmIsNull(String tskId, LocalDateTime nowDateTime);
 
     // DB操作内容確認用
 //    @Query("")

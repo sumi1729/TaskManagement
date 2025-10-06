@@ -1,11 +1,9 @@
 package com.Taskmanagement.viewModel;
 
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_HH_MM;
-import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_D;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_DD_HH_MM;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YY_MM_DD;
 import static com.Taskmanagement.util.CommonUtility.FIRST_LOOP;
-import static com.Taskmanagement.util.CommonUtility.OTHER;
 import static com.Taskmanagement.util.CommonUtility.ScreenId;
 import static com.Taskmanagement.util.CommonUtility.TAG;
 import static com.Taskmanagement.util.DbUtility.PRIORITY_NOT_SET_JP;
@@ -20,7 +18,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
-import androidx.room.Query;
 
 import com.Taskmanagement.R;
 import com.Taskmanagement.dto.ScdlFilterDto;
@@ -205,8 +202,11 @@ public class TaskViewModel extends AndroidViewModel {
         repository.updateScdlEntity(tskId, ldTskExecDt, ldTskExecTm, nowDttm);
     }
 
-    public void updtTskEntyTskCompDttm(String taskId, LocalDateTime taskCompleteDatetime) {
-        repository.updtTskEntyTskCompDttm(taskId, taskCompleteDatetime);
+    public void updtTskEntyTskCompDttm(String taskId, LocalDateTime nowDateTime) {
+        repository.updtTskEntyTskCompDttm(taskId, nowDateTime);
+    }
+    public void updtTskEntyTskCompDttmIsNull(String taskId, LocalDateTime nowDateTime) {
+        repository.updtTskEntyTskCompDttmIsNull(taskId, nowDateTime);
     }
 
 // ================================================================
