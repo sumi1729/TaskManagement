@@ -22,6 +22,7 @@ import com.Taskmanagement.entity.item.HeaderItem;
 import com.Taskmanagement.entity.item.ListItem;
 import com.Taskmanagement.util.CommonUtility;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -102,6 +103,11 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
                 default:
                     break;
+            }
+            //
+            if (task.tskExecDt != null && task.tskExecDt.isBefore(LocalDate.now())) {
+                // タスク実行日付が過去日である場合、タスクの背景を赤にする
+                ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#ff0000"));
             }
             ((TaskViewHolder) holder).task_time_1line.setText(task_time_1line);
             ((TaskViewHolder) holder).task_date_2lines.setText(task_date_2lines);
