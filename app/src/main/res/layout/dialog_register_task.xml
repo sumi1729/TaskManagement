@@ -49,17 +49,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
-            <Button
-                android:id="@+id/date_button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/register_task_dialog_fragment_select_date" />
-            <Button
-                android:id="@+id/time_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/register_task_dialog_fragment_select_time" />
-            <TextView android:text="4. 優先度"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/date_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textColor="?attr/colorDateTimeText"
+                    android:backgroundTint="?attr/colorDateTimeButton"
+                    android:text="@string/register_task_dialog_fragment_select_date" />
+                <Button
+                    android:id="@+id/time_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textColor="?attr/colorDateTimeText"
+                    android:backgroundTint="?attr/colorDateTimeButton"
+                    android:text="@string/register_task_dialog_fragment_select_time" />
+                <TextView
+                    android:text=""
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+                <Button
+                    android:id="@+id/clear_button"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/colorDateTimeText"
+                    android:backgroundTint="?attr/colorDateTimeButton"
+                    android:text="×" />
+            </LinearLayout>
+            <TextView
+                android:text="4. 優先度"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />

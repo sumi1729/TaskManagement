@@ -12,5 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorDateTimeButton">@color/gray_700</item>
+        <item name="colorDateTimeText">@color/gray_200</item>
     </style>
 </resources>

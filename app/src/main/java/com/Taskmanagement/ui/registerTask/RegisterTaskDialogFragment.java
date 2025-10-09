@@ -88,6 +88,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
         Spinner spinner = view.findViewById(R.id.spinner);
         Button dateButton = view.findViewById(R.id.date_button);
         Button timeButton = view.findViewById(R.id.time_button);
+        Button clearButton = view.findViewById(R.id.clear_button);
 
         // Spinner設定
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -126,6 +127,12 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             new TimePickerDialog(requireContext(), (view12, hourOfDay, minute) -> {
                 timeButton.setText(getStrTime(hourOfDay, minute));
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
+        });
+
+        // クリアボタン押下
+        clearButton.setOnClickListener(v -> {
+            dateButton.setText(R.string.register_task_dialog_fragment_select_date);
+            timeButton.setText(R.string.register_task_dialog_fragment_select_time);
         });
 
         // Snackbar設定
