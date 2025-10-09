@@ -104,7 +104,6 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 default:
                     break;
             }
-            //
             if (task.tskExecDt != null && task.tskExecDt.isBefore(LocalDate.now())) {
                 // タスク実行日付が過去日である場合、タスクの背景を赤にする
                 ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#ff0000"));

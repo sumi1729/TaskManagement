@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Taskmanagement.R;
 import com.Taskmanagement.adapter.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentDispTskBaseBinding;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
@@ -64,7 +65,18 @@ public class DispTskBaseFragment extends Fragment {
                     String taskId = ((ScdledTask4Desp) updateTarget).getTskId();
                     taskViewModel.updtTskEntyTskCompDttmIsNull(taskId, LocalDateTime.now());
                 }
+            }
 
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                int viewType = viewHolder.getItemViewType();
+
+                // タイトル項目のスワイプを無効にする
+                if (viewType == ListItem.TYPE_TASK) {
+                    return makeMovementFlags(0, ItemTouchHelper.RIGHT);
+                } else {
+                    return makeMovementFlags(0, 0); // スワイプ無効
+                }
             }
         };
 
@@ -86,6 +98,18 @@ public class DispTskBaseFragment extends Fragment {
                     adapter.removeItem(position);
                     String taskId = ((ScdledTask4Desp) deleteTarget).getTskId();
                     taskViewModel.updtTskEntyTskCompDttm(taskId, LocalDateTime.now());
+                }
+            }
+
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                int viewType = viewHolder.getItemViewType();
+
+                // タイトル項目のスワイプを無効にする
+                if (viewType == ListItem.TYPE_TASK) {
+                    return makeMovementFlags(0, ItemTouchHelper.LEFT);
+                } else {
+                    return makeMovementFlags(0, 0); // スワイプ無効
                 }
             }
         };
