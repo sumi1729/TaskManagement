@@ -178,7 +178,7 @@ public class TaskViewModel extends AndroidViewModel {
      * @param tskExecTm タスク実行時刻
      * @param nowDttm 現在日時
      */
-    public void updateScdlEntity(
+    public int updateScdlEntitySync(
             String tskId
             , String tskExecDt
             , String tskExecTm
@@ -191,7 +191,7 @@ public class TaskViewModel extends AndroidViewModel {
         } catch (DateTimeParseException e) {
             Log.e(TAG, "tskExecDt is not set.");
             updateSnackbarEventAsync("日時未定タスクとして登録します");
-            return;
+            return 0;
         }
         try {
             ldTskExecTm = LocalTime.parse(tskExecTm, DATE_TIME_FORMATTER_HH_MM);
@@ -199,7 +199,7 @@ public class TaskViewModel extends AndroidViewModel {
             ldTskExecTm = null;
             Log.e(TAG, "tskExecTm is not set.");
         }
-        repository.updateScdlEntity(tskId, ldTskExecDt, ldTskExecTm, nowDttm);
+        return repository.updateScdlEntitySync(tskId, ldTskExecDt, ldTskExecTm, nowDttm);
     }
 
     public void updtTskEntyTskCompDttm(String taskId, LocalDateTime nowDateTime) {

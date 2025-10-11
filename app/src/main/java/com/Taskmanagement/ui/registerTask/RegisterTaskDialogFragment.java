@@ -9,6 +9,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,10 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
+import com.Taskmanagement.MainActivity;
 import com.Taskmanagement.R;
+import com.Taskmanagement.dao.TaskDao;
+import com.Taskmanagement.database.AppDatabase;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.ListItem;
 import com.Taskmanagement.util.CommonUtility;
@@ -45,8 +50,12 @@ import java.util.UUID;
 public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
 
     private TaskViewModel viewModel;
+    TaskDao taskDao;
     private static final long CLICK_INTERVAL = 2000;
     private long lastClickTime = 0;
+
+    String tskExecDtStr;
+    String tskExecTmStr;
 
     private String tskId = null;
     private String tskNm = null;
@@ -160,19 +169,30 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             String tskCgryId = "dummy";
             String tskExecFrcyId = "dummy";
             String prty = spinner.getSelectedItem().toString();
-            String tskExecDt = dateButton.getText().toString();
-            String tskExecTm = timeButton.getText().toString();
+            tskExecDtStr = dateButton.getText().toString();
+            tskExecTmStr = timeButton.getText().toString();
 
             if (updateFlg) {
-                // タスクテーブル登録
+                // タスクテーブル更新
                 viewModel.updateTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty, nowDttm);
-                // スケジュールテーブル登録
-                viewModel.updateScdlEntity(tskId, tskExecDt, tskExecTm, nowDttm);
+
+                // DB更新件数によって処理分岐を行う必要があるため、Fragment側でThread#startによってDB操作実施
+                new Thread(() -> {
+                    // スケジュールテーブル更新
+                    if (viewModel.updateScdlEntitySync(tskId, tskExecDtStr, tskExecTmStr, LocalDateTime.now()) == 0) {
+                        // スケジュールテーブルにレコードがない場合、スケジュールテーブル登録
+                        viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, LocalDateTime.now());
+                    }
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        dismiss();
+                    });
+                }).start();
+                return;
             } else {
                 // タスクテーブル登録
                 viewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty ,null ,null, nowDttm);
                 // スケジュールテーブル登録
-                viewModel.insertScdlEntity(tskId, tskExecDt, tskExecTm, SCDL_STAT.NOT_DONE, nowDttm);
+                viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, nowDttm);
             }
             dismiss();
         });

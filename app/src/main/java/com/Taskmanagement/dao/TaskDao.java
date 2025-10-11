@@ -64,7 +64,7 @@ public interface TaskDao {
     void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskCgryId, String tskExecFrcyId, String prtyId, LocalDateTime updtDttm);
 
     @Query("UPDATE schedule_table SET tskExecDt = :tskExecDt, tskExecTm = :tskExecTm, updtDttm = :updtDttm WHERE tskId = :tskId")
-    void updateScdlEntity(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm);
+    int updateScdlEntity(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm);
 
     @Query("UPDATE task_table SET tskCompDttm = :nowDateTime , updtDttm = :nowDateTime WHERE tskId = :tskId")
     void updtTskEntyTskCompDttm(String tskId, LocalDateTime nowDateTime);

@@ -27,14 +27,14 @@ public class TaskRepository {
         new Thread(() -> taskDao.insert(task)).start();
     }
     public void insert(ScdlEntity task) {
-        new Thread(() -> taskDao.insert(task)).start();
+        taskDao.insert(task);
     }
 
     public void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskCgryId, String tskExecFrcyId, String prtyId, LocalDateTime updtDttm) {
         new Thread(() -> taskDao.updateTskEntity(tskId, tskNm, tskDtl, tskCgryId, tskExecFrcyId, prtyId, updtDttm)).start();
     }
-    public void updateScdlEntity(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm) {
-        new Thread(() -> taskDao.updateScdlEntity(tskId, tskExecDt, tskExecTm, updtDttm)).start();
+    public int updateScdlEntitySync(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm) {
+        return taskDao.updateScdlEntity(tskId, tskExecDt, tskExecTm, updtDttm);
     }
 
     public void updtTskEntyTskCompDttm(String taskId, LocalDateTime nowDateTime) {
