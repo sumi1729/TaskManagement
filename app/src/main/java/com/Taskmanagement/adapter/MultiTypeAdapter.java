@@ -72,45 +72,47 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } else if (holder instanceof TaskViewHolder) {
             ScdledTask4Desp task = (ScdledTask4Desp) item;
 
-            String task_time_1line = "";
-            String task_date_2lines = "";
-            String task_time_2lines = "";
+            String taskTime1Line = "";
+            String taskDate2Lines = "";
+            String taskTime2Lines = "";
+            ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#ffffff"));
+            ((TaskViewHolder) holder).task_time_1line.setVisibility(View.INVISIBLE);
+            ((TaskViewHolder) holder).task_datetime_2lines.setVisibility(View.INVISIBLE);
+
+            if (task.tskExecDt != null && task.tskExecDt.isBefore(LocalDate.now())) {
+                // タスク実行日付が過去日である場合、タスクの背景を赤にする
+                ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#ff0000"));
+            }
             switch (CommonUtility.getNowScreenId()) {
                 case ALL_TASK:
                     if (task.tskExecDt == null) {
                         // そのタスクがスケジュールされていない場合
-                        task_time_1line = DATE_TIME_MITEI;
-                        view.findViewById(R.id.task_time_1line).setVisibility(View.VISIBLE);
+                        taskTime1Line = DATE_TIME_MITEI;
+                        ((TaskViewHolder) holder).task_time_1line.setVisibility(View.VISIBLE);
                     } else {
                         // そのタスクがスケジュールされている場合
-                        task_date_2lines = task.tskExecDt.format(DATE_TIME_FORMATTER_YY_MM_DD);
-                        task_time_2lines = task.tskExecTm == null ? TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
-                        view.findViewById(R.id.task_datetime_2lines).setVisibility(View.VISIBLE);
+                        taskDate2Lines = task.tskExecDt.format(DATE_TIME_FORMATTER_YY_MM_DD);
+                        taskTime2Lines = task.tskExecTm == null ? TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
+                        ((TaskViewHolder) holder).task_datetime_2lines.setVisibility(View.VISIBLE);
                     }
                     break;
                 case SCHEDULE:
                     if (task.tskExecDt == null) {
                         // ここには入らない（先行処理ではじく）
                     } else {
-                        task_time_1line = task.tskExecTm == null ? TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
-                        view.findViewById(R.id.task_time_1line).setVisibility(View.VISIBLE);
+                        taskTime1Line = task.tskExecTm == null ? TIME_MITEI : task.tskExecTm.format(DATE_TIME_FORMATTER_HH_MM);
+                        ((TaskViewHolder) holder).task_time_1line.setVisibility(View.VISIBLE);
                         if (!CommonUtility.isNullOrEmpty(task.tskCompDttm)) {
                             ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#bbbbbb"));
-                        } else {
-                            ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         }
                     }
                     break;
                 default:
                     break;
             }
-            if (task.tskExecDt != null && task.tskExecDt.isBefore(LocalDate.now())) {
-                // タスク実行日付が過去日である場合、タスクの背景を赤にする
-                ((TaskViewHolder) holder).card_view.setCardBackgroundColor(Color.parseColor("#ff0000"));
-            }
-            ((TaskViewHolder) holder).task_time_1line.setText(task_time_1line);
-            ((TaskViewHolder) holder).task_date_2lines.setText(task_date_2lines);
-            ((TaskViewHolder) holder).task_time_2lines.setText(task_time_2lines);
+            ((TaskViewHolder) holder).task_time_1line.setText(taskTime1Line);
+            ((TaskViewHolder) holder).task_date_2lines.setText(taskDate2Lines);
+            ((TaskViewHolder) holder).task_time_2lines.setText(taskTime2Lines);
             ((TaskViewHolder) holder).taskTitle.setText(task.tskNm);
             ((TaskViewHolder) holder).taskDetail.setText(task.tskDtl);
             ((TaskViewHolder) holder).bind(item, listener);
@@ -125,7 +127,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-         return items.size();
+        return items.size();
     }
 
     public void removeItem(int position) {
@@ -146,11 +148,13 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
         TextView task_time_1line, task_date_2lines, task_time_2lines, taskTitle, taskDetail;
+        View task_datetime_2lines;
         CardView card_view;
 
         TaskViewHolder(View itemView) {
             super(itemView);
             task_time_1line = itemView.findViewById(R.id.task_time_1line);
+            task_datetime_2lines = itemView.findViewById(R.id.task_datetime_2lines);
             task_date_2lines = itemView.findViewById(R.id.task_date_2lines);
             task_time_2lines = itemView.findViewById(R.id.task_time_2lines);
             taskTitle = itemView.findViewById(R.id.task_title);
