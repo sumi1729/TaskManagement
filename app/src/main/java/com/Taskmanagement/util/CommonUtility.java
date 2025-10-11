@@ -1,5 +1,6 @@
 package com.Taskmanagement.util;
 
+import java.security.KeyStore;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +37,8 @@ public class CommonUtility {
     public static final String DATE_TIME_MITEI = "日時未定";
     public static final String TIME_MITEI = "時刻未定";
     public static final String DELIMITER_HYPHON = "-";
+    public static final boolean SYNC = true;
+    public static final boolean ASYNC = false;
 
     public static boolean isNullOrEmpty(String str) {
         if (str == null || "".equals(str)) {

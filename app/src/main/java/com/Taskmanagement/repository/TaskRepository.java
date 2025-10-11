@@ -27,6 +27,9 @@ public class TaskRepository {
         new Thread(() -> taskDao.insert(task)).start();
     }
     public void insert(ScdlEntity task) {
+        new Thread(() -> taskDao.insert(task)).start();
+    }
+    public void insertSync(ScdlEntity task) {
         taskDao.insert(task);
     }
 

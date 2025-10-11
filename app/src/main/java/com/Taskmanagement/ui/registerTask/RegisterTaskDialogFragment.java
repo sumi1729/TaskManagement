@@ -1,6 +1,8 @@
 package com.Taskmanagement.ui.registerTask;
 
+import static com.Taskmanagement.util.CommonUtility.ASYNC;
 import static com.Taskmanagement.util.CommonUtility.DELIMITER_HYPHON;
+import static com.Taskmanagement.util.CommonUtility.SYNC;
 import static com.Taskmanagement.util.CommonUtility.TAG;
 import static com.Taskmanagement.util.CommonUtility.getStrDate;
 import static com.Taskmanagement.util.CommonUtility.getStrTime;
@@ -179,9 +181,9 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
                 // DB更新件数によって処理分岐を行う必要があるため、Fragment側でThread#startによってDB操作実施
                 new Thread(() -> {
                     // スケジュールテーブル更新
-                    if (viewModel.updateScdlEntitySync(tskId, tskExecDtStr, tskExecTmStr, LocalDateTime.now()) == 0) {
+                    if (viewModel.updateScdlEntity(tskId, tskExecDtStr, tskExecTmStr, LocalDateTime.now(), SYNC) == 0) {
                         // スケジュールテーブルにレコードがない場合、スケジュールテーブル登録
-                        viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, LocalDateTime.now());
+                        viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, LocalDateTime.now(), SYNC);
                     }
                     new Handler(Looper.getMainLooper()).post(() -> {
                         dismiss();
@@ -192,7 +194,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
                 // タスクテーブル登録
                 viewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty ,null ,null, nowDttm);
                 // スケジュールテーブル登録
-                viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, nowDttm);
+                viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, nowDttm, ASYNC);
             }
             dismiss();
         });

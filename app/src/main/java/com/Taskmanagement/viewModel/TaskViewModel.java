@@ -111,6 +111,7 @@ public class TaskViewModel extends AndroidViewModel {
             , String tskExecTm
             , SCDL_STAT scdlStat
             , LocalDateTime nowDttm
+            , boolean isSync
     ) {
         LocalDate ldTskExecDt = null;
         LocalTime ldTskExecTm = null;
@@ -135,7 +136,11 @@ public class TaskViewModel extends AndroidViewModel {
                 , scdlStat.toString()
                 , nowDttm
                 , nowDttm);
-        repository.insert(entity);
+        if (isSync) {
+            repository.insertSync(entity);
+        } else {
+            repository.insert(entity);
+        }
     }
 
 // ================================================================
@@ -178,11 +183,12 @@ public class TaskViewModel extends AndroidViewModel {
      * @param tskExecTm タスク実行時刻
      * @param nowDttm 現在日時
      */
-    public int updateScdlEntitySync(
+    public int updateScdlEntity(
             String tskId
             , String tskExecDt
             , String tskExecTm
             , LocalDateTime nowDttm
+            , boolean isSync
     ) {
         LocalDate ldTskExecDt = null;
         LocalTime ldTskExecTm = null;
@@ -199,7 +205,11 @@ public class TaskViewModel extends AndroidViewModel {
             ldTskExecTm = null;
             Log.e(TAG, "tskExecTm is not set.");
         }
-        return repository.updateScdlEntitySync(tskId, ldTskExecDt, ldTskExecTm, nowDttm);
+        if (isSync) {
+            return repository.updateScdlEntitySync(tskId, ldTskExecDt, ldTskExecTm, nowDttm);
+        } else {
+            return 0; // TODO 必要になった際に実装
+        }
     }
 
     public void updtTskEntyTskCompDttm(String taskId, LocalDateTime nowDateTime) {
