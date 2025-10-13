@@ -1,4 +1,4 @@
-package com.Taskmanagement.ui.slideshow;
+package com.Taskmanagement.ui.completedTask;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.Taskmanagement.databinding.FragmentSlideshowBinding;
+import com.Taskmanagement.databinding.FragmentCompletedTaskBinding;
 
-public class SlideshowFragment extends Fragment {
+public class CompletedTaskFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentCompletedTaskBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        CompletedTaskViewModel completedTaskViewModel =
+                new ViewModelProvider(this).get(CompletedTaskViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentCompletedTaskBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textCompletedTask;
+        completedTaskViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
