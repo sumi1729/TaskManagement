@@ -34,4 +34,10 @@ public class KptHstryEntity {
 		this.rstrDttm = rstrDttm;
 		this.updtDttm = updtDttm;
 	}
+	public String getKptId() {
+		return kptId;
+	}
+	public void setSralNum(int sralNum) {
+		this.sralNum = sralNum;
+	}
 }

@@ -40,6 +40,7 @@ import com.Taskmanagement.R;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.ListItem;
 import com.Taskmanagement.util.CommonUtility;
+import com.Taskmanagement.viewModel.KptViewModel;
 import com.Taskmanagement.viewModel.TaskViewModel;
 import com.Taskmanagement.viewModel.TaskViewModelFactory;
 import com.Taskmanagement.util.DbUtility.SCDL_STAT;
@@ -52,14 +53,13 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
 
-    private TaskViewModel viewModel;
+    private TaskViewModel taskViewModel;
+    private KptViewModel kptViewModel;
     private static final long CLICK_INTERVAL = 2000;
     private long lastClickTime = 0;
     String inputFormatStr;
@@ -126,8 +126,8 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TaskViewModelFactory factory = new TaskViewModelFactory(requireActivity().getApplication());
-        viewModel = new ViewModelProvider(requireActivity(), factory).get(TaskViewModel.class);
-//        viewModel = new ViewModelProvider(requireActivity()).get(TaskViewModel.class);
+        taskViewModel = new ViewModelProvider(requireActivity(), factory).get(TaskViewModel.class);
+        kptViewModel = new ViewModelProvider(requireActivity()).get(KptViewModel.class);
         thisDialogView = view;
 
         // 入力フォーマット選択（共通）
@@ -386,27 +386,51 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             tskExecDtStr = dateButton.getText().toString();
             tskExecTmStr = timeButton.getText().toString();
 
-            if (updateFlg) {
-                // タスクテーブル更新
-                viewModel.updateTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty, nowDttm);
+            switch (inputFormatStr) {
+                case INPUT_FORMAT_SPINNER_TASK:
+                    if (updateFlg) {
+                        // タスクテーブル更新
+                        taskViewModel.updateTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty, nowDttm);
 
-                // DB更新件数によって処理分岐を行う必要があるため、Fragment側でThread#startによってDB操作実施
-                new Thread(() -> {
-                    // スケジュールテーブル更新
-                    if (viewModel.updateScdlEntity(tskId, tskExecDtStr, tskExecTmStr, LocalDateTime.now(), SYNC) == 0) {
-                        // スケジュールテーブルにレコードがない場合、スケジュールテーブル登録
-                        viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, LocalDateTime.now(), SYNC);
+                        // DB更新件数によって処理分岐を行う必要があるため、Fragment側でThread#startによってDB操作実施
+                        new Thread(() -> {
+                            // スケジュールテーブル更新
+                            if (taskViewModel.updateScdlEntity(tskId, tskExecDtStr, tskExecTmStr, LocalDateTime.now(), SYNC) == 0) {
+                                // スケジュールテーブルにレコードがない場合、スケジュールテーブル登録
+                                taskViewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, LocalDateTime.now(), SYNC);
+                            }
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                dismiss();
+                            });
+                        }).start();
+                        return;
+                    } else {
+                        // タスクテーブル登録
+                        taskViewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty ,null ,null, nowDttm);
+                        // スケジュールテーブル登録
+                        taskViewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, nowDttm, ASYNC);
                     }
-                    new Handler(Looper.getMainLooper()).post(() -> {
-                        dismiss();
-                    });
-                }).start();
-                return;
-            } else {
-                // タスクテーブル登録
-                viewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty ,null ,null, nowDttm);
-                // スケジュールテーブル登録
-                viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, nowDttm, ASYNC);
+                    break;
+                case INPUT_FORMAT_SPINNER_KPT:
+                    if (updateFlg) {
+                        // KPTテーブル更新
+
+                    } else {
+                        // KPTテーブル登録
+                        kptViewModel.insertKptEntity(tskId, tskNm, tskDtl, nowDttm);
+                        // KPT履歴テーブル登録
+                        String kptType = kptTypeSpinner.getSelectedItem().toString();
+                        kptViewModel.insertKptHstryEntity(tskId, kptType, nowDttm);
+                        // タグテーブル登録
+                        for (int i = 0; i <= tagCardContainer.getChildCount(); i++) {
+                            View cardView = tagCardContainer.getChildAt(i);
+                            TextView textCard = cardView.findViewById(R.id.textCard);
+                            String text = textCard.getText().toString();
+                            kptViewModel.insertTagEntity(tskId, text, nowDttm);
+                        }
+//                        kptViewModel.insertKptLinkEntity("", "", nowDttm); TODO 後日実装
+                    }
+                    break;
             }
             dismiss();
         });
@@ -414,7 +438,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
 
     private void setObserver(View view) {
         // Snackbar設定
-        viewModel.getSnackbarEvent().observe(getViewLifecycleOwner(), message -> {
+        taskViewModel.getSnackbarEvent().observe(getViewLifecycleOwner(), message -> {
             Log.d(TAG, "snackbar");
             Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
         });
