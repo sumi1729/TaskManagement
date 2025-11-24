@@ -10,10 +10,12 @@
     app:cardBackgroundColor="#ffffff"
     app:cardCornerRadius="8dp">
     <LinearLayout
+        android:id="@+id/task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:visibility="visible">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -59,6 +61,7 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/registerTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

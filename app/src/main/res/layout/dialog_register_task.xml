@@ -11,93 +11,227 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
-            <TextView android:text="1. タスク名"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/input_task_name"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:minHeight="48dp"
-                android:padding="12dp"
-                android:inputType="text"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:hint="タスク名を入力" />
-        <!--        focusableとfocusableInTouchModeは後から追記。2.タスク詳細には記載していないため、必要であれば転記要-->
-            <TextView android:text="2. タスク詳細"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
-            <EditText
-                android:id="@+id/input_task_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:padding="12dp"
-                android:inputType="textMultiLine"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:hint="タスク詳細を入力"
-                android:lines="5"
-                android:maxLines="5"
-                android:gravity="top|start"
-                android:scrollbars="vertical"
-                android:overScrollMode="always"
-                />
-            <TextView android:text="3. タスク実施予定日"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
             <LinearLayout
+                android:id="@+id/layout_input_format_select_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/date_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:textColor="?attr/colorDateTimeText"
-                    android:backgroundTint="?attr/colorDateTimeButton"
-                    android:text="@string/register_task_dialog_fragment_select_date" />
-                <Button
-                    android:id="@+id/time_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:textColor="?attr/colorDateTimeText"
-                    android:backgroundTint="?attr/colorDateTimeButton"
-                    android:text="@string/register_task_dialog_fragment_select_time" />
-                <TextView
-                    android:text=""
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp" />
-                <Button
-                    android:id="@+id/clear_button"
-                    android:layout_width="55dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/colorDateTimeText"
-                    android:backgroundTint="?attr/colorDateTimeButton"
-                    android:text="×" />
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="visible">
+                <Spinner
+                    android:id="@+id/input_format_select_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_input_field_rounded"
+                    android:popupBackground="@drawable/bg_input_field_rounded" />
             </LinearLayout>
-            <TextView
-                android:text="4. 優先度"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
-            <Spinner
-                android:id="@+id/spinner"
+            <LinearLayout
+                android:id="@+id/layout_kpt_type"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:minHeight="48dp"
-                android:layout_marginTop="16dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="visible">
+                <TextView
+                    android:text="KPT区分"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/kpt_type_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_input_field_rounded"
+                    android:popupBackground="@drawable/bg_input_field_rounded" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_input_task_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="visible">
+                <TextView
+                    android:text="タイトル"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/input_task_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:inputType="text"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="--タイトルを入力--"
+                    android:background="@drawable/bg_input_field_rounded" />
+            </LinearLayout>
+            <!--        focusableとfocusableInTouchModeは後から追記。2.タスク詳細には記載していないため、必要であれば転記要-->
+            <LinearLayout
+                android:id="@+id/layout_input_task_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="visible">
+                <TextView
+                    android:text="詳細"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/input_task_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:inputType="textMultiLine"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="--詳細を入力--"
+                    android:maxLines="5"
+                    android:scrollbars="vertical"
+                    android:overScrollMode="always"
+                    android:background="@drawable/bg_input_field_rounded" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="visible">
+                <TextView
+                    android:text="タスク実施予定日"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/date_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="@string/register_task_dialog_fragment_select_date"
+                        android:background="@drawable/bg_input_field_rounded" />
+                    <Button
+                        android:id="@+id/time_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="@string/register_task_dialog_fragment_select_time"
+                        android:background="@drawable/bg_input_field_rounded" />
+<!--                    android:textColor="?attr/colorDateTimeText"-->
+<!--                    android:backgroundTint="?attr/colorDateTimeButton"-->
+                    <Button
+                        android:id="@+id/clear_button"
+                        android:layout_width="55dp"
+                        android:layout_height="wrap_content"
+                        android:text="×"
+                        android:background="@drawable/bg_input_field_rounded" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_priority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="visible">
+                <TextView
+                    android:text="優先度"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/priority_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_input_field_rounded"
+                    android:popupBackground="@drawable/bg_input_field_rounded" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="visible">
+                <TextView
+                    android:text="タグ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Spinner
+                        android:id="@+id/tag_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="7"
+                        android:background="@drawable/bg_input_field_rounded"
+                        android:popupBackground="@drawable/bg_input_field_rounded" />
+                    <Button
+                        android:id="@+id/tag_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="設定"
+                        android:background="@drawable/bg_input_field_rounded" />
+                </LinearLayout>
+                <!-- カードを表示する領域 -->
+                <LinearLayout
+                    android:id="@+id/tag_card_container"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_kpt_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="visible">
+                <TextView
+                    android:text="Tとの紐づけ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Spinner
+                        android:id="@+id/kpt_link_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="7"
+                        android:background="@drawable/bg_input_field_rounded"
+                        android:popupBackground="@drawable/bg_input_field_rounded" />
+                    <Button
+                        android:id="@+id/kpt_link_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="設定"
+                        android:background="@drawable/bg_input_field_rounded" />
+                </LinearLayout>
+                <!-- カードを表示する領域 -->
+                <LinearLayout
+                    android:id="@+id/kpt_link_card_container"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"  />
+            </LinearLayout>
+
             <Button
                 android:id="@+id/submit_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="送信" />
+                android:layout_height="48dp"
+                android:text="登録"
+                android:visibility="visible" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -24,6 +24,12 @@
         tools:layout="@layout/fragment_completed_task" />
 
     <fragment
+        android:id="@+id/nav_kpt"
+        android:name="com.Taskmanagement.ui.kpt.KptFragment"
+        android:label="@string/menu_kpt"
+        tools:layout="@layout/fragment_completed_task" />
+
+    <fragment
         android:id="@+id/taskRegisterDialogFragment"
         android:name="com.Taskmanagement.ui.registerTask.RegisterTaskDialogFragment"
         android:label="タスク登録"

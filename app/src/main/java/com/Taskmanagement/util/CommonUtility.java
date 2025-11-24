@@ -1,9 +1,9 @@
 package com.Taskmanagement.util;
 
-import java.security.KeyStore;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class CommonUtility {
 
@@ -20,7 +20,8 @@ public class CommonUtility {
     // 画面ID
     public enum ScreenId {
         ALL_TASK,
-        SCHEDULE
+        SCHEDULE,
+        KPT
     }
     private static ScreenId nowScreenId = null;
     public static ScreenId getNowScreenId() {
@@ -39,6 +40,30 @@ public class CommonUtility {
     public static final String DELIMITER_HYPHON = "-";
     public static final boolean SYNC = true;
     public static final boolean ASYNC = false;
+
+    public static final String TASK = "タスク";
+    public static final String KPT = "KPT";
+
+    public static final List<String> INPUT_FORMAT_LIST = List.of(
+            TASK,
+            KPT
+    );
+    public static final List<String> KPT_TYPE_LIST = List.of(
+            "Keep",
+            "Problem",
+            "Try"
+    );
+    public static final List<String> PRIORITY_LIST = List.of(
+            "設定なし",
+            "低",
+            "中",
+            "高"
+    );
+    public static final List<String> TAG_LIST = List.of(
+            "仕事",
+            "転職",
+            "私生活"
+    );
 
     public static boolean isNullOrEmpty(String str) {
         if (str == null || "".equals(str)) {
