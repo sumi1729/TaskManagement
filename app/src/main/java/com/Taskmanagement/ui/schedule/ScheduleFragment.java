@@ -1,7 +1,7 @@
 package com.Taskmanagement.ui.schedule;
 
-import static com.Taskmanagement.util.CommonUtility.DELIMITER_HYPHON;
 import static com.Taskmanagement.util.CommonUtility.TAG;
+import static com.Taskmanagement.util.DisplayConst.DELIMITER_HYPHON;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;

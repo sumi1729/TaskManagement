@@ -2,9 +2,9 @@ package com.Taskmanagement.adapter;
 
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_HH_MM;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YY_MM_DD;
-import static com.Taskmanagement.util.CommonUtility.DATE_TIME_MITEI;
 import static com.Taskmanagement.util.CommonUtility.TAG;
-import static com.Taskmanagement.util.CommonUtility.TIME_MITEI;
+import static com.Taskmanagement.util.DisplayConst.DATE_TIME_MITEI;
+import static com.Taskmanagement.util.DisplayConst.TIME_MITEI;
 
 import android.graphics.Color;
 import android.util.Log;

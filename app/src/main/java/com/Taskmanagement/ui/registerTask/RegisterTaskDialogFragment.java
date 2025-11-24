@@ -1,17 +1,17 @@
 package com.Taskmanagement.ui.registerTask;
 
 import static com.Taskmanagement.util.CommonUtility.ASYNC;
-import static com.Taskmanagement.util.CommonUtility.DELIMITER_HYPHON;
-import static com.Taskmanagement.util.CommonUtility.INPUT_FORMAT_LIST;
-import static com.Taskmanagement.util.CommonUtility.KPT;
-import static com.Taskmanagement.util.CommonUtility.KPT_TYPE_LIST;
-import static com.Taskmanagement.util.CommonUtility.PRIORITY_LIST;
 import static com.Taskmanagement.util.CommonUtility.SYNC;
 import static com.Taskmanagement.util.CommonUtility.TAG;
-import static com.Taskmanagement.util.CommonUtility.TAG_LIST;
-import static com.Taskmanagement.util.CommonUtility.TASK;
 import static com.Taskmanagement.util.CommonUtility.getStrDate;
 import static com.Taskmanagement.util.CommonUtility.getStrTime;
+import static com.Taskmanagement.util.DisplayConst.DELIMITER_HYPHON;
+import static com.Taskmanagement.util.DisplayConst.INPUT_FORMAT_LIST;
+import static com.Taskmanagement.util.DisplayConst.INPUT_FORMAT_SPINNER_KPT;
+import static com.Taskmanagement.util.DisplayConst.INPUT_FORMAT_SPINNER_TASK;
+import static com.Taskmanagement.util.DisplayConst.KPT_TYPE_LIST;
+import static com.Taskmanagement.util.DisplayConst.PRIORITY_LIST;
+import static com.Taskmanagement.util.DisplayConst.TAG_LIST;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -210,7 +210,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
 
         inputFormatStr = inputFormatSelectSpinner.getSelectedItem().toString();
         switch (inputFormatStr) {
-            case TASK:
+            case INPUT_FORMAT_SPINNER_TASK:
                 layoutKptType.setVisibility(View.GONE);
                 layoutInputTaskName.setVisibility(View.VISIBLE);
                 layoutInputTaskDetail.setVisibility(View.VISIBLE);
@@ -219,7 +219,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
                 layoutTag.setVisibility(View.GONE);
                 layoutKptLink.setVisibility(View.GONE);
                 break;
-            case KPT:
+            case INPUT_FORMAT_SPINNER_KPT:
                 layoutKptType.setVisibility(View.VISIBLE);
                 layoutInputTaskName.setVisibility(View.VISIBLE);
                 layoutInputTaskDetail.setVisibility(View.VISIBLE);
