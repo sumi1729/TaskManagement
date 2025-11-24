@@ -360,6 +360,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
 
                 // コンテナに追加
                 cardContainer.addView(cardView);
+                cardContainer.setVisibility(View.VISIBLE);
             }
         });
     }
