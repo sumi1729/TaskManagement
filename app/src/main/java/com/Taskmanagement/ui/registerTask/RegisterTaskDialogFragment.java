@@ -37,6 +37,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.Taskmanagement.R;
+import com.Taskmanagement.database.DbExecutor;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.ListItem;
 import com.Taskmanagement.util.CommonUtility;
@@ -393,7 +394,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
                         taskViewModel.updateTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty, nowDttm);
 
                         // DB更新件数によって処理分岐を行う必要があるため、Fragment側でThread#startによってDB操作実施
-                        new Thread(() -> {
+                        DbExecutor.execute(() -> {
                             // スケジュールテーブル更新
                             if (taskViewModel.updateScdlEntity(tskId, tskExecDtStr, tskExecTmStr, LocalDateTime.now(), SYNC) == 0) {
                                 // スケジュールテーブルにレコードがない場合、スケジュールテーブル登録
@@ -402,7 +403,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
                             new Handler(Looper.getMainLooper()).post(() -> {
                                 dismiss();
                             });
-                        }).start();
+                        });
                         return;
                     } else {
                         // タスクテーブル登録

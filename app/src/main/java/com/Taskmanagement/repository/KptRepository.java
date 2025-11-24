@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.Taskmanagement.dao.KptDao;
 import com.Taskmanagement.database.AppDatabase;
+import com.Taskmanagement.database.DbExecutor;
 import com.Taskmanagement.entity.KptEntity;
 import com.Taskmanagement.entity.KptHstryEntity;
 import com.Taskmanagement.entity.KptLinkEntity;
@@ -17,16 +18,16 @@ public class KptRepository {
         kptDao = db.kptDao();
     }
     public void insert(KptEntity task) {
-        new Thread(() -> kptDao.insert(task)).start();
+        DbExecutor.execute(() -> kptDao.insert(task));
     }
     public void insertWithSequence(KptHstryEntity task) {
-        new Thread(() -> kptDao.insertWithSequence(task)).start();
+        DbExecutor.execute(() -> kptDao.insertWithSequence(task));
     }
     public void insert(KptLinkEntity task) {
-        new Thread(() -> kptDao.insert(task)).start();
+        DbExecutor.execute(() -> kptDao.insert(task));
     }
     public void insert(TagEntity task) {
-        new Thread(() -> kptDao.insert(task)).start();
+        DbExecutor.execute(() -> kptDao.insert(task));
     }
     public KptEntity getAaa() {
         return kptDao.getAaa();

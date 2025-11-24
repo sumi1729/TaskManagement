@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.Taskmanagement.dao.TaskDao;
 import com.Taskmanagement.database.AppDatabase;
+import com.Taskmanagement.database.DbExecutor;
 import com.Taskmanagement.entity.ScdlEntity;
 import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
@@ -24,27 +25,27 @@ public class TaskRepository {
     }
 
     public void insert(TskEntity task) {
-        new Thread(() -> taskDao.insert(task)).start();
+        DbExecutor.execute(() -> taskDao.insert(task));
     }
     public void insert(ScdlEntity task) {
-        new Thread(() -> taskDao.insert(task)).start();
+        DbExecutor.execute(() -> taskDao.insert(task));
     }
     public void insertSync(ScdlEntity task) {
         taskDao.insert(task);
     }
 
     public void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskCgryId, String tskExecFrcyId, String prtyId, LocalDateTime updtDttm) {
-        new Thread(() -> taskDao.updateTskEntity(tskId, tskNm, tskDtl, tskCgryId, tskExecFrcyId, prtyId, updtDttm)).start();
+        DbExecutor.execute(() -> taskDao.updateTskEntity(tskId, tskNm, tskDtl, tskCgryId, tskExecFrcyId, prtyId, updtDttm));
     }
     public int updateScdlEntitySync(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm) {
         return taskDao.updateScdlEntity(tskId, tskExecDt, tskExecTm, updtDttm);
     }
 
     public void updtTskEntyTskCompDttm(String taskId, LocalDateTime nowDateTime) {
-        new Thread(() -> taskDao.updtTskEntyTskCompDttm(taskId, nowDateTime)).start();
+        DbExecutor.execute(() -> taskDao.updtTskEntyTskCompDttm(taskId, nowDateTime));
     }
     public void updtTskEntyTskCompDttmIsNull(String taskId, LocalDateTime nowDateTime) {
-        new Thread(() -> taskDao.updtTskEntyTskCompDttmIsNull(taskId, nowDateTime)).start();
+        DbExecutor.execute(() -> taskDao.updtTskEntyTskCompDttmIsNull(taskId, nowDateTime));
     }
 
     public LiveData<List<ScdledTask4Desp>> getTsk4AllTsk() {
