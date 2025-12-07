@@ -14,9 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.Taskmanagement.R;
 import com.Taskmanagement.ui.base.DispTskBaseFragment;
+import com.Taskmanagement.ui.base.DispTskBaseViewModel;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.CommonUtility.ScreenId;
-import com.Taskmanagement.viewModel.TaskViewModel;
 
 import javax.annotation.Nullable;
 
@@ -24,11 +24,11 @@ public class AllTaskFragment extends DispTskBaseFragment {
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        taskViewModel = new ViewModelProvider(requireActivity()).get(TaskViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(DispTskBaseViewModel.class);
         CommonUtility.setNowScreenId(ScreenId.ALL_TASK);
 
         // DB更新あり　かつ　未割当タスクのみ表示
-        taskViewModel.getUnasinedTsk4AllTsk().observe(getViewLifecycleOwner(), tasks -> {
+        viewModel.getUnasinedTsk4AllTsk().observe(getViewLifecycleOwner(), tasks -> {
             unasinedTsks = tasks;
             if (!isAllTsk) {
                 setDispItems(tasks);
@@ -37,7 +37,7 @@ public class AllTaskFragment extends DispTskBaseFragment {
 //            taskViewModel.dbOpeTest();
         });
         // DB更新あり　かつ　全タスク表示
-        taskViewModel.getTsk4AllTsk().observe(getViewLifecycleOwner(), tasks -> {
+        viewModel.getTsk4AllTsk().observe(getViewLifecycleOwner(), tasks -> {
             allTsks = tasks;
             if (isAllTsk) {
                 setDispItems(tasks);
@@ -45,7 +45,7 @@ public class AllTaskFragment extends DispTskBaseFragment {
             Log.d(TAG, "DB contains " + tasks.size() + " tasks");
         });
         // DB更新なし
-        taskViewModel.getDispTsk4AllTsk().observe(getViewLifecycleOwner(), tasks -> {
+        viewModel.getDispTsk4AllTsk().observe(getViewLifecycleOwner(), tasks -> {
             Log.d(TAG, "DB contains " + tasks.size() + " tasks");
             setDispItems(tasks);
         });
@@ -53,7 +53,7 @@ public class AllTaskFragment extends DispTskBaseFragment {
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view = taskViewModel.toggleButtonVisibility4DispTskBase(view);
+        view = viewModel.toggleButtonVisibility4DispTskBase(view);
         super.onViewCreated(view, savedInstanceState);
 
         // トグル
@@ -62,11 +62,11 @@ public class AllTaskFragment extends DispTskBaseFragment {
             if (isChecked) {
                 // ONのときの処理
                 isAllTsk = false;
-                taskViewModel.updateTsk4AllTskAsync(unasinedTsks);
+                viewModel.updateTsk4AllTskAsync(unasinedTsks);
             } else {
                 // OFFのときの処理
                 isAllTsk = true;
-                taskViewModel.updateTsk4AllTskAsync(allTsks);
+                viewModel.updateTsk4AllTskAsync(allTsks);
             }
         });
     }

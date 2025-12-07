@@ -1,4 +1,4 @@
-package com.Taskmanagement.viewModel;
+package com.Taskmanagement.ui.base;
 
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_HH_MM;
 import static com.Taskmanagement.util.CommonUtility.DATE_TIME_FORMATTER_YYYY_M_DD_HH_MM;
@@ -39,10 +39,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TaskViewModel extends AndroidViewModel {
+public class DispTskBaseViewModel extends AndroidViewModel {
     private final TaskRepository repository;
 
-    public TaskViewModel(@NonNull Application application) {
+    public DispTskBaseViewModel(@NonNull Application application) {
         super(application);
         repository = new TaskRepository(application);
     }

@@ -11,14 +11,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Taskmanagement.R;
 import com.Taskmanagement.adapter.MultiTypeAdapter;
 import com.Taskmanagement.databinding.FragmentDispTskBaseBinding;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
 import com.Taskmanagement.entity.item.ListItem;
 import com.Taskmanagement.ui.registerTask.RegisterTaskDialogFragment;
 import com.Taskmanagement.util.CommonUtility;
-import com.Taskmanagement.viewModel.TaskViewModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,7 +28,7 @@ import javax.annotation.Nullable;
 public class DispTskBaseFragment extends Fragment {
 
     protected FragmentDispTskBaseBinding binding;
-    protected TaskViewModel taskViewModel;
+    protected DispTskBaseViewModel viewModel;
     protected MultiTypeAdapter adapter;
     protected List<ListItem> displayList;
 
@@ -63,7 +61,7 @@ public class DispTskBaseFragment extends Fragment {
                 ListItem updateTarget = displayList.get(position);
                 if (updateTarget instanceof ScdledTask4Desp) {
                     String taskId = ((ScdledTask4Desp) updateTarget).getTskId();
-                    taskViewModel.updtTskEntyTskCompDttmIsNull(taskId, LocalDateTime.now());
+                    viewModel.updtTskEntyTskCompDttmIsNull(taskId, LocalDateTime.now());
                 }
             }
 
@@ -97,7 +95,7 @@ public class DispTskBaseFragment extends Fragment {
                 if (deleteTarget instanceof ScdledTask4Desp) {
                     adapter.removeItem(position);
                     String taskId = ((ScdledTask4Desp) deleteTarget).getTskId();
-                    taskViewModel.updtTskEntyTskCompDttm(taskId, LocalDateTime.now());
+                    viewModel.updtTskEntyTskCompDttm(taskId, LocalDateTime.now());
                 }
             }
 
@@ -151,7 +149,7 @@ public class DispTskBaseFragment extends Fragment {
      * @return 表示リスト
      */
     public void setDispItems(List<ScdledTask4Desp> tasks) {
-        displayList = taskViewModel.createDisplayList(tasks, CommonUtility.getNowScreenId());
+        displayList = viewModel.createDisplayList(tasks, CommonUtility.getNowScreenId());
         adapter.setItems(displayList);
     }
 }

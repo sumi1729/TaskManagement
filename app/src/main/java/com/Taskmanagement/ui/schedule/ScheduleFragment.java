@@ -20,9 +20,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.Taskmanagement.R;
 import com.Taskmanagement.dto.ScdlFilterDto;
 import com.Taskmanagement.ui.base.DispTskBaseFragment;
+import com.Taskmanagement.ui.base.DispTskBaseViewModel;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.CommonUtility.ScreenId;
-import com.Taskmanagement.viewModel.TaskViewModel;
 
 import java.time.LocalDate;
 
@@ -32,34 +32,34 @@ public class ScheduleFragment extends DispTskBaseFragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DispTskBaseViewModel.class);
         nowDate = LocalDate.now();
         targetDate = nowDate;
         CommonUtility.setNowScreenId(ScreenId.SCHEDULE);
 
         // DB更新あり
-        taskViewModel.getAllTsk4ScdlRtnLiveData().observe(getViewLifecycleOwner(), tasks -> {
+        viewModel.getAllTsk4ScdlRtnLiveData().observe(getViewLifecycleOwner(), tasks -> {
             // 日付変更を伴う場合
             scdlFilterDto.setScdlFilter(targetDate, isAllTsk);
-            taskViewModel.setScdlFilter(scdlFilterDto);
+            viewModel.setScdlFilter(scdlFilterDto);
         });
         // DB更新なし
         // ・カレンダーで日付指定しての全タスク／当日未完了タスク表示
-        taskViewModel.getDispTsk4ScdlRtnLiveData().observe(getViewLifecycleOwner(), tasks -> {
+        viewModel.getDispTsk4ScdlRtnLiveData().observe(getViewLifecycleOwner(), tasks -> {
             setDispItems(tasks);
             Log.d(TAG, "DB contains " + tasks.size() + " tasks");
         });
         // DB更新なし
         // ・トグル切り替え後のタスク表示
-        taskViewModel.getIsAllTsk().observe(getViewLifecycleOwner(), tasks -> {
+        viewModel.getIsAllTsk().observe(getViewLifecycleOwner(), tasks -> {
             scdlFilterDto.setScdlFilter(targetDate, isAllTsk);
-            taskViewModel.setScdlFilter(scdlFilterDto);
+            viewModel.setScdlFilter(scdlFilterDto);
         });
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view = taskViewModel.toggleButtonVisibility4DispTskBase(view);
+        view = viewModel.toggleButtonVisibility4DispTskBase(view);
         super.onViewCreated(view, savedInstanceState);
 
         TextView targetDateText = view.findViewById(R.id.schedule_target_date);
@@ -76,7 +76,7 @@ public class ScheduleFragment extends DispTskBaseFragment {
                 targetDate = LocalDate.of(year, month + 1, dayOfMonth);
 
                 scdlFilterDto.setScdlFilter(targetDate, isAllTsk);
-                taskViewModel.setScdlFilter(scdlFilterDto);
+                viewModel.setScdlFilter(scdlFilterDto);
             }, targetDate.getYear(), targetDate.getMonthValue() - 1, targetDate.getDayOfMonth()).show(); // カレンダー初期表示
         });
         // トグル
@@ -90,7 +90,7 @@ public class ScheduleFragment extends DispTskBaseFragment {
                 // OFFのときの処理
                 isAllTsk = true;
             }
-            taskViewModel.updateIsAllTsk(isAllTsk);
+            viewModel.updateIsAllTsk(isAllTsk);
         });
     }
 
