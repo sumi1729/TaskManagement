@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 <!--    tools:context=".ui.base.DispTskBaseFragment"-->
 
+    <!--AllTask画面-->
     <Switch
         android:id="@+id/all_task_switch_toggle"
         android:layout_width="wrap_content"
@@ -29,6 +30,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/all_task_switch_toggle"
         android:visibility="invisible" />
+
+    <!--Schedule画面-->
     <TextView
         android:id="@+id/schedule_target_date"
         android:layout_width="wrap_content"
@@ -41,7 +44,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
         android:visibility="invisible" />
-
     <Button
         android:id="@+id/schedule_calender_button"
         android:layout_width="wrap_content"
@@ -76,6 +78,24 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="8dp"
         android:visibility="invisible" />
+
+    <!--KPT画面-->
+    <Spinner
+        android:id="@+id/kpt_tag_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible" />
+<!--    <Spinner-->
+<!--        android:id="@+id/kpt_type_spinner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:background="@drawable/bg_input_field_rounded"-->
+<!--        android:popupBackground="@drawable/bg_input_field_rounded" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

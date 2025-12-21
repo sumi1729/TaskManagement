@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.Taskmanagement.R;
 import com.Taskmanagement.dto.ScdlFilterDto;
 import com.Taskmanagement.ui.base.DispTskBaseFragment;
-import com.Taskmanagement.ui.base.DispTskBaseViewModel;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.CommonUtility.ScreenId;
 
@@ -29,10 +28,11 @@ import java.time.LocalDate;
 public class ScheduleFragment extends DispTskBaseFragment {
 
     private ScdlFilterDto scdlFilterDto = new ScdlFilterDto();
+    private ScheduleViewModel viewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(this).get(DispTskBaseViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ScheduleViewModel.class);
         nowDate = LocalDate.now();
         targetDate = nowDate;
         CommonUtility.setNowScreenId(ScreenId.SCHEDULE);

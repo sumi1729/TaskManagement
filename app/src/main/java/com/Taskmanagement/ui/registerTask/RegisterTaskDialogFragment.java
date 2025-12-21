@@ -58,7 +58,7 @@ import java.util.UUID;
 
 public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
 
-    private DispTskBaseViewModel viewModel;
+    private RegisterTaskDialogViewModel viewModel;
     private KptViewModel kptViewModel;
     private static final long CLICK_INTERVAL = 2000;
     private long lastClickTime = 0;
@@ -125,7 +125,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(DispTskBaseViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(RegisterTaskDialogViewModel.class);
         kptViewModel = new ViewModelProvider(requireActivity()).get(KptViewModel.class);
         thisDialogView = view;
 

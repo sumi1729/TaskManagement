@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +46,7 @@ public class DispTskBaseFragment extends Fragment {
         binding = FragmentDispTskBaseBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         adapter = new MultiTypeAdapter(new ArrayList<ListItem>());
+        viewModel = new ViewModelProvider(this).get(DispTskBaseViewModel.class);
 
         // 右スワイプ時の処理
         ItemTouchHelper.SimpleCallback simpleCallbackRight = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {

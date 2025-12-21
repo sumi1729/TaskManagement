@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.Taskmanagement.R;
 import com.Taskmanagement.ui.base.DispTskBaseFragment;
-import com.Taskmanagement.ui.base.DispTskBaseViewModel;
 import com.Taskmanagement.util.CommonUtility;
 import com.Taskmanagement.util.CommonUtility.ScreenId;
 
 import javax.annotation.Nullable;
 
 public class AllTaskFragment extends DispTskBaseFragment {
+    private AllTaskViewModel viewModel;
 
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(requireActivity()).get(DispTskBaseViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(AllTaskViewModel.class);
         CommonUtility.setNowScreenId(ScreenId.ALL_TASK);
 
         // DB更新あり　かつ　未割当タスクのみ表示
