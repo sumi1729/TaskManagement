@@ -38,4 +38,34 @@ public class DbMigrationConst {
                     "    updtDttm TEXT," +
                     "    PRIMARY KEY (tskKptId, tagId)" +
                     ");";
+
+    // 新レイアウトのtask_tableテーブルを作成
+    public static final String MIGRATION_2_3_CREATE_new_task_table =
+            "CREATE TABLE new_task_table (" +
+                    "    tskId TEXT NOT NULL," +
+                    "    tskNm TEXT," +
+                    "    tskDtl TEXT," +
+                    "    tskExecFrcyId TEXT," +
+                    "    prtyId TEXT," +
+                    "    tskCompDttm TEXT," +
+                    "    reviewCgryId TEXT," +
+                    "    reviewComment TEXT," +
+                    "    rstrDttm TEXT," +
+                    "    updtDttm TEXT," +
+                    "    PRIMARY KEY(tskId)" +
+                    ");";
+    // 必要なカラムだけコピー
+    public static final String MIGRATION_2_3_COPY_DATA_task_table_TO_new_task_table =
+            "INSERT INTO new_task_table (" +
+                    "tskId, tskNm, tskDtl, tskExecFrcyId, prtyId, tskCompDttm, rstrDttm, updtDttm " +
+                    ") " +
+                    "SELECT " +
+                    "tskId, tskNm, tskDtl, tskExecFrcyId, prtyId, tskCompDttm, rstrDttm, updtDttm " +
+                    "FROM task_table;";
+    // 旧レイアウトのテーブルを削除
+    public static final String MIGRATION_2_3_DROP_TABLE_task_table =
+            "DROP TABLE task_table;";
+    // 新レイアウトのテーブルをリネーム
+    public static final String MIGRATION_2_3_RENAME_new_task_table_TO_task_table =
+            "ALTER TABLE new_task_table RENAME TO task_table;";
 }

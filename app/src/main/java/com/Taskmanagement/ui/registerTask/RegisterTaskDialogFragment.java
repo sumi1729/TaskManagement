@@ -379,7 +379,8 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
             String tskId = updateFlg ? this.tskId : UUID.randomUUID().toString();
             String tskNm = taskNameInput.getText().toString();
             String tskDtl = taskDetailInput.getText().toString();
-            String tskCgryId = "dummy";
+            String reviewCgryId = "dummy";
+            String reviewComment = "dummy";
             String tskExecFrcyId = "dummy";
             String prty = prtySpinner.getSelectedItem().toString();
             tskExecDtStr = dateButton.getText().toString();
@@ -389,7 +390,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
                 case INPUT_FORMAT_SPINNER_TASK:
                     if (updateFlg) {
                         // タスクテーブル更新
-                        viewModel.updateTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty, nowDttm);
+                        viewModel.updateTskEntity(tskId, tskNm ,tskDtl ,tskExecFrcyId, prty, reviewCgryId, reviewComment, nowDttm);
 
                         // DB更新件数によって処理分岐を行う必要があるため、Fragment側でThread#startによってDB操作実施
                         DbExecutor.execute(() -> {
@@ -405,7 +406,7 @@ public class RegisterTaskDialogFragment extends BottomSheetDialogFragment {
                         return;
                     } else {
                         // タスクテーブル登録
-                        viewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskCgryId, tskExecFrcyId, prty ,null ,null, nowDttm);
+                        viewModel.insertTskEntity(tskId, tskNm ,tskDtl ,tskExecFrcyId, prty ,null ,null, reviewCgryId, reviewComment, nowDttm);
                         // スケジュールテーブル登録
                         viewModel.insertScdlEntity(tskId, tskExecDtStr, tskExecTmStr, SCDL_STAT.NOT_DONE, nowDttm, ASYNC);
                     }

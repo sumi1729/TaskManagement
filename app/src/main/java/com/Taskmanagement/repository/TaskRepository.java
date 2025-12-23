@@ -34,8 +34,8 @@ public class TaskRepository {
         taskDao.insert(task);
     }
 
-    public void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskCgryId, String tskExecFrcyId, String prtyId, LocalDateTime updtDttm) {
-        DbExecutor.execute(() -> taskDao.updateTskEntity(tskId, tskNm, tskDtl, tskCgryId, tskExecFrcyId, prtyId, updtDttm));
+    public void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskExecFrcyId, String prtyId, String reviewCgryId, String reviewComment, LocalDateTime updtDttm) {
+        DbExecutor.execute(() -> taskDao.updateTskEntity(tskId, tskNm, tskDtl, tskExecFrcyId, prtyId, reviewCgryId, reviewComment, updtDttm));
     }
     public int updateScdlEntitySync(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm) {
         return taskDao.updateScdlEntity(tskId, tskExecDt, tskExecTm, updtDttm);

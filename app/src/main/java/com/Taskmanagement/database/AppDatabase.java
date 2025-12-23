@@ -4,6 +4,10 @@ import static com.Taskmanagement.util.DbMigrationConst.MIGRATION_1_2_CREATE_kpt_
 import static com.Taskmanagement.util.DbMigrationConst.MIGRATION_1_2_CREATE_kpt_link_table;
 import static com.Taskmanagement.util.DbMigrationConst.MIGRATION_1_2_CREATE_kpt_table;
 import static com.Taskmanagement.util.DbMigrationConst.MIGRATION_1_2_CREATE_tag_table;
+import static com.Taskmanagement.util.DbMigrationConst.MIGRATION_2_3_COPY_DATA_task_table_TO_new_task_table;
+import static com.Taskmanagement.util.DbMigrationConst.MIGRATION_2_3_CREATE_new_task_table;
+import static com.Taskmanagement.util.DbMigrationConst.MIGRATION_2_3_DROP_TABLE_task_table;
+import static com.Taskmanagement.util.DbMigrationConst.MIGRATION_2_3_RENAME_new_task_table_TO_task_table;
 
 import android.content.Context;
 
@@ -26,7 +30,7 @@ import com.Taskmanagement.entity.TskEntity;
 
 @Database(
         entities = {TskEntity.class, ScdlEntity.class, KptEntity.class, KptHstryEntity.class, KptLinkEntity.class, TagEntity.class},
-        version = 2,
+        version = 3,
         exportSchema = true)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -42,6 +46,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "app_database")
                             .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_2_3)
                             .build();
                 }
             }
@@ -56,6 +61,17 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL(MIGRATION_1_2_CREATE_kpt_history_table);
             database.execSQL(MIGRATION_1_2_CREATE_kpt_link_table);
             database.execSQL(MIGRATION_1_2_CREATE_tag_table);
+        }
+    };
+
+    // task_tableレイアウト変更
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(MIGRATION_2_3_CREATE_new_task_table);
+            database.execSQL(MIGRATION_2_3_COPY_DATA_task_table_TO_new_task_table);
+            database.execSQL(MIGRATION_2_3_DROP_TABLE_task_table);
+            database.execSQL(MIGRATION_2_3_RENAME_new_task_table_TO_task_table);
         }
     };
 }

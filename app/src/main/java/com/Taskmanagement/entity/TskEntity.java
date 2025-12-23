@@ -14,10 +14,11 @@ public class TskEntity {
 	public String tskId;
 	public String tskNm;
 	public String tskDtl;
-	public String tskCgryId;
 	public String tskExecFrcyId;
 	public String prtyId;
 	public LocalDateTime tskCompDttm;
+	public String reviewCgryId;
+	public String reviewComment;
 	public LocalDateTime rstrDttm;
 	public LocalDateTime updtDttm;
 
@@ -25,19 +26,22 @@ public class TskEntity {
 	public TskEntity(String tskId
 			,String tskNm
 			,String tskDtl
-			,String tskCgryId
+//			,String tskCgryId
 			,String tskExecFrcyId
 			,String prtyId
 			,LocalDateTime tskCompDttm
+			,String reviewCgryId
+			,String reviewComment
 			,LocalDateTime rstrDttm
 			,LocalDateTime updtDttm) {
 		this.tskId = tskId;
 		this.tskNm = tskNm;
 		this.tskDtl = tskDtl;
-		this.tskCgryId = tskCgryId;
 		this.tskExecFrcyId = tskExecFrcyId;
 		this.prtyId = prtyId;
 		this.tskCompDttm = tskCompDttm;
+		this.reviewCgryId = reviewCgryId;
+		this.reviewComment = reviewComment;
 		this.rstrDttm = rstrDttm;
 		this.updtDttm = updtDttm;
 
@@ -54,10 +58,6 @@ public class TskEntity {
 
 	public String getTskDtl() {
 		return tskDtl;
-	}
-
-	public String getTskCgryId() {
-		return tskCgryId;
 	}
 
 	public String getTskExecFrcyId() {

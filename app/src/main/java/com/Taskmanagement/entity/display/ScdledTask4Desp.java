@@ -12,10 +12,11 @@ public class ScdledTask4Desp extends ListItem {
     public String tskId;
     public String tskNm;
     public String tskDtl;
-    public String tskCgryId;
     public String tskExecFrcyId;
     public String prtyId;
     public String tskCompDttm;
+    public String reviewCgryId;
+    public String reviewComment;
     public LocalDate tskExecDt;
     public LocalTime tskExecTm;
     public String scdlStat;
@@ -27,10 +28,11 @@ public class ScdledTask4Desp extends ListItem {
             String tskId
             , String tskNm
             , String tskDtl
-            , String tskCgryId
             , String tskExecFrcyId
             , String prtyId
             , String tskCompDttm
+            , String reviewCgryId
+            , String reviewComment
             , LocalDate tskExecDt
             , LocalTime tskExecTm
             , String scdlStat
@@ -40,10 +42,11 @@ public class ScdledTask4Desp extends ListItem {
         this.tskId = tskId;
         this.tskNm = tskNm;
         this.tskDtl = tskDtl;
-        this.tskCgryId = tskCgryId;
         this.tskExecFrcyId = tskExecFrcyId;
         this.prtyId = prtyId;
         this.tskCompDttm = tskCompDttm;
+        this.reviewCgryId = reviewCgryId;
+        this.reviewComment = reviewComment;
         this.tskExecDt = tskExecDt;
         this.tskExecTm = tskExecTm;
         this.scdlStat = scdlStat;

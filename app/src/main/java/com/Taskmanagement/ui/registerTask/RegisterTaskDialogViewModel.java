@@ -39,22 +39,24 @@ public class RegisterTaskDialogViewModel extends DispTskBaseViewModel {
      * @param tskId タスクID
      * @param tskNm タスク名
      * @param tskDtl タスク詳細
-     * @param tskCgryId タスクカテゴリーID
      * @param tskExecFrcyId タスク実行頻度ID
      * @param prty 優先度
      * @param date 日付
      * @param time 時刻
+     * @param reviewCgryId レビューカテゴリーID
+     * @param reviewComment レビューコメント
      * @param nowDttm 現在日時
      */
     public void insertTskEntity(
             String tskId,
             String tskNm,
             String tskDtl,
-            String tskCgryId,
             String tskExecFrcyId,
             String prty,
             String date,
             String time,
+            String reviewCgryId,
+            String reviewComment,
             LocalDateTime nowDttm
     ) {
         String prtyId = "";
@@ -71,10 +73,11 @@ public class RegisterTaskDialogViewModel extends DispTskBaseViewModel {
                 tskId,
                 tskNm,
                 tskDtl,
-                tskCgryId,
                 tskExecFrcyId,
                 prtyId,
                 tskCompDttm,
+                reviewCgryId,
+                reviewComment,
                 nowDttm,
                 nowDttm
         );
@@ -138,27 +141,30 @@ public class RegisterTaskDialogViewModel extends DispTskBaseViewModel {
      * @param tskId タスクID
      * @param tskNm タスク名
      * @param tskDtl タスク詳細
-     * @param tskCgryId タスクカテゴリーID
      * @param tskExecFrcyId タスク実行頻度ID
      * @param prty 優先度
+     * @param reviewCgryId レビューカテゴリーID
+     * @param reviewComment レビューコメント
      * @param nowDttm 現在日時
      */
     public void updateTskEntity(
             String tskId,
             String tskNm,
             String tskDtl,
-            String tskCgryId,
             String tskExecFrcyId,
             String prty,
+            String reviewCgryId,
+            String reviewComment,
             LocalDateTime nowDttm
     ) {
+
         String prtyId = "";
         for (Map.Entry<String, String> priorityEntry : DbUtility.priorityMap.entrySet()) {
             if (priorityEntry.getValue().equals(prty)) {
                 prtyId = priorityEntry.getKey();
             }
         }
-        repository.updateTskEntity(tskId, tskNm, tskDtl, tskCgryId, tskExecFrcyId, prtyId, nowDttm);
+        repository.updateTskEntity(tskId, tskNm, tskDtl, tskExecFrcyId, prtyId, reviewCgryId, reviewComment, nowDttm);
     }
 
     /**

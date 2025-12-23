@@ -25,7 +25,7 @@ public interface TaskDao {
     /**
      * 画面表示共通クエリ
      */
-    String dispQuery = "SELECT TT.tskId, TT.tskNm, TT.tskDtl, TT.tskCgryId, TT.tskExecFrcyId, TT.prtyId, TT.tskCompDttm, ST.tskExecDt, ST.tskExecTm, ST.scdlStat, " +
+    String dispQuery = "SELECT TT.tskId, TT.tskNm, TT.tskDtl, TT.tskExecFrcyId, TT.prtyId, TT.tskCompDttm, TT.reviewCgryId, TT.reviewComment, ST.tskExecDt, ST.tskExecTm, ST.scdlStat, " +
             "CASE when ST.tskExecDt is null THEN 1 ELSE 0 END AS dateSorter, " +
             "CASE when ST.tskExecTm is null THEN 1 ELSE 0 END AS timeSorter " +
             "FROM task_table TT LEFT JOIN schedule_table ST ON TT.tskId = ST.tskId ";
@@ -59,9 +59,9 @@ public interface TaskDao {
     @Query(dispQuery)
     LiveData<List<ScdledTask4Desp>> getScdlTsk4ScdlRtnLiveData();
 
-    @Query("UPDATE task_table SET tskNm = :tskNm, tskDtl = :tskDtl, tskCgryId = :tskCgryId, " +
-            "tskExecFrcyId = :tskExecFrcyId, prtyId = :prtyId, updtDttm = :updtDttm WHERE tskId = :tskId")
-    void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskCgryId, String tskExecFrcyId, String prtyId, LocalDateTime updtDttm);
+    @Query("UPDATE task_table SET tskNm = :tskNm, tskDtl = :tskDtl, " +
+            "tskExecFrcyId = :tskExecFrcyId, prtyId = :prtyId, reviewCgryId = :reviewCgryId, reviewComment = :reviewComment, updtDttm = :updtDttm WHERE tskId = :tskId")
+    void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskExecFrcyId, String prtyId, String reviewCgryId, String reviewComment, LocalDateTime updtDttm);
 
     @Query("UPDATE schedule_table SET tskExecDt = :tskExecDt, tskExecTm = :tskExecTm, updtDttm = :updtDttm WHERE tskId = :tskId")
     int updateScdlEntity(String tskId, LocalDate tskExecDt, LocalTime tskExecTm, LocalDateTime updtDttm);
