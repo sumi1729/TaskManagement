@@ -11,6 +11,7 @@
     <string name="menu_all_task">All Task</string>
     <string name="menu_compled_task">Completed Task</string>
     <string name="menu_kpt">KPT</string>
+    <string name="menu_register_master_data">Register master data</string>
 
 <!--一般名詞-->
     <string name="calender">カレンダー</string>

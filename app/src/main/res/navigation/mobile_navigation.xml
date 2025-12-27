@@ -30,6 +30,13 @@
         tools:layout="@layout/fragment_completed_task" />
 
     <fragment
+        android:id="@+id/nav_register_master_data"
+        android:name="com.Taskmanagement.ui.registerMasterData.RegisterMasterDataFragment"
+        android:label="@string/menu_register_master_data"
+        tools:layout="@layout/fragment_completed_task" />
+<!--        tools:layout="@layout/fragment_register_master_data" />-->
+
+    <fragment
         android:id="@+id/taskRegisterDialogFragment"
         android:name="com.Taskmanagement.ui.registerTask.RegisterTaskDialogFragment"
         android:label="タスク登録"

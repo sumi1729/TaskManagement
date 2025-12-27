@@ -20,5 +20,9 @@
             android:id="@+id/nav_kpt"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_kpt" />
+        <item
+            android:id="@+id/nav_register_master_data"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/menu_register_master_data" />
     </group>
 </menu>
