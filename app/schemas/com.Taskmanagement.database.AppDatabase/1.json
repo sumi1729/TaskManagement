@@ -1,0 +1,312 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "f42806b693e879586e13e2032fd089cb",
+    "entities": [
+      {
+        "tableName": "task_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tskId` TEXT NOT NULL, `tskNm` TEXT, `tskDtl` TEXT, `tskCgryId` TEXT, `tskExecFrcyId` TEXT, `prtyId` TEXT, `tskCompDttm` TEXT, `rstrDttm` TEXT, `updtDttm` TEXT, PRIMARY KEY(`tskId`))",
+        "fields": [
+          {
+            "fieldPath": "tskId",
+            "columnName": "tskId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tskNm",
+            "columnName": "tskNm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tskDtl",
+            "columnName": "tskDtl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tskCgryId",
+            "columnName": "tskCgryId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tskExecFrcyId",
+            "columnName": "tskExecFrcyId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "prtyId",
+            "columnName": "prtyId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tskCompDttm",
+            "columnName": "tskCompDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rstrDttm",
+            "columnName": "rstrDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updtDttm",
+            "columnName": "updtDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "tskId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "schedule_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tskId` TEXT NOT NULL, `tskExecDt` TEXT NOT NULL, `tskExecTm` TEXT, `scdlStat` TEXT, `rstrDttm` TEXT, `updtDttm` TEXT, PRIMARY KEY(`tskId`, `tskExecDt`))",
+        "fields": [
+          {
+            "fieldPath": "tskId",
+            "columnName": "tskId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tskExecDt",
+            "columnName": "tskExecDt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tskExecTm",
+            "columnName": "tskExecTm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scdlStat",
+            "columnName": "scdlStat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rstrDttm",
+            "columnName": "rstrDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updtDttm",
+            "columnName": "updtDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "tskId",
+            "tskExecDt"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "kpt_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`kptId` TEXT NOT NULL, `kptNm` TEXT, `kptDtl` TEXT, `compDt` TEXT, `rstrDttm` TEXT, `updtDttm` TEXT, PRIMARY KEY(`kptId`))",
+        "fields": [
+          {
+            "fieldPath": "kptId",
+            "columnName": "kptId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kptNm",
+            "columnName": "kptNm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kptDtl",
+            "columnName": "kptDtl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "compDt",
+            "columnName": "compDt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rstrDttm",
+            "columnName": "rstrDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updtDttm",
+            "columnName": "updtDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "kptId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "kpt_history_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`kptId` TEXT NOT NULL, `sralNum` INTEGER NOT NULL, `kptType` TEXT, `compDt` TEXT, `rstrDttm` TEXT, `updtDttm` TEXT, PRIMARY KEY(`kptId`, `sralNum`))",
+        "fields": [
+          {
+            "fieldPath": "kptId",
+            "columnName": "kptId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sralNum",
+            "columnName": "sralNum",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kptType",
+            "columnName": "kptType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "compDt",
+            "columnName": "compDt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rstrDttm",
+            "columnName": "rstrDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updtDttm",
+            "columnName": "updtDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "kptId",
+            "sralNum"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "kpt_link_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`kptId_P` TEXT NOT NULL, `kptId_Kt` TEXT NOT NULL, `rstrDttm` TEXT, `updtDttm` TEXT, PRIMARY KEY(`kptId_P`, `kptId_Kt`))",
+        "fields": [
+          {
+            "fieldPath": "kptId_P",
+            "columnName": "kptId_P",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kptId_Kt",
+            "columnName": "kptId_Kt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rstrDttm",
+            "columnName": "rstrDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updtDttm",
+            "columnName": "updtDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "kptId_P",
+            "kptId_Kt"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tag_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tskKptId` TEXT NOT NULL, `tagId` TEXT NOT NULL, `rstrDttm` TEXT, `updtDttm` TEXT, PRIMARY KEY(`tskKptId`, `tagId`))",
+        "fields": [
+          {
+            "fieldPath": "tskKptId",
+            "columnName": "tskKptId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tagId",
+            "columnName": "tagId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rstrDttm",
+            "columnName": "rstrDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updtDttm",
+            "columnName": "updtDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "tskKptId",
+            "tagId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f42806b693e879586e13e2032fd089cb')"
+    ]
+  }
+}
