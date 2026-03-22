@@ -1,10 +1,13 @@
 package com.Taskmanagement.ui.masterDataCategoryEdit;
 
+import static com.Taskmanagement.util.CommonUtility.CgryType.REVIEW;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,18 +24,22 @@ public class MasterDataCategoryEditFragment extends Fragment {
 
     private Button categoryButton;
     private Button submitButton;
-
+    private EditText mainNameInput;
+    private EditText subNameInput;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMasterDataCategoryEditBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         viewModel = new ViewModelProvider(this).get(MasterDataCategoryEditViewModel.class);
+        mainNameInput = view.findViewById(R.id.input_main_category);
+        subNameInput = view.findViewById(R.id.input_sub_category);
 
         submitButton = view.findViewById(R.id.submit_button);
         submitButton.setOnClickListener(v -> {
-            // TODO 処理
-            viewModel.insertCategoryEntity("cgryType", "mainName", "subName");
+            String mainName = mainNameInput.getText().toString();
+            String subName = subNameInput.getText().toString();
+            viewModel.insertCategoryEntity(REVIEW.getCode(), mainName, subName);
         });
         return view;
     }

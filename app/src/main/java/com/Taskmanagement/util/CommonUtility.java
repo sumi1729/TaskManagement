@@ -32,6 +32,19 @@ public class CommonUtility {
         CommonUtility.nowScreenId = nowScreenId;
     }
 
+    // カテゴリータイプ
+    public enum CgryType {
+        REVIEW("1"),
+        KPT("2");
+        String code;
+        CgryType(String code) {
+            this.code = code;
+        }
+        public String getCode() {
+            return code;
+        }
+    }
+
     // その他一般
     public static final String TAG = "TaskManagement";
     public static final String FIRST_LOOP = "firstLoop";

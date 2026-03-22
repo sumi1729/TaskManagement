@@ -24,6 +24,7 @@ public class MasterDataCategoryEditViewModel extends DispTskBaseViewModel {
     /**
      * category_table登録
      *
+     * @param cgryType カテゴリータイプ（1：レビュー、2：KPT）
      * @param mainCgry メインカテゴリー
      * @param subCgry サブカテゴリー
      */
