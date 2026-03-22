@@ -8,10 +8,10 @@
     tools:context=".ui.registerMasterData.RegisterMasterDataFragment">
 
     <Button
-        android:id="@+id/submit_button"
+        android:id="@+id/category_button"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="レビュー"
+        android:text="カテゴリー"
         android:visibility="visible"
         android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"

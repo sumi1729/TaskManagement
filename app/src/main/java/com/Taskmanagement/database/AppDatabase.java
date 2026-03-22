@@ -21,6 +21,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.Taskmanagement.dao.KptDao;
 import com.Taskmanagement.dao.TaskDao;
+import com.Taskmanagement.entity.CgryEntity;
 import com.Taskmanagement.entity.KptEntity;
 import com.Taskmanagement.entity.KptHstryEntity;
 import com.Taskmanagement.entity.KptLinkEntity;
@@ -29,7 +30,7 @@ import com.Taskmanagement.entity.TagEntity;
 import com.Taskmanagement.entity.TskEntity;
 
 @Database(
-        entities = {TskEntity.class, ScdlEntity.class, KptEntity.class, KptHstryEntity.class, KptLinkEntity.class, TagEntity.class},
+        entities = {TskEntity.class, ScdlEntity.class, KptEntity.class, KptHstryEntity.class, KptLinkEntity.class, TagEntity.class, CgryEntity.class},
         version = 3,
         exportSchema = true)
 @TypeConverters({Converters.class})

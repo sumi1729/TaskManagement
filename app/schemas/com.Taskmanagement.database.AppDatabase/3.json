@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "3527f5e56078e98d8b894720ec11a737",
+    "identityHash": "2a6e0b234a5bb999d4c848d873794d1a",
     "entities": [
       {
         "tableName": "task_table",
@@ -307,12 +307,68 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "category_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cgryId` TEXT NOT NULL, `cgryType` TEXT, `mainName` TEXT, `subName` TEXT, `logDelFlg` INTEGER NOT NULL, `rstrDttm` TEXT, `updtDttm` TEXT, PRIMARY KEY(`cgryId`))",
+        "fields": [
+          {
+            "fieldPath": "cgryId",
+            "columnName": "cgryId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cgryType",
+            "columnName": "cgryType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mainName",
+            "columnName": "mainName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "subName",
+            "columnName": "subName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "logDelFlg",
+            "columnName": "logDelFlg",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rstrDttm",
+            "columnName": "rstrDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updtDttm",
+            "columnName": "updtDttm",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "cgryId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3527f5e56078e98d8b894720ec11a737')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2a6e0b234a5bb999d4c848d873794d1a')"
     ]
   }
 }

@@ -33,8 +33,27 @@
         android:id="@+id/nav_register_master_data"
         android:name="com.Taskmanagement.ui.registerMasterData.RegisterMasterDataFragment"
         android:label="@string/menu_register_master_data"
-        tools:layout="@layout/fragment_completed_task" />
-<!--        tools:layout="@layout/fragment_register_master_data" />-->
+        tools:layout="@layout/fragment_register_master_data">
+        <action
+            android:id="@+id/action_registerMasterDataFragment_to_masterDataCategoryViewFragment"
+            app:destination="@id/nav_master_data_category_list" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_master_data_category_list"
+        android:name="com.Taskmanagement.ui.masterDataCategoryList.MasterDataCategoryListFragment"
+        android:label="@string/menu_master_data_category_list"
+        tools:layout="@layout/fragment_master_data_category_list">
+        <action
+            android:id="@+id/action_masterDataCategoryListFragment_to_masterDataCategoryEditFragment"
+            app:destination="@id/nav_master_data_category_edit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_master_data_category_edit"
+        android:name="com.Taskmanagement.ui.masterDataCategoryEdit.MasterDataCategoryEditFragment"
+        android:label="@string/menu_master_data_category_edit"
+        tools:layout="@layout/fragment_master_data_category_edit" />
 
     <fragment
         android:id="@+id/taskRegisterDialogFragment"

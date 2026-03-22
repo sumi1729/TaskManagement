@@ -25,6 +25,8 @@ public class DisplayConst {
     public static final String TAG_SPINNER_CHANGE_JOB = "転職";
     public static final String TAG_SPINNER_PRIVATE = "私生活";
 
+    public static final String ADD_NEW_ITEM = "＋ 新規追加";
+
     public static final List<String> INPUT_FORMAT_LIST = List.of(
             INPUT_FORMAT_SPINNER_TASK,
             INPUT_FORMAT_SPINNER_KPT

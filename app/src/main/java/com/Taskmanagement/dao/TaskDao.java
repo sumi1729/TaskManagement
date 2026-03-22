@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.Taskmanagement.entity.CgryEntity;
 import com.Taskmanagement.entity.ScdlEntity;
 import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
@@ -21,6 +22,9 @@ public interface TaskDao {
 
     @Insert
     void insert(ScdlEntity task);
+
+    @Insert
+    void insert(CgryEntity task);
 
     /**
      * 画面表示共通クエリ
@@ -70,6 +74,11 @@ public interface TaskDao {
     void updtTskEntyTskCompDttm(String tskId, LocalDateTime nowDateTime);
     @Query("UPDATE task_table SET tskCompDttm = null, updtDttm = :nowDateTime WHERE tskId = :tskId")
     void updtTskEntyTskCompDttmIsNull(String tskId, LocalDateTime nowDateTime);
+
+    // カテゴリー画面
+    @Query("SELECT * FROM category_table WHERE logDelFlg = :logDelFlg")
+    LiveData<List<CgryEntity>> getCategoryList(boolean logDelFlg);
+
 
     // DB操作内容確認用
 //    @Query("")

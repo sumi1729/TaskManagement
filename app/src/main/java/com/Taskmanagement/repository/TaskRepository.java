@@ -5,6 +5,7 @@ import android.app.Application;
 import com.Taskmanagement.dao.TaskDao;
 import com.Taskmanagement.database.AppDatabase;
 import com.Taskmanagement.database.DbExecutor;
+import com.Taskmanagement.entity.CgryEntity;
 import com.Taskmanagement.entity.ScdlEntity;
 import com.Taskmanagement.entity.TskEntity;
 import com.Taskmanagement.entity.display.ScdledTask4Desp;
@@ -32,6 +33,9 @@ public class TaskRepository {
     }
     public void insertSync(ScdlEntity task) {
         taskDao.insert(task);
+    }
+    public void insert(CgryEntity task) {
+        DbExecutor.execute(() -> taskDao.insert(task));
     }
 
     public void updateTskEntity(String tskId, String tskNm, String tskDtl, String tskExecFrcyId, String prtyId, String reviewCgryId, String reviewComment, LocalDateTime updtDttm) {
@@ -69,6 +73,10 @@ public class TaskRepository {
 //    }
     public LiveData<List<ScdledTask4Desp>> getScdlTsk4ScdlRtnLiveData() {
         return taskDao.getScdlTsk4ScdlRtnLiveData();
+    }
+
+    public LiveData<List<CgryEntity>> getCategoryList(boolean logDelFlg) {
+        return taskDao.getCategoryList(!logDelFlg);
     }
 
     public void dbOpeTest() {
